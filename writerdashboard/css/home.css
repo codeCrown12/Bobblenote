@@ -1,0 +1,27 @@
+.card-content{
+    display: flex;
+    padding-top: 20px;
+    padding-left: 15px;
+}  
+.stat{
+    margin-left: 10px;
+} 
+.post-stat{
+    display: flex;
+}
+.stat-one{
+    display: flex;
+    align-items: center;
+    width: fit-content;
+}
+.stat-two{
+    margin-left: auto;
+}
+.stat-item{
+    margin-right: 12px;
+}
+@media screen and (max-width: 992px) {
+    .card-content{
+        flex-wrap: wrap;
+    }
+}

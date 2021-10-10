@@ -1,0 +1,104 @@
+.p-content{
+    display: flex;
+    align-items: center;
+}
+.p-img{
+    padding-left: 12px;
+}
+.p-details{
+    padding: 12px;
+}
+.dp-img-lg{
+    width: 140px;
+    height: 140px;
+    object-fit: cover;
+    border-radius: 50%;
+}
+.p-location{
+  color: #a5a5a5;
+  font-size: 13px !important;
+  margin-bottom: 6px;
+}
+/* Style the tab */
+.tab {
+  overflow: hidden;
+  border-bottom: 1px solid #ccc;
+  background-color: #fff;
+}
+
+/* Style the buttons that are used to open the tab content */
+.tab button {
+  background-color: inherit;
+  float: left;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  padding: 10px;
+  transition: 0.3s;
+}
+
+/* Change background color of buttons on hover */
+.tab button:hover {
+  background-color: #d8d8d8;
+}
+
+/* Create an active/current tablink class */
+.tab button.active-tab {
+  color: #335fbe;
+  border-bottom: 2px solid #335fbe;
+}
+
+/* Style the tab content */
+.tabcontent {
+  display: none;
+  padding: 1px;
+}
+
+.tabcontent {
+  animation: fadeEffect 1s; /* Fading effect takes 1 second */
+}
+
+/* Go from zero to full opacity */
+@keyframes fadeEffect {
+  from {opacity: 0;}
+  to {opacity: 1;}
+}
+.img-cover{
+position: relative;
+}
+.img-cover:hover .overlay {
+  opacity: 1;
+  cursor: pointer;
+}
+.overlay {
+position: absolute;
+top: 0;
+bottom: 0;
+left: 0;
+right: 0;
+height: 100%;
+width: 100%;
+opacity: 0;
+border-radius: 50%;
+transition: .5s ease;
+background: rgba(0, 0, 0, 0.5);
+}
+.p-camera{
+width: fit-content; 
+margin-left: auto;
+margin-right: auto;
+margin-top: 34%;
+}
+.ic-camera{
+color: #fff;
+font-size: 45px;
+}
+@media screen and (max-width: 700px) {
+.p-content{
+flex-wrap: wrap;
+justify-content: center;
+}
+.p-details{
+text-align: center;
+}
+}

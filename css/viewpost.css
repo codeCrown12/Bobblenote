@@ -1,0 +1,113 @@
+.c-img{
+    width: 100%;
+    height: 350px;
+    object-fit: cover;
+}
+img{
+    object-fit: cover;
+}
+body{
+    color: inherit;
+}
+.post-title{
+    color: #132e69;
+}
+.post-time{
+    margin-left: 10px;
+}
+.user{
+    display: flex;
+}
+.u-img{
+    object-fit: cover;
+    border-radius: 50%;
+    height: 50px;
+    width: 50px;
+}
+.post-time{
+    margin-top: 10px;
+    color: #777777;
+}
+/* p{
+    font-size: 16px !important;
+} */
+.burger-menu{
+    display: none;
+}
+.card-body{
+    padding: 0;
+}
+.post-body{
+    padding: 12px;
+}
+.social-interact{
+    border-top: 1px solid rgba(0,0,0,.125);
+    border-bottom: 1px solid rgba(0,0,0,.125);
+    padding: 15px;
+    display: flex;
+    align-items: center;
+}
+.section-share{
+    margin-left: auto;
+    font-size: 20px;
+}
+.section-like{
+    width: fit-content;
+    font-size: 17px;
+}
+.share-link{
+    margin-right: 10px;
+}
+.sub-btn{
+    width: fit-content;
+    margin-left: auto;
+}
+.com-head{
+    color: #6e6e6e;
+    font-size: 12px;
+    margin-bottom: 7px;
+}
+.com-body{
+    color: #1b1b1b;
+}
+.com-content{
+    background: #faf9f9;
+    border-radius: 5px;
+    padding: 13px;
+    margin-top: 13px;
+}
+.all-comments{
+    padding: 15px;
+}
+.comments-section{
+    padding: 15px;
+}
+.post-tag a{
+    background-color: #2b31ec;
+    color: #fff;
+    padding: 5px;
+    border-radius: 10px;
+    font-size: 12px;
+}
+/* Tooltip container */
+.mytooltip {
+position: relative;
+display: inline-block;
+border-bottom: 2px solid #000;
+padding-left: 10px;
+padding-right: 10px;
+font-size: 20px;
+}
+.mytooltip:hover{
+    cursor: pointer;
+}
+.liked{
+    color: #f08496;
+    border-bottom: 2px solid #f08496;
+}
+
+@media screen and (max-width: 992px){
+    .burger-menu{
+        display: inline-block;
+    }
+}

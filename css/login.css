@@ -1,0 +1,45 @@
+body{
+    background-color: #f4f6f9;
+    font-family: 'Roboto', sans-serif;
+}
+.card{
+    margin-top: 25%;
+    padding: 10px;
+    width: 93%;
+    margin-left: auto;
+    margin-right: auto;
+    border-radius: 10px;
+}
+.btn-primary{
+    color: #f4f6f9;
+    background-image: linear-gradient(315deg, #6e72fc 0%, #335fbe 74%);
+}
+.btn-primary:hover{
+    color: #f4f6f9;
+    background-position: right center !important;
+}
+p{
+    color: black;
+    margin-bottom: 0;
+}
+h4{
+    margin: 0;
+    color: #212b63;
+}
+.form-outline .trailing {
+    position: absolute;
+    right: 10px;
+    left: auto;
+    top: 50%;
+    -webkit-transform: translateY(-50%);
+    transform: translateY(-50%);
+    pointer-events: all;
+}
+.form-outline .trailing:hover{
+    cursor: pointer;
+}
+@media screen and (max-width: 700px){
+    .card{
+        width: 100%;
+    }
+}

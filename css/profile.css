@@ -1,0 +1,337 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;1,100;1,200;1,300;1,400;1,500;1,600;1,700&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
+*{
+    margin: 0;
+    padding: 0;
+}
+:root{
+    --primary-color: #fff;
+    --secondary-color: #0c0c14;
+}
+.dark-theme{
+    --primary-color: #0c0c14;
+    --secondary-color: #edf2fc;
+}
+body{
+    color: #7c8492;
+    background-color: var(--primary-color);
+    font-family: 'Roboto', sans-serif;
+    font-size: 15px;
+    line-height: 1.7;
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+}
+p{
+    margin: 0;
+}
+a {
+    color: #2c3a80;
+    outline: 0;
+    text-decoration: none;
+    transition: all 0.3s ease-in-out;
+}
+
+a:hover {
+    color: #203656;
+}
+.nav-link{
+    font-size: 20px;
+    color: #2c3a80 !important;
+}
+a:focus {
+    outline: 0;
+}
+h1, h2, h3, h4, h5, h6 {
+    color: #010f4b;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 700;
+    line-height: 1.4;
+}
+.btn {
+    color: var(--primary-color);
+    border: 0;
+    border-radius: 0px;
+    font-family: 'Roboto', sans-serif;
+    font-size: 14px;
+    font-weight: 400;
+    overflow: hidden;
+    position: relative;
+    display: inline-block;
+    vertical-align: middle;
+    white-space: nowrap;
+    text-align: center;
+    transition: all 0.3s ease-in-out;
+}
+.btn:focus {
+    outline: 0;
+    box-shadow: none;
+}
+.btn-default {
+    color: var(--primary-color);
+    padding: 7.5px 36px;
+    background-color: #6e72fc;
+    background-image: linear-gradient(315deg, #6e72fc 0%, #335fbe 74%);
+    background-size: 200% auto;
+    border-radius: 20px;
+}
+dl, ol, ul {
+    margin-top: 0;
+    margin-bottom: 0;
+}
+.btn-default:hover {
+    color: var(--primary-color);
+    background-position: right center;
+}
+img{
+    object-fit: cover;
+    max-width: 100%;
+}
+.w-social{
+    font-size: 20px;
+}
+.w-social-con{
+    display: none;
+}
+.user-contain{
+    width: 60%;
+    padding: 10px;
+    margin: auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.user-info{
+    padding: 15px;
+}
+.dp-image{
+    width: 330px;
+    object-fit: cover;
+    height: 150px;
+    border-radius: 50%;
+    padding: 5px;
+    border: 1px solid #ccc;
+}
+
+.gal-img{
+    width: 100%;
+    border-radius: 9px;
+    height: 200px;
+}
+.img-cover{
+position: relative;
+}
+.img-cover:hover .overlay {
+opacity: 1;
+cursor: pointer;
+}
+.overlay {
+position: absolute;
+top: 0;
+bottom: 0;
+left: 0;
+right: 0;
+height: 100%;
+width: 100%;
+opacity: 0;
+transition: .5s ease;
+border-radius: 7px;
+background: rgba(0, 0, 0, 0.5);
+}
+.text {
+color: white;
+font-size: 18px;
+position: absolute;
+top: 50%;
+left: 50%;
+-webkit-transform: translate(-50%, -50%);
+-ms-transform: translate(-50%, -50%);
+transform: translate(-50%, -50%);
+text-align: center;
+}
+.cusmodal::-webkit-scrollbar{
+    display: none;
+}
+/* The Modal (background) */
+.cusmodal {
+display: none; /* Hidden by default */
+position: fixed; /* Stay in place */
+z-index: 1; /* Sit on top */
+padding-top: 100px; /* Location of the box */
+left: 0;
+top: 0;
+width: 100%; /* Full width */
+height: 100%; /* Full height */
+overflow: auto; /* Enable scroll if needed */
+background-color: rgb(0,0,0); /* Fallback color */
+background-color: rgba(0,0,0,0.9); /* Black w/ opacity */
+}
+
+/* Modal Content (Image) */
+.mymodal-content {
+margin: auto;
+display: block;
+width: 80%;
+max-width: 700px;
+}
+
+/* Caption of Modal Image (Image Text) - Same Width as the Image */
+#caption {
+margin: auto;
+display: block;
+width: 80%;
+max-width: 700px;
+text-align: center;
+color: #ccc;
+padding: 10px 0;
+height: 150px;
+}
+
+/* Add Animation - Zoom in the Modal */
+.mymodal-content, #caption {
+animation-name: zoom;
+animation-duration: 0.6s;
+}
+
+@keyframes zoom {
+from {transform:scale(0)}
+to {transform:scale(1)}
+}
+
+
+/* The Close Button */
+.close {
+position: absolute;
+top: 15px;
+right: 35px;
+color: #f1f1f1;
+font-size: 40px;
+font-weight: bold;
+transition: 0.3s;
+}
+
+.close:hover,
+.close:focus {
+color: #bbb;
+text-decoration: none;
+cursor: pointer;
+}
+
+/* 100% Image Width on Smaller Screens */
+@media only screen and (max-width: 992px){
+    .user-contain{
+        width: 90%;
+    }
+    .dp-image{
+        width: 450px;
+        height: 140px;
+    }
+}
+@media only screen and (max-width: 1200px){
+    .user-contain{
+        width: 70%;
+    }
+}
+@media only screen and (max-width: 700px){
+.mymodal-content {
+    width: 100%;
+}
+.user-contain{
+    width: 100%;
+    flex-wrap: wrap;
+}
+.user-image{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.dp-image{
+    width: 50%;
+    height: 160px;
+}
+.user-info{
+    width: 100%;
+    text-align: center;
+}
+.w-social-con{
+    display: block;
+}
+}
+
+.ipost-img{
+    width: 100%;
+    height: 170px;
+    border-radius: 6px;
+}
+.ipost-img:hover{
+    animation-name: p-img-animation;
+    animation-duration: 1s;
+}
+.post-cat a{
+    background-color: #4b51fd;
+    color: #fff;
+    padding: 5px;
+    border-radius: 10px;
+    font-size: 12px;
+}
+@keyframes p-img-animation {
+    from{transform: rotate(1deg);}
+    to{transform: rotate(-1deg);}
+}
+/* footer styling */
+
+footer {
+    margin-top: 50px;
+}
+
+footer .footer-inner {
+    border-top: 1px solid var(--primary-color);
+    padding: 40px 0;
+}
+
+footer .footer-inner .copyright {
+    color: #9faabb;
+}
+
+#return-to-top {
+    color: #8f9bad;
+    font-size: 13px;
+    border: 1px solid var(--primary-color);
+    text-decoration: none;
+    border-radius: 25px;
+    padding: 6px 20px;
+    z-index: 4;
+    transition: all 0.3s ease-in-out;
+}
+
+#return-to-top i {
+    font-size: 11px;
+    vertical-align: middle;
+    margin-right: 10px;
+}
+
+#return-to-top:hover {
+    color: #335fbe;
+    border-color: #335fbe;
+}
+
+/* *********** responsiveness **************** */
+
+@media only screen and (max-width: 992px) {
+    .inner-wrapper-sticky {
+        transform: none !important;
+        position: relative !important;
+        top: 0 !important;
+        left: 0 !important;
+        width: auto !important;
+    }
+}
+
+@media only screen and (max-width: 767px) {
+    .footer-inner {
+        text-align: center;
+    }
+    .search-popup .search-content {
+        padding: 0px 20px;
+        width: 100%;
+    }
+}
