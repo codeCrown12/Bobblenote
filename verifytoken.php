@@ -7,22 +7,49 @@ $email = "";
 $newemail = "";
 $msg = "";
 
-if (isset($_GET['wkey']) && isset($_GET['nwkey'])) {
-  $email = base64_decode($_GET['wkey']);
-  $newemail = base64_decode($_GET['nwkey']);  
-  $_SESSION['nmail'] = $newemail;
-  $_SESSION['mail'] = $email;
+if (!isset($_SESSION['action'])) {
+  header("Location: login.php");
 }
 
 if (isset($_POST['tokenbtn'])) {
-   $token = check_string($connection, $_POST['token']);
-   if ($token == "") {
+    $token = check_string($connection, $_POST['token']);
+    $dbtoken = getToken($connection, $_SESSION['curremail']);
+    if ($token == "") {
+         $msg = "<div class='alert alert-danger alert-dismissible fade show mt-2' role='alert'>
+         Field is required!
+         <button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button>
+     </div>";
+    }
+    elseif($token != $dbtoken){
         $msg = "<div class='alert alert-danger alert-dismissible fade show mt-2' role='alert'>
-        Field is required!
-        <button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button>
-    </div>";
-   }
-}
+         Invalid token!
+         <button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button>
+     </div>";
+    }
+    else{
+        if ($_SESSION['action'] == 'updemail') {
+            $update_email = upd_writer_email($connection, $_SESSION['curremail'], $_SESSION['newemail']);
+            if($update_email == true){
+                unset($_SESSION['curremail']);
+                unset($_SESSION['newemail']);
+                header( "Refresh:0; url=login.php", true, 303);
+            }
+            else{
+                $msg = "<div class='alert alert-danger alert-dismissible fade show mt-2' role='alert'>
+            Error in connection!
+            <button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button>
+        </div>";
+            }
+        }
+        elseif($_SESSION['action'] == 'updpass'){
+            header( "Refresh:0; url=changepassword.php", true, 303);
+        }
+        else{
+            header("Location: login.php");
+        }
+        
+    }
+ }
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -68,7 +95,7 @@ if (isset($_POST['tokenbtn'])) {
                                 echo $msg;
                             }
                         ?>
-                        <form action="changemail.php" method="POST">
+                        <form action="verifytoken.php" method="POST">
                             <div class="form-outline mb-3 mt-3">
                                 <input type="text" name="token" id="formtoken" class="form-control form-control-lg" />
                                 <label class="form-label" for="formtoken">Verification token</label>

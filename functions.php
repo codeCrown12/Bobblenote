@@ -47,6 +47,18 @@ function sub_email_exists($connection, $email){
     return false;
 }
 
+//function to verify password
+function verifypass($connection, $email, $pass){
+    $query = "SELECT password FROM writers WHERE email = '$email'";
+    $result = $connection->query($query);
+    $details = $result->fetch_array(MYSQLI_ASSOC);
+    $check_pass = password_verify($pass, $details['password']);
+    if($check_pass){
+        return true;
+    }
+return false;  
+}
+
 //function to retrieve user-details
 function get_writer_details($connection, $email){
     $detail = "";
@@ -171,6 +183,41 @@ function upd_token($connection, $email){
        return false;
     }
     return $token;
+}
+
+//Function to get token
+function getToken($connection, $email){
+    $query = "SELECT token FROM writers WHERE email = '$email'";
+    $result = $connection->query($query);
+    if (!$result) {
+        return "Error in getting details";
+    }
+    else{
+        $detail = $result->fetch_array(MYSQLI_ASSOC);
+    }
+    return $detail['token'];
+}
+
+//Function to update writer email
+function upd_writer_email($connection, $email, $newemail){
+    $query = "UPDATE writers SET email = ? WHERE email = '$email'";
+    $result = $connection->prepare($query);
+    $result->bind_param("s", $newemail);
+    if (!$result->execute()) {
+       return false;
+    }
+    return true;
+}
+
+//Function to update writer password
+function upd_writer_pas($connection, $email, $pass){
+    $query = "UPDATE writers SET password = ? WHERE email = '$email'";
+    $result = $connection->prepare($query);
+    $result->bind_param("s", $pass);
+    if (!$result->execute()) {
+       return false;
+    }
+    return true;
 }
 
 //function to count pending posts

@@ -11,10 +11,10 @@ use PHPMailer\PHPMailer\Exception;
 $mail = new PHPMailer();
 
 $mail->isSMTP();
-$mail->Host = 'mail.crowndidactic.com';
+$mail->Host = 'mail.bobblenote.com';
 $mail->SMTPAuth = true;
-$mail->Username = 'info@crowndidactic.com'; 
-$mail->Password = 'Passw0rdx123#';
+$mail->Username = 'support@bobblenote.com'; 
+$mail->Password = 'Pm+b1V&%R4)f';
 $mail->SMTPSecure = 'ssl';
 $mail->Port = 465;
 $row = "";
@@ -158,7 +158,7 @@ if(isset($_POST['upd_email'])){
   else{
     $token = upd_token($connection, $selector);
     if ($token != false) {
-      $mail->setFrom("funpen@gmail.com", "Funpen");
+      $mail->setFrom("support@bobblenote.com", "Bobblenote");
       $mail->addAddress($newemail);
       $mail->isHTML(true);
       $mail->Subject = "Change email address";
@@ -184,13 +184,84 @@ if(isset($_POST['upd_email'])){
       </html>";
       if ($mail->send()) {
           $msg = "<div class='alert alert-success alert-dismissible fade show mt-2' role='alert'>
-          Mail sent successfully, you will be logged out in 4s!
+          Mail sent successfully!
+          <button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button>
+          </div>";
+          unset($_SESSION['w_email']);
+          $_SESSION['newemail'] = $newemail;
+          $_SESSION['curremail'] = $selector;
+          $_SESSION['action'] = "updemail";
+          header( "Refresh:1; url=../verifytoken.php", true, 303);
+      }
+      else{
+        $error = $mail->ErrorInfo;
+        $msg = "<div class='alert alert-danger alert-dismissible fade show mt-2' role='alert'>
+          $error
           <button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button>
         </div>";
-        $mailkey = base64_encode($selector);
-        $newemail = base64_encode($newemail);
-        unset($_SESSION['w_email']);
-        header( "Refresh:3; url=../changemail.php?wkey=$mailkey&nwkey=$newemail", true, 303);
+      }
+    }
+  }
+}
+
+
+if(isset($_POST['updpass'])){
+  $pass1 = check_string($connection, $_POST['currpass']);
+  $pass2 = check_string($connection, $_POST['currpass1']);
+  if ($pass1 == "" || $pass2 == "") {
+    $msg = "<div class='alert alert-danger alert-dismissible fade show mt-2' role='alert'>
+         Fields are required!
+          <button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button>
+        </div>";
+  }
+  elseif ($pass1 != $pass2) {
+    $msg = "<div class='alert alert-danger alert-dismissible fade show mt-2' role='alert'>
+         Passwords do not match!
+          <button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button>
+        </div>";
+  }
+  elseif (verifypass($connection, $selector, $pass2) == false) {
+    $msg = "<div class='alert alert-danger alert-dismissible fade show mt-2' role='alert'>
+         Incorrect password entered!
+          <button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button>
+        </div>";
+  }
+  else{
+    $token = upd_token($connection, $selector);
+    if ($token != false) {
+      $mail->setFrom("support@bobblenote.com", "Bobblenote");
+      $mail->addAddress($selector);
+      $mail->isHTML(true);
+      $mail->Subject = "Change Password verification";
+      $mail->Body = "<!DOCTYPE html>
+      <html lang='en'>
+      <head>
+        <meta charset='UTF-8'>
+        <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+        <meta name='viewport' content='width=device-width, initial-scale=1.0'>
+        <title>Email verification</title>
+      </head>
+      <body style='background-color: #f8f9fa;padding-bottom: 7px;padding-top: 7px;'>
+      <div class='box' style='border: solid #fff 1px;width: 90%;padding: 12px;margin-left: auto;margin-right: auto;background-color: white;'>
+          <div>
+              <h2 style='font-family: Raleway, sans-serif;'>Change of password confirmation</h2>
+              <p><strong>Hello Chief</strong>. We just received a request from an account with email '$selector' to change their password. If this wasn't you, <strong>Do not reply to this email</strong>
+              </p>
+              <br>Your verification token is:
+                <h2>$token</h2>
+          </div>
+      </div>
+      </body>
+      </html>";
+      if ($mail->send()) {
+          $msg = "<div class='alert alert-success alert-dismissible fade show mt-2' role='alert'>
+          Mail sent successfully!
+          <button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button>
+          </div>";
+          unset($_SESSION['w_email']);
+          $_SESSION['curremail'] = $selector;
+          $_SESSION['action'] = "updpass";
+          header( "Refresh:1; url=../verifytoken.php", true, 303);
       }
       else{
         $error = $mail->ErrorInfo;
@@ -326,18 +397,15 @@ if(isset($_POST['upd_email'])){
                         
                         <div id="password" class="tabcontent">
                           <p class="mt-3">Note: Password will not be changed until it's been verified via email</p>
-                          <form action="" class="mt-3">
+                          <form action="settings.php" method="POST" class="mt-3">
                             <div class="form-group">
-                              <input type="text" class="form-control" placeholder="Current password">
+                              <input type="password" name="currpass" class="form-control" placeholder="Current password">
                             </div>
                             <div class="form-group mt-3">
-                              <input type="text" class="form-control" placeholder="New password">
+                              <input type="password" name="currpass1" class="form-control" placeholder="Confirm current password">
                             </div>
                             <div class="form-group mt-3">
-                              <input type="text" class="form-control" placeholder="Confirm password">
-                            </div>
-                            <div class="form-group mt-3">
-                              <button class="btn btn-default">Update password</button>
+                              <button class="btn btn-default" type="submit" name="updpass">Update password</button>
                             </div>
                           </form>
                         </div>
