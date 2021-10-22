@@ -1,6 +1,22 @@
 <?php
+session_start();
 include 'connection.php';
 include 'functions.php';
+require_once 'vendor/autoload.php';
+
+//Mailer script
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\Exception;
+
+$mail = new PHPMailer();
+
+$mail->isSMTP();
+$mail->Host = 'mail.bobblenote.com';
+$mail->SMTPAuth = true;
+$mail->Username = 'support@bobblenote.com'; 
+$mail->Password = 'Pm+b1V&%R4)f';
+$mail->SMTPSecure = 'ssl';
+$mail->Port = 465;
 
 //Variable declations
 $info = "";
@@ -33,14 +49,54 @@ if (isset($_POST['register'])) {
     }
     else{
         $pass = password_hash($pass1, PASSWORD_DEFAULT);
-        $query = "INSERT INTO writers (firstname, lastname, email, mobile, dob, passkey) VALUES (?,?,?,?,?,?)";
+        $query = "INSERT INTO writers (firstname, lastname, email, mobile, dob, password) VALUES (?,?,?,?,?,?)";
         $result = $connection->prepare($query);
         $result->bind_param("ssssss", $fname, $lname, $email, $mobile, $dob, $pass);
         if ($result->execute()) {
-            $info = "<div class='alert alert-success alert-dismissible fade show' role='alert'>
-        Registration successful!
-        <button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button>
-      </div>";
+            $token = upd_token($connection, $email);
+            if ($token != false) {
+                $mail->setFrom("support@bobblenote.com", "Bobblenote");
+                $mail->addAddress($email);
+                $mail->isHTML(true);
+                $mail->Subject = "Verify Email Addresss";
+                $mail->Body = "<!DOCTYPE html>
+                <html lang='en'>
+                <head>
+                    <meta charset='UTF-8'>
+                    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+                    <meta name='viewport' content='width=device-width, initial-scale=1.0'>
+                    <title>Email verification</title>
+                </head>
+                <body style='background-color: #f8f9fa;padding-bottom: 7px;padding-top: 7px;'>
+                <div class='box' style='border: solid #fff 1px;width: 90%;padding: 12px;margin-left: auto;margin-right: auto;background-color: white;'>
+                    <div>
+                        <h2 style='font-family: Raleway, sans-serif;'>Verify email address</h2>
+                        <p><strong>Welcome Chief $fname</strong>. You're one step away from creating wonderful articles and sharing your knowledge to the world.
+                        To complete your registration, please copy the one time token generated below!
+                        </p>
+                        <br>Your verification token is:
+                            <h2>$token</h2>
+                    </div>
+                </div>
+                </body>
+                </html>";
+                if ($mail->send()) {
+                    $msg = "<div class='alert alert-success alert-dismissible fade show mt-2' role='alert'>
+                    Mail sent successfully!
+                    <button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button>
+                    </div>";
+                    $_SESSION['curremail'] = $email;
+                    $_SESSION['action'] = "verifyemail";
+                    header( "Location: verifytoken.php");
+                }
+                else{
+                    $error = $mail->ErrorInfo;
+                    $msg = "<div class='alert alert-danger alert-dismissible fade show mt-2' role='alert'>
+                    $error
+                    <button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button>
+                    </div>";
+                }
+            }
         }
         else{
             $info = "<div class='alert alert-danger alert-dismissible fade show' role='alert'>

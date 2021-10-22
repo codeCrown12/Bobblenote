@@ -266,15 +266,27 @@ $writer_details = get_writer_details($connection, $post_details['W_email']);
         </div>
         <nav>
             <ul class="vertical-menu">
-                <li class="active"><a href="index.html">Home</a></li>
+                <li><a href="index.php">Home</a></li>
                 <li>
                     <a href="#">Categories</a>
                     <ul class="submenu">
-                        <li><a href="#">Fashion</a></li>
-                        <li><a href="#">Education</a></li>
-                        <li><a href="#">Sports</a></li>
-                        <li><a href="#">Technology</a></li>
-                        <li><a href="#">Finance</a></li>
+                    <?php
+                        //snippet to select categories
+                        $cat_query = "SELECT category FROM categories";
+                        $cat_res = $connection->query($cat_query);
+                        if ($cat_res) {
+                            $cat_numrows = $cat_res->num_rows;
+                            if ($cat_numrows >= 1) {
+                                for ($i=0; $i < $cat_numrows; $i++) { 
+                                    $cat_res->data_seek($i);
+                                    $cat_data = $cat_res->fetch_array(MYSQLI_ASSOC);
+                                    echo "<li>
+                                    <a href='categories.php?cat=$cat_data[category]'>$cat_data[category]</a>
+                                    </li>";
+                                }
+                            }
+                        }
+                    ?>
                     </ul>
                 </li>
                 <li><a href="#">About Us</a></li>

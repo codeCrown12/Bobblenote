@@ -198,6 +198,17 @@ function getToken($connection, $email){
     return $detail['token'];
 }
 
+//Function to verify new writer email address
+function verifynewwriter($connection, $email){
+    $query = "UPDATE writers SET email_verified = 'yes' WHERE email = '$email'";
+    $result = $connection->prepare($query);
+    $result->bind_param("s", $email);
+    if (!$result->execute()) {
+       return false;
+    }
+    return true;
+}
+
 //Function to update writer email
 function upd_writer_email($connection, $email, $newemail){
     $query = "UPDATE writers SET email = ? WHERE email = '$email'";

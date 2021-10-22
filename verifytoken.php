@@ -3,8 +3,6 @@ session_start();
 include 'connection.php';
 include 'functions.php';
 
-$email = "";
-$newemail = "";
 $msg = "";
 
 if (!isset($_SESSION['action'])) {
@@ -32,7 +30,7 @@ if (isset($_POST['tokenbtn'])) {
             if($update_email == true){
                 unset($_SESSION['curremail']);
                 unset($_SESSION['newemail']);
-                header( "Refresh:0; url=login.php", true, 303);
+                header( "Location: login.php");
             }
             else{
                 $msg = "<div class='alert alert-danger alert-dismissible fade show mt-2' role='alert'>
@@ -42,10 +40,20 @@ if (isset($_POST['tokenbtn'])) {
             }
         }
         elseif($_SESSION['action'] == 'updpass'){
-            header( "Refresh:0; url=changepassword.php", true, 303);
+            header( "Location: changepassword.php");
         }
         else{
-            header("Location: login.php");
+            $verifyemail = verifynewwriter($connection, $_SESSION['curremail']);
+            if ($verifyemail == true) {
+                unset($_SESSION['curremail']);
+                header( "Location: login.php");
+            }
+            else{
+                $msg = "<div class='alert alert-danger alert-dismissible fade show mt-2' role='alert'>
+            Error in connection!
+            <button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button>
+        </div>";
+            }
         }
         
     }
@@ -88,8 +96,8 @@ if (isset($_POST['tokenbtn'])) {
                         </div>
                     </div>
                     <div class="card-body">
-                        <h4 class="mt-1 text-center">Change email address</h4>
-                        <p class="text-center"><span><strong>Tip:</strong> Enter the token we sent to your new email in order to change it.</span></p>
+                        <h4 class="mt-1 text-center">Verify token</h4>
+                        <p class="text-center"><small><strong>Tip:</strong> Enter the token we sent to your email address.</small></p>
                         <?php
                             if ($msg != "") {
                                 echo $msg;

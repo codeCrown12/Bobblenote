@@ -197,7 +197,7 @@ $rand = rand();
                     ?>
                             <div class="col-sm-6 mb-3">
                                 <div class="post mt-2">
-                                    <a href="viewpost.php?pid=<?php echo base64_encode($t_data['P_ID']) ?>"><img class="ipost-img" src="<?php echo $t_data['coverimg']."?randomurl=$rand" ?>" alt=""></a>
+                                    <a href="viewpost.php?pid=<?php echo base64_encode($t_data['P_ID']) ?>"><img decoding="async" class="ipost-img" src="<?php echo $t_data['coverimg']."?randomurl=$rand" ?>" alt=""></a>
                                     <div class="user mt-3">
                                         <ul class="list-inline" style="list-style-type: square !important;">
                                             <li class="list-inline-item"><a href="profile.php?wid=<?php echo base64_encode($w_details['email']) ?>" target="_blank"><img class="user-img" src="<?php echo $w_details['profilepic']."?randomurl=$rand" ?>" alt=""></a></li>
@@ -246,7 +246,7 @@ $rand = rand();
                             ?>
                                 <div class="hor-post mb-4">
                                     <div class="p-img">
-                                        <a href="viewpost.php?pid=<?php echo base64_encode($l_data['P_ID']) ?>"><img class="ipost-img" src="<?php echo $l_data['coverimg']."?randomurl=$rand" ?>" alt=""></a>
+                                        <a href="viewpost.php?pid=<?php echo base64_encode($l_data['P_ID']) ?>"><img decoding="async" class="ipost-img" src="<?php echo $l_data['coverimg']."?randomurl=$rand" ?>" alt=""></a>
                                     </div>
                                     <div class="p-details">
                                         <div class="user mt-2">
@@ -378,15 +378,27 @@ $rand = rand();
         </div>
         <nav>
             <ul class="vertical-menu">
-                <li class="active"><a href="index.html">Home</a></li>
+                <li class="active"><a href="index.php">Home</a></li>
                 <li>
                     <a href="#">Categories</a>
                     <ul class="submenu">
-                        <li><a href="#">Fashion</a></li>
-                        <li><a href="#">Education</a></li>
-                        <li><a href="#">Sports</a></li>
-                        <li><a href="#">Technology</a></li>
-                        <li><a href="#">Finance</a></li>
+                    <?php
+                        //snippet to select categories
+                        $cat_query = "SELECT category FROM categories";
+                        $cat_res = $connection->query($cat_query);
+                        if ($cat_res) {
+                            $cat_numrows = $cat_res->num_rows;
+                            if ($cat_numrows >= 1) {
+                                for ($i=0; $i < $cat_numrows; $i++) { 
+                                    $cat_res->data_seek($i);
+                                    $cat_data = $cat_res->fetch_array(MYSQLI_ASSOC);
+                                    echo "<li>
+                                    <a href='categories.php?cat=$cat_data[category]'>$cat_data[category]</a>
+                                    </li>";
+                                }
+                            }
+                        }
+                    ?>
                     </ul>
                 </li>
                 <li><a href="#">About Us</a></li>

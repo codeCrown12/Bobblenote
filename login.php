@@ -76,7 +76,7 @@ if(isset($_POST['login'])){
                         </div>
                     </div>
                     <div class="card-body">
-                        <h4 class="mt-1 text-center">Welcome back!</h4>
+                        <h4 class="mt-1 text-center">Sign into your account!</h4>
                         <?php
                             if ($errormsg != "") {
                                 echo $errormsg;
