@@ -73,6 +73,8 @@ function get_writer_details($connection, $email){
     return $detail;
 }
 
+
+//function to retrieve post-details
 function get_post_details($connection, $p_id){
     $detail = "";
     $query = "SELECT * FROM posts WHERE P_ID = $p_id";

@@ -287,6 +287,7 @@ if(isset($_POST['updpass'])){
     <link rel="stylesheet" href="css/general.css">
     <link rel="stylesheet" href="css/settings.css">
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <link rel="stylesheet" type="text/css" href="https://unpkg.com/slick-loader@1.1.20/slick-loader.min.css">
 </head>
 <body>
     <!-- my navigation bars start here -->
@@ -568,16 +569,69 @@ if(isset($_POST['updpass'])){
         <script src="https://cdn.tiny.cloud/1/0h01t537dv5w80phd2kb1873sfhpg9mg6ek7ckr1aly3myzy/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
         <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js" integrity="sha384-eMNCOe7tC1doHpGoWe/6oMVemdAVTMs2xqW4mwXrXsW0L84Iytr2wi5v2QjrP/xp" crossorigin="anonymous"></script>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.min.js" integrity="sha384-cn7l7gDp0eyniUwwAZgrzD06kc/tftFf19TOAs2zVinnD/C7E91j9yyk5//jjpt/" crossorigin="anonymous"></script>
+        <script src="https://unpkg.com/slick-loader@1.1.20/slick-loader.min.js"></script>
     <script>
 
-    $(document).ready(function(){
+$(document).ready(function(){
             $("#delacct").click(function(e){
               e.preventDefault()
-                Swal.fire(
-                  'Info!',
-                  "I am working",
-                  'info'
-                )
+                Swal.fire({
+                  title: 'Are you sure?',
+                  icon: 'warning',
+                  html: `<small>Deleting your account will remove all your personal data and this action is irreversible. To proceed please enter your password.</small><input type="password" id="password" class="swal2-input mb-1" placeholder="Enter password...">`,
+                  confirmButtonText: 'Verify password',
+                  focusConfirm: false,
+                  preConfirm: () => {
+                    const password = Swal.getPopup().querySelector('#password').value
+                    if (!password) {
+                      Swal.showValidationMessage(`Please enter password`)
+                    }
+                    return {password: password}
+                  }
+                }).then((result) => {
+                  if (result.isConfirmed) {
+                    SlickLoader.enable();
+                    SlickLoader.setText("Please wait...");
+                    password = result.value.password
+                    $.ajax({
+                      type: 'POST',
+                      url: 'delacct.php',
+                      data: {password: password}
+                    }).done(function(msg){
+                        if (msg == "success") {
+                          SlickLoader.disable()
+                          Swal.fire({
+                          title: 'Success!',
+                          text: "Account deleted successfully!",
+                          icon: 'success',
+                          showCancelButton: false
+                          }).then((result) => {
+                            if (result.isConfirmed) {
+                              location.reload()
+                            }
+                          })
+                        }
+                        else{
+                          SlickLoader.disable()
+                          Swal.fire(
+                          'Error!',
+                          msg,
+                          'error'
+                          )
+                        }
+                        }).fail(function(){
+                          SlickLoader.disable()
+                          Swal.fire(
+                            'Error!',
+                            'Error in connection',
+                            'error'
+                          )
+                      })
+                  } 
+                  else{
+                    SlickLoader.disable()
+                  }                  
+                });
             })
           })
 

@@ -2,6 +2,7 @@
 session_start();
 include 'connection.php';
 include 'functions.php';
+error_reporting(0);
 $errormsg = "";
 
 if(isset($_POST['login'])){
