@@ -146,7 +146,7 @@ if (isset($_POST['upd_social'])) {
   }
 }
 
-//change email address
+//Logic to change email address
 if(isset($_POST['upd_email'])){
   $newemail = check_string($connection, $_POST['newemail']);
   if ($newemail == "") {
@@ -204,7 +204,7 @@ if(isset($_POST['upd_email'])){
   }
 }
 
-
+//Logic to update password
 if(isset($_POST['updpass'])){
   $pass1 = check_string($connection, $_POST['currpass']);
   $pass2 = check_string($connection, $_POST['currpass1']);
@@ -293,7 +293,7 @@ if(isset($_POST['updpass'])){
     <!-- my navigation bars start here -->
     <nav class="navbar navbar-expand-lg navbar-dark nav-one">
       <div class="container-fluid">
-        <a class="navbar-brand ms-md-5 text-white" href="#">Logo</a>
+        <a class="navbar-brand ms-md-5 text-white" href="../index.php">Bobblenote</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar">
           <span class="navbar-toggler-icon"></span>
         </button>
@@ -306,47 +306,47 @@ if(isset($_POST['updpass'])){
         </div>
       </div>
     </nav>
-  <nav class="navbar navbar-light navbar-expand-lg">
-      <div class="container-fluid">
-        <div class="collapse navbar-collapse">
-          <div class="navbar-nav ms-md-5">
-            <a class="nav-link" href="home.php"><i class="fas fa-home"></i> Home</a>
-            <a class="nav-link" href="gallery.php"><i class="fas fa-images"></i> Gallery</a>
-            <a class="nav-link" href="createpost.php"><i class="fas fa-pen-alt"></i> Manage post</a>
-            <a class="nav-link active" href="settings.php"><i class="fas fa-cog"></i> Settings</a>
+    <nav class="navbar navbar-light navbar-expand-lg bg-white">
+        <div class="container-fluid">
+          <div class="collapse navbar-collapse">
+            <div class="navbar-nav ms-md-5">
+              <a class="nav-link" href="home.php"><i class="fas fa-home"></i> Home</a>
+              <a class="nav-link" href="mycompetitions.php"><i class="fas fa-trophy"></i> Competitions</a>
+              <a class="nav-link" href="createpost.php"><i class="fas fa-pen-alt"></i> Create post</a>
+              <a class="nav-link active" href="settings.php"><i class="fas fa-cog"></i> Settings</a>
+            </div>
+            <div class="navbar-nav ms-auto me-md-5">
+                <a class="nav-link" href="logout.php"> <i class="fas fa-power-off"></i> Logout</a>
+            </div>
           </div>
-          <div class="navbar-nav ms-auto me-md-5">
-              <a class="nav-link" href="logout.php"> <i class="fas fa-power-off"></i> Logout</a>
+          <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
+            <div class="offcanvas-header">
+              <h5 class="offcanvas-title mt-5" id="offcanvasNavbarLabel"><a class="text-dark text-decoration-none" href="settings.php"><img src="<?php echo "../".$profile_img."?randomurl= $rand" ?>" class="dp-img" alt=""> <?php echo $fullname ?></a></h5>
+              <p type="button" data-bs-dismiss="offcanvas" aria-label="Close"><span class="nav-close">&times;</span></p>
+            </div>
+            <div class="offcanvas-body">
+              <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
+                <li class="nav-item">
+                  <a class="nav-link" href="home.php"> <i class="fas fa-home"></i> Home</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="mycompetitions.php"><i class="fas fa-trophy"></i> Competitions</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="createpost.php"><i class="fas fa-pen-alt"></i> Create post</a>
+                  </li>
+                <li class="nav-item">
+                    <a class="nav-link active" href="settings.php"><i class="fas fa-cog"></i> Settings</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="logout.php"><i class="fas fa-power-off"></i> Logout</a>
+                  </li>
+              </ul>
+            </div>
           </div>
         </div>
-        <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
-          <div class="offcanvas-header">
-            <h5 class="offcanvas-title mt-5" id="offcanvasNavbarLabel"><a class="text-dark text-decoration-none" href="settings.php"><img src="<?php echo "../".$profile_img."?randomurl= $rand" ?>" class="dp-img" alt=""> <?php echo $fullname ?></a></h5>
-            <p type="button" data-bs-dismiss="offcanvas" aria-label="Close"><span class="nav-close">&times;</span></p>
-          </div>
-          <div class="offcanvas-body">
-            <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
-              <li class="nav-item">
-                <a class="nav-link" href="home.php"> <i class="fas fa-home"></i> Home</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="gallery.php"><i class="fas fa-images"></i> Gallery</a>
-              </li>
-              <li class="nav-item">
-                  <a class="nav-link" href="createpost.php"><i class="fas fa-pen-alt"></i> Manage post</a>
-                </li>
-              <li class="nav-item">
-                  <a class="nav-link active" href="settings.php"><i class="fas fa-cog"></i> Settings</a>
-              </li>
-              <li class="nav-item">
-                  <a class="nav-link" href="logout.php"><i class="fas fa-power-off"></i> Logout</a>
-                </li>
-            </ul>
-          </div>
-        </div>
-      </div>
-    </nav>
-    <!-- my navigation bars end here -->
+      </nav>
+      <!-- my navigation bars end here -->
       <div class="container mt-5">
           <div class="row justify-content-center">
               <div class="col-sm-8">
@@ -423,15 +423,19 @@ if(isset($_POST['updpass'])){
                   <p class="mt-3">Tip: Add links to your social media accounts so that your readers can follow your content.</p>
                           <form action="settings.php" method="POST" class="mt-3">
                             <div class="form-group">
+                              <label for="">Twitter profile link</label>
                               <input name="twitter" type="text" value="<?php echo $details['twitter'] ?>" class="form-control" placeholder="Twitter">
                             </div>
                             <div class="form-group mt-3">
+                            <label for="">Instagram profile link</label>
                               <input name="instagram" type="text" value="<?php echo $details['instagram'] ?>" class="form-control" placeholder="instagram">
                             </div>
                             <div class="form-group mt-3">
+                            <label for="">Facebook profile link</label>
                               <input name="facebook" type="text" value="<?php echo $details['facebook'] ?>" class="form-control" placeholder="Facebook">
                             </div>
                             <div class="form-group mt-3">
+                            <label for="">Linkedin profile link</label>
                               <input name="linkedin" type="text" value="<?php echo $details['linkedin'] ?>" class="form-control" placeholder="Linkedin">
                             </div>
                             <div class="form-group mt-3">
@@ -447,8 +451,8 @@ if(isset($_POST['updpass'])){
                     </div>
                   </div>
                   <div class="card-body">
-                    <h6>Delete Account</h6>
-                    <p>Warning! Deleting your account will permanently remove all your posts and data!</p>
+                    <h6 class="text-dark">Delete Account</h6>
+                    <p>Warning! Deleting your account will prevent you from having access to our sweet features!</p>
                     <div class="del-acct">
                       <button id="delacct" class="btn btn-outline-danger">Delete account <i class="fas fa-skull"></i></button>
                     </div>
@@ -482,7 +486,7 @@ if(isset($_POST['updpass'])){
             <div class="modal-body">
               <div class="img-div mt-1 mb-3" style="display: flex; justify-content: center;">
                 <div class="img-cover">
-                  <img id="img-prev" src="<?php echo "../".$profile_img ?>" class="dp-img-lg" alt="">
+                  <img id="img-prev" src="<?php echo "../".$profile_img ?>?randomurl=<?php $rand ?>" class="dp-img-lg" alt="">
                   <div class='overlay' onclick="open_file()">
                     <p class="p-camera"><i class="fas fa-camera ic-camera"></i></p>
                     <input type="file" hidden id="input_file" name="dp-img" accept="image/*">
@@ -518,58 +522,14 @@ if(isset($_POST['updpass'])){
       </div>
     </div>
   </div>
-      <footer>
-        <div class="container-xl">
-            <div class="footer-inner">
-                <div class="row d-flex align-items-center gy-4">
-                    <div class="col-md-4">
-                        <span class="copyright">&copy; 2021 Edulearn</span>
-                    </div>
-                    <div class="col-md-4 text-center">
-                        <ul class="social-icons list-unstyled list-inline mb-0">
-                            <li class="list-inline-item">
-                                <a href="#">
-                                    <i class="fab fa-facebook-f"></i>
-                                </a>
-                            </li>
-                            <li class="list-inline-item">
-                                <a href="#">
-                                    <i class="fab fa-instagram"></i>
-                                </a>
-                            </li>
-                            <li class="list-inline-item">
-                                <a href="#">
-                                    <i class="fab fa-whatsapp"></i>
-                                </a>
-                            </li>
-                            <li class="list-inline-item">
-                                <a href="#">
-                                    <i class="fab fa-telegram"></i>
-                                </a>
-                            </li>
-                            <li class="list-inline-item">
-                                <a href="#">
-                                    <i class="fab fa-linkedin"></i>
-                                </a>
-                            </li>
-                        </ul>
-                    </div>
-                    <div class="col-md-4">
-                        <a href="#" id="return-to-top" class="float-md-end">
-                            <i class="icon-arrow-up"></i>
-                            Back to Top
-                        </a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </footer>
+  <?php include '../footer.php' ?>
         <!-- javascripts  -->
         <script src="../js/jquery.min.js"></script>
         <script src="https://cdn.tiny.cloud/1/0h01t537dv5w80phd2kb1873sfhpg9mg6ek7ckr1aly3myzy/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
         <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js" integrity="sha384-eMNCOe7tC1doHpGoWe/6oMVemdAVTMs2xqW4mwXrXsW0L84Iytr2wi5v2QjrP/xp" crossorigin="anonymous"></script>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.min.js" integrity="sha384-cn7l7gDp0eyniUwwAZgrzD06kc/tftFf19TOAs2zVinnD/C7E91j9yyk5//jjpt/" crossorigin="anonymous"></script>
         <script src="https://unpkg.com/slick-loader@1.1.20/slick-loader.min.js"></script>
+        <script src="js/general.js"></script>
     <script>
 
 $(document).ready(function(){
@@ -634,28 +594,6 @@ $(document).ready(function(){
                 });
             })
           })
-
-        //function for nav-tabs
-        function viewSetting(evt, setting) {
-          // Declare all variables
-          var tabcontent, tablinks;
-
-          // Get all elements with class="tabcontent" and hide them
-          tabcontent = document.getElementsByClassName("tabcontent");
-          for (let i = 0; i < tabcontent.length; i++) {
-            tabcontent[i].style.display = "none";
-          }
-
-          // Get all elements with class="tablinks" and remove the class "active-tab"
-          tablinks = document.getElementsByClassName("tablinks");
-          for (let i = 0; i < tablinks.length; i++) {
-            tablinks[i].className = tablinks[i].className.replace(" active-tab", "");
-          }
-
-          // Show the current tab, and add an "active" class to the button that opened the tab
-          document.getElementById(setting).style.display = "block";
-          evt.currentTarget.className += " active-tab";
-        }
 
         //function to open file on overlay click
         function open_file(){

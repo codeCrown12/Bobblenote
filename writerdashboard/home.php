@@ -24,7 +24,7 @@ $rand = rand();
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Home</title>
+    <title>Dashboard</title>
     <link rel="stylesheet" href="../css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
     <script src="https://cdn.lordicon.com/libs/mssddfmo/lord-icon-2.1.0.js"></script>
@@ -41,7 +41,7 @@ $rand = rand();
     <!-- my navigation bars start here -->
     <nav class="navbar navbar-expand-lg navbar-dark nav-one">
       <div class="container-fluid">
-        <a class="navbar-brand ms-md-5 text-white" href="#">Logo</a>
+        <a class="navbar-brand ms-md-5 text-white" href="../index.php">Bobblenote</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar">
           <span class="navbar-toggler-icon"></span>
         </button>
@@ -59,8 +59,8 @@ $rand = rand();
           <div class="collapse navbar-collapse">
             <div class="navbar-nav ms-md-5">
               <a class="nav-link active" href="home.php"><i class="fas fa-home"></i> Home</a>
-              <a class="nav-link" href="gallery.php"><i class="fas fa-images"></i> Gallery</a>
-              <a class="nav-link" href="createpost.php"><i class="fas fa-pen-alt"></i> Manage post</a>
+              <a class="nav-link" href="mycompetitions.php"><i class="fas fa-trophy"></i> Competitions</a>
+              <a class="nav-link" href="createpost.php"><i class="fas fa-pen-alt"></i> Create post</a>
               <a class="nav-link" href="settings.php"><i class="fas fa-cog"></i> Settings</a>
             </div>
             <div class="navbar-nav ms-auto me-md-5">
@@ -69,19 +69,19 @@ $rand = rand();
           </div>
           <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
             <div class="offcanvas-header">
-                <h5 class="offcanvas-title mt-5" id="offcanvasNavbarLabel"><a class="text-dark text-decoration-none" href="settings.php"><img src="<?php echo "../".$profile_img."?randomurl= $rand" ?>" class="dp-img" alt=""> <?php echo $fullname ?></a></h5>
-                <p type="button" data-bs-dismiss="offcanvas" aria-label="Close"><span class="nav-close">&times;</span></p>
-              </div>
+              <h5 class="offcanvas-title mt-5" id="offcanvasNavbarLabel"><a class="text-dark text-decoration-none" href="settings.php"><img src="<?php echo "../".$profile_img."?randomurl= $rand" ?>" class="dp-img" alt=""> <?php echo $fullname ?></a></h5>
+              <p type="button" data-bs-dismiss="offcanvas" aria-label="Close"><span class="nav-close">&times;</span></p>
+            </div>
             <div class="offcanvas-body">
               <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
                 <li class="nav-item">
                   <a class="nav-link active" href="home.php"> <i class="fas fa-home"></i> Home</a>
                 </li>
                 <li class="nav-item">
-                  <a class="nav-link" href="gallery.php"><i class="fas fa-images"></i> Gallery</a>
+                  <a class="nav-link" href="mycompetitions.php"><i class="fas fa-trophy"></i> Competitions</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="createpost.php"><i class="fas fa-pen-alt"></i> Manage post</a>
+                    <a class="nav-link" href="createpost.php"><i class="fas fa-pen-alt"></i> Create post</a>
                   </li>
                 <li class="nav-item">
                     <a class="nav-link" href="settings.php"><i class="fas fa-cog"></i> Settings</a>
@@ -117,7 +117,7 @@ $rand = rand();
                                       echo numFormatter(count_published($connection, $selector)); 
                                    ?>
                                    </h4>
-                                  <p class="stat-title">Published posts</p>
+                                  <p class="stat-title">Articles</p>
                               </div>
                             </div>
                         </div>
@@ -137,7 +137,7 @@ $rand = rand();
                                   <h4><?php
                                       echo numFormatter(count_pending($connection, $selector)); 
                                    ?></h4>
-                                  <p class="stat-title">Pending pots</p>
+                                  <p class="stat-title">Drafts</p>
                               </div>
                             </div>
                         </div>
@@ -164,7 +164,7 @@ $rand = rand();
                         </div>
                       </div>
                 </div>
-                <h5 class="mt-5 mb-4" style="color: #203656;"><i class="fas fa-clock"></i> Posts Drafts</h5>
+                <h5 class="mt-5 mb-4" style="color: #203656;"><i class="fas fa-clock"></i> Drafts</h5>
                 <?php
                     $pen_query = "SELECT P_ID, title, excerpt FROM posts WHERE W_email = '$selector' AND published = 'no'";
                     $pen_result = $connection->query($pen_query);
@@ -197,12 +197,6 @@ $rand = rand();
                           <div class='card-body'>
                           <div class='error-container'>
                           <div class='text-center'>
-                          <lord-icon
-                            src='https://cdn.lordicon.com/tdrtiskw.json'
-                            trigger='loop'
-                            colors='primary:#335fbe,secondary:#335fbe'
-                            style='width:100px;height:100px'>
-                          </lord-icon>
                           <h6 style='color: #203656;'>No posts drafts here</h6>
                           </div> 
                         </div>
@@ -212,7 +206,7 @@ $rand = rand();
                       }
                     }
                   ?>
-                <h5 class="mt-5 mb-4" style="color: #203656;"><i class="fas fa-paper-plane"></i> Published posts</h5>
+                <h5 class="mt-5 mb-4" style="color: #203656;"><i class="fas fa-book"></i> Articles</h5>
                   <?php
                     $pub_query = "SELECT P_ID, title, excerpt, date_created, no_of_likes, no_of_comments FROM posts WHERE W_email = '$selector' AND published = 'yes' ORDER BY P_ID DESC";
                     $pub_result = $connection->query($pub_query);
@@ -236,8 +230,8 @@ $rand = rand();
                               <p>$pub_data[excerpt]...</p>
                               <div class='post-stat'>
                                   <div class='stat-one'>
-                                  <p class='stat-item'><i class='fas fa-thumbs-up'></i> $pub_data[no_of_likes] Likes</p>
-                                  <p class='stat-item'><i class='fas fa-comments'></i> $pub_data[no_of_comments] Comments</p>
+                                  <p class='stat-item'><i class='fas fa-thumbs-up'></i> $pub_data[no_of_likes] Like(s)</p>
+                                  <p class='stat-item'><i class='fas fa-comments'></i> $pub_data[no_of_comments] Comment(s)</p>
                                   </div>
                                   <div class='stat-two'><p class='stat-item'><a href='../viewpost.php?pid=$encpid' target='_blank' class='btn btn-default'>View Post <i class='fas fa-eye'></i></a></p></div>
                               </div>
@@ -283,52 +277,7 @@ $rand = rand();
               </div>
           </div>
       </div>
-      <footer>
-        <div class="container-xl">
-            <div class="footer-inner">
-                <div class="row d-flex align-items-center gy-4">
-                    <div class="col-md-4">
-                        <span class="copyright">&copy; 2021 Edulearn</span>
-                    </div>
-                    <div class="col-md-4 text-center">
-                        <ul class="social-icons list-unstyled list-inline mb-0">
-                            <li class="list-inline-item">
-                                <a href="#">
-                                    <i class="fab fa-facebook-f"></i>
-                                </a>
-                            </li>
-                            <li class="list-inline-item">
-                                <a href="#">
-                                    <i class="fab fa-instagram"></i>
-                                </a>
-                            </li>
-                            <li class="list-inline-item">
-                                <a href="#">
-                                    <i class="fab fa-whatsapp"></i>
-                                </a>
-                            </li>
-                            <li class="list-inline-item">
-                                <a href="#">
-                                    <i class="fab fa-telegram"></i>
-                                </a>
-                            </li>
-                            <li class="list-inline-item">
-                                <a href="#">
-                                    <i class="fab fa-linkedin"></i>
-                                </a>
-                            </li>
-                        </ul>
-                    </div>
-                    <div class="col-md-4">
-                        <a href="#" id="return-to-top" class="float-md-end">
-                            <i class="icon-arrow-up"></i>
-                            Back to Top
-                        </a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </footer>
+      <?php include '../footer.php' ?>
       <!-- javascripts  -->
       <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js" integrity="sha384-eMNCOe7tC1doHpGoWe/6oMVemdAVTMs2xqW4mwXrXsW0L84Iytr2wi5v2QjrP/xp" crossorigin="anonymous"></script>
       <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.min.js" integrity="sha384-cn7l7gDp0eyniUwwAZgrzD06kc/tftFf19TOAs2zVinnD/C7E91j9yyk5//jjpt/" crossorigin="anonymous"></script>

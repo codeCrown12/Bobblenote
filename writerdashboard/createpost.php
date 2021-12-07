@@ -24,8 +24,11 @@
         "jpeg"
     );
 
+    
     //snippet to save as draft
     if (isset($_POST['save'])) {
+        $newimg = "";
+
         //Get the value from the text input fields
         $title = check_string($connection, $_POST['title']);
         $category = check_string($connection, $_POST['category']);
@@ -35,52 +38,50 @@
         $content_txt = str_replace("rn", "", $content_txt);
         $published = "no";
 
-        // Get image file extension
-        $file_extension = pathinfo($_FILES["coverimg"]["name"], PATHINFO_EXTENSION);
+    
 
-        if ($title == "" || $category == "" || $tags == "" || $content == "") {
-           $msg = "<div class='alert alert-danger alert-dismissible fade show mt-2' role='alert'>
-           All fields are required!
+        if ($title == "") {
+            $msg = "<div class='alert alert-danger alert-dismissible fade show mt-2' role='alert'>
+           Title is required to save as a draft!
            <button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button>
          </div>";
-        }
-        elseif (!file_exists($_FILES['coverimg']['tmp_name'])) {
-            $msg = "<div class='alert alert-danger alert-dismissible fade show mt-2' role='alert'>
-            No image selected!
-            <button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button>
-          </div>";
-        }
-        elseif (!in_array($file_extension, $allowed_image_extension)) {
-            $msg = "<div class='alert alert-danger alert-dismissible fade show mt-2' role='alert'>
-            Upload only valid image. Only PNG and JPEG formats are allowed!
-            <button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button>
-          </div>";
-        }
-        else{
-            //strip spaces in tags
-            $tags_stripped = strip_spaces($tags);
+        } else {
+            if (file_exists($_FILES['coverimg']['tmp_name'])) {
+                // Get image file extension
+                $file_extension = pathinfo($_FILES["coverimg"]["name"], PATHINFO_EXTENSION);
+                if (!in_array($file_extension, $allowed_image_extension)) {
+                    $msg = "<div class='alert alert-danger alert-dismissible fade show mt-2' role='alert'>
+                    Upload only valid image. Only PNG and JPEG formats are allowed!
+                    <button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button>
+                  </div>";
+                } else {
+                    $newimg = "images/posts/".$selector.date('Y-m-d').rand().".png";
+                    move_uploaded_file($_FILES['coverimg']['tmp_name'], "../".$newimg);
+                }
+            }
+                //strip spaces in tags
+                $tags_stripped = strip_spaces($tags);
 
-            //get excerpt from the post
-            $excerpt = substr($content_txt, 0, 150);
+                //get excerpt from the post
+                $excerpt = substr($content_txt, 0, 150);
 
-            //upload image to server
-            $newimg = "images/posts/".$selector.date('Y-m-d').rand().".png";
-            $query = "INSERT INTO posts (W_email, coverimg, title, category, tags, content, excerpt, published) VALUES (?,?,?,?,?,?,?,?)";
-            $ins_result = $connection->prepare($query);
-            $ins_result->bind_param("ssssssss", $selector, $newimg, $title, $category, $tags_stripped, $content, $excerpt, $published);
-            if ($ins_result->execute()) {
-                move_uploaded_file($_FILES['coverimg']['tmp_name'], "../".$newimg);
-                $msg = "<div class='alert alert-success alert-dismissible fade show mt-2' role='alert'>
+                //upload image to server
+                $newimg = "images/posts/insp-1.jpg";
+                $query = "INSERT INTO posts (W_email, coverimg, title, category, tags, content, excerpt, published) VALUES (?,?,?,?,?,?,?,?)";
+                $ins_result = $connection->prepare($query);
+                $ins_result->bind_param("ssssssss", $selector, $newimg, $title, $category, $tags_stripped, $content, $excerpt, $published);
+                if ($ins_result->execute()) {
+                    $msg = "<div class='alert alert-success alert-dismissible fade show mt-2' role='alert'>
                 Post saved to drafts successfully! You can edit all the post details and publish later.
                 <button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button>
             </div>";
-            }
-            else{
-                $msg = "<div class='alert alert-danger alert-dismissible fade show mt-2' role='alert'>
+                } else {
+                    unlink($newimg);
+                    $msg = "<div class='alert alert-danger alert-dismissible fade show mt-2' role='alert'>
                 Error in connection!
                 <button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button>
                 </div>";
-            }
+                }
         }
     }
 
@@ -155,47 +156,31 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
     <link rel="stylesheet" href="css/general.css">
     <link rel="stylesheet" href="css/post.css">
-    <style>
-        .guidelines{
-            width: 90%; 
-            margin-left: auto;
-            margin-right: auto;
-        }
-        .guide-ul li{
-            padding: 8px;
-            font-size: 15px;
-        }
-        @media screen and (max-width: 700px){
-            .guidelines{
-                display: none;
-            }
-        }
-    </style>
 </head>
 <body>
     <!-- my navigation bars start here -->
     <nav class="navbar navbar-expand-lg navbar-dark nav-one">
-        <div class="container-fluid">
-          <a class="navbar-brand ms-md-5 text-white" href="#">Logo</a>
-          <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar">
-            <span class="navbar-toggler-icon"></span>
-          </button>
-          <div class="collapse navbar-collapse">
-            <ul class="navbar-nav ms-auto" style="margin-right: 25px;">
-                <li class="nav-item">
-                <a class="nav-link text-white" href="settings.php"><img src="<?php echo "../".$profile_img."?randomurl= $rand" ?>" class="dp-img" alt=""> <?php echo $fullname ?></a>
-                </li>
-            </ul>
-          </div>
+      <div class="container-fluid">
+        <a class="navbar-brand ms-md-5 text-white" href="../index.php">Bobblenote</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse">
+          <ul class="navbar-nav ms-auto" style="margin-right: 25px;">
+              <li class="nav-item">
+              <a class="nav-link text-white" href="settings.php"><img src="<?php echo "../".$profile_img."?randomurl= $rand" ?>" class="dp-img" alt=""> <?php echo $fullname ?></a>
+              </li>
+          </ul>
         </div>
-      </nav>
+      </div>
+    </nav>
     <nav class="navbar navbar-light navbar-expand-lg bg-white">
         <div class="container-fluid">
           <div class="collapse navbar-collapse">
             <div class="navbar-nav ms-md-5">
               <a class="nav-link" href="home.php"><i class="fas fa-home"></i> Home</a>
-              <a class="nav-link" href="gallery.php"><i class="fas fa-images"></i> Gallery</a>
-              <a class="nav-link active" href="createpost.php"><i class="fas fa-pen-alt"></i> Manage post</a>
+              <a class="nav-link" href="mycompetitions.php"><i class="fas fa-trophy"></i> Competitions</a>
+              <a class="nav-link active" href="createpost.php"><i class="fas fa-pen-alt"></i> Create post</a>
               <a class="nav-link" href="settings.php"><i class="fas fa-cog"></i> Settings</a>
             </div>
             <div class="navbar-nav ms-auto me-md-5">
@@ -208,15 +193,15 @@
               <p type="button" data-bs-dismiss="offcanvas" aria-label="Close"><span class="nav-close">&times;</span></p>
             </div>
             <div class="offcanvas-body">
-              <ul class="navbar-nav justify-content-end flex-grow-1">
+              <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
                 <li class="nav-item">
                   <a class="nav-link" href="home.php"> <i class="fas fa-home"></i> Home</a>
                 </li>
                 <li class="nav-item">
-                  <a class="nav-link" href="gallery.php"><i class="fas fa-images"></i> Gallery</a>
+                  <a class="nav-link" href="mycompetitions.php"><i class="fas fa-trophy"></i> Competitions</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link active" href="createpost.php"><i class="fas fa-pen-alt"></i> Manage posts</a>
+                    <a class="nav-link active" href="createpost.php"><i class="fas fa-pen-alt"></i> Create post</a>
                   </li>
                 <li class="nav-item">
                     <a class="nav-link" href="settings.php"><i class="fas fa-cog"></i> Settings</a>
@@ -262,7 +247,7 @@
                                 <input type="text" name="title" class="form-control" placeholder="Post title">
                             </div>
                             <div class="form-group mt-3">
-                                <Select class="myform-select" name="category">
+                                <Select class="form-select" name="category">
                                 <option value="">--Select category--</option>
                                     <?php
                                         $catquery = "SELECT * FROM categories";
@@ -313,10 +298,9 @@
                         <h4 class="text-center" style="color: #203656;">Tips for using the editor</h4>
                         <ul class="guide-ul">
                             <li>All fields must be completed before publishing a post.</li>
-                            <li>All fields must be completed also before saving a post as draft.</li>
+                            <li>Title is required before saving post as draft.</li>
                             <li>All post drafts information e.g cover-image, title, tags, etc can be edited and changed before publishing them.</li>
                             <li>Press <strong>Ctrl + Shift + F</strong> to toggle between full screen and normal screen of the post content text editor. </li>
-                            <li>Posts should have at least some little content before it can be saved as a draft.</li>
                             <li>Ensure your post is complete and ready before publishing it. Published posts <strong>cannot</strong> be edited.</li>
                         </ul>
                     </p>
@@ -325,52 +309,7 @@
           </div>
         
       </div>
-      <footer>
-        <div class="container-xl">
-            <div class="footer-inner">
-                <div class="row d-flex align-items-center gy-4">
-                    <div class="col-md-4">
-                        <span class="copyright">&copy; 2021 Edulearn</span>
-                    </div>
-                    <div class="col-md-4 text-center">
-                        <ul class="social-icons list-unstyled list-inline mb-0">
-                            <li class="list-inline-item">
-                                <a href="#">
-                                    <i class="fab fa-facebook-f"></i>
-                                </a>
-                            </li>
-                            <li class="list-inline-item">
-                                <a href="#">
-                                    <i class="fab fa-instagram"></i>
-                                </a>
-                            </li>
-                            <li class="list-inline-item">
-                                <a href="#">
-                                    <i class="fab fa-whatsapp"></i>
-                                </a>
-                            </li>
-                            <li class="list-inline-item">
-                                <a href="#">
-                                    <i class="fab fa-telegram"></i>
-                                </a>
-                            </li>
-                            <li class="list-inline-item">
-                                <a href="#">
-                                    <i class="fab fa-linkedin"></i>
-                                </a>
-                            </li>
-                        </ul>
-                    </div>
-                    <div class="col-md-4">
-                        <a href="#" id="return-to-top" class="float-md-end">
-                            <i class="icon-arrow-up"></i>
-                            Back to Top
-                        </a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </footer>
+      <?php include '../footer.php' ?>
      <!-- javascripts  -->
      <script src="https://cdn.tiny.cloud/1/0h01t537dv5w80phd2kb1873sfhpg9mg6ek7ckr1aly3myzy/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
      <script>

@@ -129,14 +129,14 @@ if (isset($_POST['register'])) {
     <link rel="stylesheet" href="css/signup.css">
 </head>
 <body>
-    <nav class="navbar navbar-light bg-white p-3">
+    <nav class="navbar navbar-light bg-white">
         <div class="container-fluid">
           <a class="navbar-brand ms-lg-5 ms-sm-0" href="index.php">
-            <img src="images/logo.svg" alt="" class="d-inline-block align-text-top">
+            <h1>Bobblenote</h1>
           </a>
         </div>
       </nav>
-    <div class="container mt-5">
+    <div class="container mt-2">
         <div class="row justify-content-center">
             <div class="col-sm-11">
                 <div class="row">
@@ -154,6 +154,29 @@ if (isset($_POST['register'])) {
                             }
                         ?>
                         <form action="signup.php" method="post" class="mt-sm-2">
+                            <div class="row">
+                                <h6 class="mb-1">Select account type</h6>
+                                <div class="col">
+                                    <div class="form-check">
+                                        <label class="form-check-label" for="flexRadioDefault1">
+                                            Individual Account
+                                        </label>
+                                        <input class="form-check-input" id="ind_acct" type="radio" name="flexRadioDefault" id="flexRadioDefault1">
+                                    </div>
+                                </div>
+                                <div class="col">
+                                    <div class="form-check">
+                                        <label class="form-check-label" for="flexRadioDefault2">
+                                            Organization Account
+                                        </label>
+                                        <input class="form-check-input" id="org_acct" type="radio" name="flexRadioDefault" id="flexRadioDefault2">
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="form-group mt-3 mb-3">
+                                <input type="text" class="form-control" placeholder="Organization Name" name="org_name">
+                            </div>
                             <div class="row g-2">
                                 <div class="col">
                                     <div class="form-group">

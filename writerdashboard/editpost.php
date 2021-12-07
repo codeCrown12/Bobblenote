@@ -55,9 +55,9 @@
         // Get image file extension
         $file_extension = pathinfo($_FILES["coverimg"]["name"], PATHINFO_EXTENSION);
 
-        if ($title == "" || $category == "" || $tags == "" || $content == "") {
+        if ($title == "") {
            $msg = "<div class='alert alert-danger alert-dismissible fade show mt-2' role='alert'>
-           All fields are required!
+           Title is required!
            <button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button>
          </div>";
         }
@@ -69,6 +69,9 @@
                 </div>";
             }
             else{
+                if ($newimg == "images/posts/insp-1.jpg"){
+                    $newimg = "images/posts/".$selector.date('Y-m-d').rand().".png";
+                }
                 $update_wimg = update_post_wimg($connection, $newimg, $title, $category, $tags, $content, $excerpt, $published, $pid);
                 if ($update_wimg) {
                     move_uploaded_file($_FILES['coverimg']['tmp_name'], "../".$newimg);
@@ -141,6 +144,9 @@
             </div>";
             }
             else{
+                if ($newimg == "images/posts/insp-1.jpg"){
+                    $newimg = "images/posts/".$selector.date('Y-m-d').rand().".png";
+                }
                 $update_wimg = update_post_wimg($connection, $newimg, $title, $category, $tags, $content, $excerpt, $published, $pid);
                 if ($update_wimg) {
                     move_uploaded_file($_FILES['coverimg']['tmp_name'], "../".$newimg);
@@ -188,47 +194,32 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
     <link rel="stylesheet" href="css/general.css">
     <link rel="stylesheet" href="css/post.css">
-    <style>
-        .guidelines{
-            width: 90%; 
-            margin-left: auto;
-            margin-right: auto;
-        }
-        .guide-ul li{
-            padding: 8px;
-            font-size: 15px;
-        }
-        @media screen and (max-width: 700px){
-            .guidelines{
-                display: none;
-            }
-        }
-    </style>
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 <body>
     <!-- my navigation bars start here -->
     <nav class="navbar navbar-expand-lg navbar-dark nav-one">
-        <div class="container-fluid">
-          <a class="navbar-brand ms-md-5 text-white" href="#">Logo</a>
-          <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar">
-            <span class="navbar-toggler-icon"></span>
-          </button>
-          <div class="collapse navbar-collapse">
-            <ul class="navbar-nav ms-auto" style="margin-right: 25px;">
-                <li class="nav-item">
-                <a class="nav-link text-white" href="settings.php"><img src="<?php echo "../".$profile_img."?randomurl= $rand" ?>" class="dp-img" alt=""> <?php echo $fullname ?></a>
-                </li>
-            </ul>
-          </div>
+      <div class="container-fluid">
+        <a class="navbar-brand ms-md-5 text-white" href="../index.php">Bobblenote</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse">
+          <ul class="navbar-nav ms-auto" style="margin-right: 25px;">
+              <li class="nav-item">
+              <a class="nav-link text-white" href="settings.php"><img src="<?php echo "../".$profile_img."?randomurl= $rand" ?>" class="dp-img" alt=""> <?php echo $fullname ?></a>
+              </li>
+          </ul>
         </div>
-      </nav>
+      </div>
+    </nav>
     <nav class="navbar navbar-light navbar-expand-lg bg-white">
         <div class="container-fluid">
           <div class="collapse navbar-collapse">
             <div class="navbar-nav ms-md-5">
               <a class="nav-link" href="home.php"><i class="fas fa-home"></i> Home</a>
-              <a class="nav-link" href="gallery.php"><i class="fas fa-images"></i> Gallery</a>
-              <a class="nav-link active" href="createpost.php"><i class="fas fa-pen-alt"></i> Manage post</a>
+              <a class="nav-link" href="mycompetitions.php"><i class="fas fa-trophy"></i> Competitions</a>
+              <a class="nav-link" href="createpost.php"><i class="fas fa-pen-alt"></i> Create post</a>
               <a class="nav-link" href="settings.php"><i class="fas fa-cog"></i> Settings</a>
             </div>
             <div class="navbar-nav ms-auto me-md-5">
@@ -241,15 +232,15 @@
               <p type="button" data-bs-dismiss="offcanvas" aria-label="Close"><span class="nav-close">&times;</span></p>
             </div>
             <div class="offcanvas-body">
-              <ul class="navbar-nav justify-content-end flex-grow-1">
+              <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
                 <li class="nav-item">
                   <a class="nav-link" href="home.php"> <i class="fas fa-home"></i> Home</a>
                 </li>
                 <li class="nav-item">
-                  <a class="nav-link" href="gallery.php"><i class="fas fa-images"></i> Gallery</a>
+                  <a class="nav-link" href="mycompetitions.php"><i class="fas fa-trophy"></i> Competitions</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link active" href="createpost.php"><i class="fas fa-pen-alt"></i> Manage posts</a>
+                    <a class="nav-link" href="createpost.php"><i class="fas fa-pen-alt"></i> Create post</a>
                   </li>
                 <li class="nav-item">
                     <a class="nav-link" href="settings.php"><i class="fas fa-cog"></i> Settings</a>
@@ -271,7 +262,7 @@
                       <div class="card-header bg-white">
                           <div class="card-title d-flex align-items-center">
                               <h4><i class="fas fa-pen-alt"></i> Edit post</h4>
-                              <button id="publish" name="publish" class="btn btn-default">Publish post <i class="fas fa-paper-plane"></i></button>
+                              <button id="publish" name="publish" class="btn btn-default ms-auto">Publish post <i class="fas fa-paper-plane"></i></button>
                           </div>
                       </div>
                       <div class="card-body">
@@ -280,6 +271,7 @@
                                     echo $msg;
                                 }
                             ?>
+                            <span style="display: none;" id="post_id" data-postid="<?php echo $pid ?>"></span>
                             <label for="">Post cover image<br><small style="color: #777777;">(Hover and click the image below to change it)</small></label>
                             <div class="img-cover mt-1">
                                 <input type="file" id="pimg-select" accept="image/*" name="coverimg" hidden>
@@ -295,7 +287,7 @@
                                 <input type="text" name="title" class="form-control" placeholder="Post title" value="<?php echo $post_details['title'] ?>">
                             </div>
                             <div class="form-group mt-3">
-                                <Select class="myform-select" name="category">
+                                <Select class="form-select" name="category">
                                 <option value="<?php echo $post_details['category'] ?>"><?php echo $post_details['category'] ?></option>
                                     <?php
                                         $catquery = "SELECT * FROM categories";
@@ -348,10 +340,9 @@
                         <h4 class="text-center" style="color: #203656;">Tips for using the editor</h4>
                         <ul class="guide-ul">
                             <li>All fields must be completed before publishing a post.</li>
-                            <li>All fields must be completed also before saving a post as draft.</li>
+                            <li>Title is required before saving post as draft.</li>
                             <li>All post drafts information e.g cover-image, title, tags, etc can be edited and changed before publishing them.</li>
                             <li>Press <strong>Ctrl + Shift + F</strong> to toggle between full screen and normal screen of the post content text editor. </li>
-                            <li>Posts should have at least some little content before it can be saved as a draft.</li>
                             <li>Ensure your post is complete and ready before publishing it. Published posts <strong>cannot</strong> be edited.</li>
                         </ul>
                     </p>
@@ -360,52 +351,7 @@
           </div>
         
       </div>
-      <footer>
-        <div class="container-xl">
-            <div class="footer-inner">
-                <div class="row d-flex align-items-center gy-4">
-                    <div class="col-md-4">
-                        <span class="copyright">&copy; 2021 Edulearn</span>
-                    </div>
-                    <div class="col-md-4 text-center">
-                        <ul class="social-icons list-unstyled list-inline mb-0">
-                            <li class="list-inline-item">
-                                <a href="#">
-                                    <i class="fab fa-facebook-f"></i>
-                                </a>
-                            </li>
-                            <li class="list-inline-item">
-                                <a href="#">
-                                    <i class="fab fa-instagram"></i>
-                                </a>
-                            </li>
-                            <li class="list-inline-item">
-                                <a href="#">
-                                    <i class="fab fa-whatsapp"></i>
-                                </a>
-                            </li>
-                            <li class="list-inline-item">
-                                <a href="#">
-                                    <i class="fab fa-telegram"></i>
-                                </a>
-                            </li>
-                            <li class="list-inline-item">
-                                <a href="#">
-                                    <i class="fab fa-linkedin"></i>
-                                </a>
-                            </li>
-                        </ul>
-                    </div>
-                    <div class="col-md-4">
-                        <a href="#" id="return-to-top" class="float-md-end">
-                            <i class="icon-arrow-up"></i>
-                            Back to Top
-                        </a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </footer>
+      <?php include '../footer.php' ?>
      <!-- javascripts  -->
      <script src="https://cdn.tiny.cloud/1/0h01t537dv5w80phd2kb1873sfhpg9mg6ek7ckr1aly3myzy/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
      <script>
@@ -447,6 +393,8 @@
             }
         }
       </script>
+      <script src="../js/jquery.min.js"></script>
+      <script src="js/editpost.js"></script>
      <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js" integrity="sha384-eMNCOe7tC1doHpGoWe/6oMVemdAVTMs2xqW4mwXrXsW0L84Iytr2wi5v2QjrP/xp" crossorigin="anonymous"></script>
      <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.min.js" integrity="sha384-cn7l7gDp0eyniUwwAZgrzD06kc/tftFf19TOAs2zVinnD/C7E91j9yyk5//jjpt/" crossorigin="anonymous"></script>
 </body>

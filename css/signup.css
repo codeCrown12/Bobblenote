@@ -1,6 +1,5 @@
 body{
     background-color: #fff;
-    font-family: 'Roboto', sans-serif;
 }
 .form-control {
     display: block;
@@ -26,7 +25,7 @@ body{
     background-position: right center;
 }
 h3{
-    font-family: 'Poppins', sans-serif;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
     font-weight: 700;
     line-height: 1.4;
     margin:0;

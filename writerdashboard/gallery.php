@@ -81,7 +81,7 @@ if (isset($_POST['upload'])) {
     <!-- my navigation bars start here -->
     <nav class="navbar navbar-expand-lg navbar-dark nav-one">
       <div class="container-fluid">
-        <a class="navbar-brand ms-md-5 text-white" href="#">Logo</a>
+        <a class="navbar-brand ms-md-5 text-white" href="../index.php">Bobblenote</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar">
           <span class="navbar-toggler-icon"></span>
         </button>
@@ -99,7 +99,7 @@ if (isset($_POST['upload'])) {
           <div class="collapse navbar-collapse">
             <div class="navbar-nav ms-md-5">
               <a class="nav-link" href="home.php"><i class="fas fa-home"></i> Home</a>
-              <a class="nav-link active" href="gallery.php"><i class="fas fa-images"></i> Gallery</a>
+              <!-- <a class="nav-link active" href="gallery.php"><i class="fas fa-images"></i> Gallery</a> -->
               <a class="nav-link" href="createpost.php"><i class="fas fa-pen-alt"></i> Manage post</a>
               <a class="nav-link" href="settings.php"><i class="fas fa-cog"></i> Settings</a>
             </div>
@@ -117,9 +117,9 @@ if (isset($_POST['upload'])) {
                 <li class="nav-item">
                   <a class="nav-link" href="home.php"> <i class="fas fa-home"></i> Home</a>
                 </li>
-                <li class="nav-item">
+                <!-- <li class="nav-item">
                   <a class="nav-link active" href="gallery.php"><i class="fas fa-images"></i> Gallery</a>
-                </li>
+                </li> -->
                 <li class="nav-item">
                     <a class="nav-link" href="createpost.php"><i class="fas fa-pen-alt"></i> Manage post</a>
                   </li>
@@ -246,7 +246,7 @@ if (isset($_POST['upload'])) {
             <div class="footer-inner">
                 <div class="row d-flex align-items-center gy-4">
                     <div class="col-md-4">
-                        <span class="copyright">&copy; 2021 Edulearn</span>
+                        <span class="copyright">&copy; 2021 Bobblenote</span>
                     </div>
                     <div class="col-md-4 text-center">
                         <ul class="social-icons list-unstyled list-inline mb-0">

@@ -1,28 +1,38 @@
 <?php
+session_start();
 include 'connection.php';
 include 'functions.php';
 
-$query = "SELECT P_ID, coverimg, W_email, title, category, excerpt, date_created FROM posts ORDER BY P_ID DESC";;
+$selector = "";
+
+//Check if user is logged in and get user details
+if (isset($_SESSION['w_email'])) {
+    $selector = $_SESSION['w_email'];
+}
+$user_details = get_writer_details($connection, $selector);
+
+//Posts filtering logic
+$query = "SELECT P_ID, coverimg, W_email, title, category, excerpt, date_created FROM posts WHERE published = 'yes' ORDER BY P_ID DESC";;
 $cap = "All posts";
 $rand = rand();
 
 if (isset($_GET['cat'])) {
     $cat = check_string($connection, $_GET['cat']);
     $cap = $cat;
-    $query = "SELECT P_ID, coverimg, W_email, title, category, excerpt, date_created FROM posts WHERE category = '$cat'";
+    $query = "SELECT P_ID, coverimg, W_email, title, category, excerpt, date_created FROM posts WHERE category = '$cat' AND published = 'yes'";
 }
 elseif (isset($_GET['tag'])) {
     $tag = check_string($connection, $_GET['tag']);
     $cap = "#$tag";
-    $query = "SELECT P_ID, coverimg, W_email, title, category, excerpt, date_created FROM posts WHERE tags LIKE '%$tag%'";
+    $query = "SELECT P_ID, coverimg, W_email, title, category, excerpt, date_created FROM posts WHERE tags LIKE '%$tag%' AND published = 'yes'";
 }
 elseif (isset($_GET['gen']) && $_GET['gen'] == "trending") {
     $cap = "#Trending";
-    $query = "SELECT P_ID, coverimg, W_email, title, category, excerpt, date_created FROM posts ORDER BY no_of_likes DESC";
+    $query = "SELECT P_ID, coverimg, W_email, title, category, excerpt, date_created FROM posts WHERE published = 'yes' ORDER BY no_of_likes DESC";
 }
 elseif (isset($_GET['gen']) && $_GET['gen'] == "latest") {
     $cap = "#Latest";
-    $query = "SELECT P_ID, coverimg, W_email, title, category, excerpt, date_created FROM posts ORDER BY date_created DESC";
+    $query = "SELECT P_ID, coverimg, W_email, title, category, excerpt, date_created FROM posts WHERE published = 'yes' ORDER BY date_created DESC";
 }
 ?>
 <!DOCTYPE html>
@@ -40,68 +50,9 @@ elseif (isset($_GET['gen']) && $_GET['gen'] == "latest") {
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 <body>
-<header class="header-default">
-        <nav class="navbar navbar-expand-lg">
-            <div class="container-xl">
-                <!-- logo  -->
-                <a href="index.php" class="navbar-brand">
-                    <img src="images/logo.svg" alt="">
-                </a>
-
-                <div class="collapse navbar-collapse">
-                    <ul class="navbar-nav mr-auto">
-                        <li class="nav-item">
-                            <a href="index.php" class="nav-link">Home</a>
-                        </li>
-                        <li class="nav-item active dropdown">
-                            <a href="#" class="nav-link dropdown-toggle">Categories</a>
-                            <ul class="dropdown-menu">
-                            <?php   
-                                        //snippet to select categories
-                                        $cat_query = "SELECT category FROM categories";
-                                        $cat_res = $connection->query($cat_query);
-                                        if ($cat_res) {
-                                            $cat_numrows = $cat_res->num_rows;
-                                            if ($cat_numrows >= 1) {
-                                               for ($i=0; $i < $cat_numrows; $i++) { 
-                                                  $cat_res->data_seek($i);
-                                                  $cat_data = $cat_res->fetch_array(MYSQLI_ASSOC);
-                                                  echo "<li>
-                                                  <a href='categories.php?cat=$cat_data[category]' class='dropdown-item'>$cat_data[category]</a>
-                                                    </li>";
-                                               }
-                                            }
-                                        }
-                                    ?>
-                            </ul>
-                        </li>
-                        <li class="nav-item">
-                            <a href="#" class="nav-link">About Us</a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="#" class="nav-link">Contact</a>
-                        </li>
-                        
-                    </ul>
-                </div>
-
-                <!-- right side of header  -->
-                <div class="header-right">
-                    <!-- buttons  -->
-                    <div class="header-buttons">
-                        <a href="login.php" class="btn btn-default btn-write">Login</a>
-                        <a href="signup.php" class="btn btn-default btn-write">Become a writer</a>
-                        <button class="search icon-button">
-                            <i class="icon-magnifier"></i>
-                        </button>
-                        <button class="burger-menu icon-button">
-                            <span class="burger-icon"></span>
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </nav>
-    </header>
+    <!-- Navbar component -->
+    <?php include 'header.php'; ?>
+    <!-- End of navbar component -->
     <div class="container">
         <div class="row">
         <div class="section-header mt-2">
@@ -128,7 +79,7 @@ elseif (isset($_GET['gen']) && $_GET['gen'] == "latest") {
                         <li class="list-inline-item"><a href="profile.php?wid=<?php echo base64_encode($w_details['email']) ?>" target="_blank"><img class="user-img" src="<?php echo $w_details['profilepic']."?randomurl=$rand" ?>" alt=""></a></li>
                         <li class="list-inline-item"><a href="profile.php?wid=<?php echo base64_encode($w_details['email']) ?>" target="_blank"><small><?php echo substr($w_details['firstname'], 0, 1).". ".$w_details['lastname'] ?></small></a></li>
                         <li class="list-inline-item"><a href="categories.php?cat=<?php echo $data['category'] ?>"><small>#<?php echo $data['category'] ?></small></a></li>
-                        <li class="list-inline-item"><small><?php echo format_date($data['date_created']) ?></small></li>
+                        <li class="list-inline-item"><small class="text-muted"><?php echo format_date($data['date_created']) ?></small></li>
                         </ul>    
                      </div>
                      <h5 class="post-title mb-2">
@@ -140,7 +91,7 @@ elseif (isset($_GET['gen']) && $_GET['gen'] == "latest") {
                         else echo $data['title'] ?>
                       </a>
                        </h5>
-                       <p class="excerpt mb-0">
+                       <p class="excerpt mb-0 text-muted">
                        <?php echo substr($data['excerpt'], 0, 80)."..." ?>
                     </p>
                 </div>
@@ -150,7 +101,7 @@ elseif (isset($_GET['gen']) && $_GET['gen'] == "latest") {
                 }
                 else{
                     echo "<h4 style='color: #203656;' class='text-center'><i style='font-size:50px;' class='far fa-smile-wink'></i> <br> No posts here yet!</h4>
-                    <h4 class='text-center mt-3'><a href='signup.php' class='btn btn-default'>Write for us</a></h4>";
+                    <h4 class='text-center mt-3'><a href='signup.php' class='btn btn-default'>Become a writer</a></h4>";
                 }
             }
             ?>
@@ -186,52 +137,7 @@ elseif (isset($_GET['gen']) && $_GET['gen'] == "latest") {
             </div>
         </div>
     </div>
-    <footer>
-            <div class="container-xl">
-                <div class="footer-inner">
-                    <div class="row d-flex align-items-center gy-4">
-                        <div class="col-md-4">
-                            <span class="copyright">&copy; 2021 Edulearn</span>
-                        </div>
-                        <div class="col-md-4 text-center">
-                            <ul class="social-icons list-unstyled list-inline mb-0">
-                                <li class="list-inline-item">
-                                    <a href="#">
-                                        <i class="fab fa-facebook-f"></i>
-                                    </a>
-                                </li>
-                                <li class="list-inline-item">
-                                    <a href="#">
-                                        <i class="fab fa-instagram"></i>
-                                    </a>
-                                </li>
-                                <li class="list-inline-item">
-                                    <a href="#">
-                                        <i class="fab fa-whatsapp"></i>
-                                    </a>
-                                </li>
-                                <li class="list-inline-item">
-                                    <a href="#">
-                                        <i class="fab fa-telegram"></i>
-                                    </a>
-                                </li>
-                                <li class="list-inline-item">
-                                    <a href="#">
-                                        <i class="fab fa-linkedin"></i>
-                                    </a>
-                                </li>
-                            </ul>
-                        </div>
-                        <div class="col-md-4">
-                            <a href="#" id="return-to-top" class="float-md-end">
-                                <i class="icon-arrow-up"></i>
-                                Back to Top
-                            </a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </footer>
+    <?php include 'footer.php' ?>
 
     <!-- canvas menu  -->
     <div class="canvas-menu d-flex align-items-end flex-column">
@@ -265,7 +171,7 @@ elseif (isset($_GET['gen']) && $_GET['gen'] == "latest") {
                     ?>
                     </ul>
                 </li>
-                <li><a href="#">About Us</a></li>
+                <li><a href="#">About</a></li>
                 <li><a href="#">Contact</a></li>
                 <li><a href="login.php">Login</a></li>
                 <li>
@@ -301,77 +207,10 @@ elseif (isset($_GET['gen']) && $_GET['gen'] == "latest") {
     </div>
     <!-- javascripts  -->
     <script src="js/jquery.min.js"></script>
-    <script src="js/popper.min.js"></script>
-    <script src="js/bootstrap.min.js"></script>
-    <script src="js/slick.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js" integrity="sha384-7+zCNj/IqJ95wo16oMtfsKbZ9ccEh31eOz1HGyDuCQ6wgnyJNSYdrPa03rtR1zdB" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js" integrity="sha384-QJHtvGhmr9XOIpI6YVutG+2QOK9T+ZnN4kzFN1RtK3zEFEIsxhlmWl5/YESvpZ13" crossorigin="anonymous"></script>
     <script src="js/jquery.sticky-sidebar.min.js"></script>
     <script src="js/main.js"></script>
-    <script>
-        $(document).ready(function(){
-            $("#sub-btn").click(function(e) {
-                e.preventDefault();
-                var email = $("#sub-email").val()
-                if (email == "") {
-                    Swal.fire({
-                        title: 'Error!',
-                        text: "Field is required",
-                        icon: 'error',
-                    })
-                } 
-                else{
-                    $.ajax({
-                        type: 'POST',
-                        url: 'addsub.php',
-                        data: { subemail: email }
-                    }).always(function(msg) {
-                        if (msg == "Subscription successful") {
-                            Swal.fire({
-                            title: 'Success!',
-                            text: msg,
-                            icon: 'success',
-                            })   
-                        }
-                        else{
-                            Swal.fire({
-                            title: 'Error!',
-                            text: msg,
-                            icon: 'error',
-                            })   
-                        }
-                    }).fail(function(msg){
-                        Swal.fire({
-                            title: 'Error!',
-                            text: "Error in connection",
-                            icon: 'error',
-                        })
-                    })
-                }
-            })
-            $("#mysearch").keyup(function(e){
-                e.preventDefault()
-                value = $("#mysearch").val()
-                if (value != "") {
-                    $("#res_card").removeClass("d-none")
-                    $.ajax({
-                        type: 'POST',
-                        url: 'searchlogic.php',
-                        data: {search: value}
-                    }).done(function(val){
-                            // console.log(val)
-                            $(".list-group").html(val)                        
-                    }).fail(function(e){
-                        Swal.fire({
-                            title: 'Error!',
-                            text: "Error in connection",
-                            icon: 'error',
-                        })
-                    })
-                }
-                else{
-                    $("#res_card").addClass("d-none")
-                }
-            })
-        })
-    </script>
+    <script src="js/general.js"></script>
 </body>
 </html>

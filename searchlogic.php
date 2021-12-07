@@ -21,7 +21,7 @@ if (isset($_POST['search'])) {
            }
         }
         else{
-            echo "<a href='#' class='list-group-item list-group-item-action'>No results to show</a>";
+            echo "<li class='list-group-item'>No results to show <i class='far fa-sad-tear'></i></li>";
         }
     }
     else{

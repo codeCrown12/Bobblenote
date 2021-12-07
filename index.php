@@ -1,7 +1,15 @@
 <?php
+session_start();
 include 'connection.php';
 include 'functions.php';
 $rand = rand();
+$selector = "";
+
+//Check if user is logged in and get user details
+if (isset($_SESSION['w_email'])) {
+    $selector = $_SESSION['w_email'];
+}
+$user_details = get_writer_details($connection, $selector);
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -17,126 +25,85 @@ $rand = rand();
         href="https://cdnjs.cloudflare.com/ajax/libs/simple-line-icons/2.5.5/css/simple-line-icons.min.css">
     <link rel="stylesheet" href="css/style.css">
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://cdn.lordicon.com/libs/mssddfmo/lord-icon-2.1.0.js"></script>
 </head>
 
 <body>
     <div class="site-wrapper">
         <div class="main-overlay"></div>
-        <header class="header-default">
-            <nav class="navbar navbar-expand-lg">
-                <div class="container-xl">
-                    <!-- logo  -->
-                    <a href="index.php" class="navbar-brand">
-                        <img src="images/logo.svg" alt="">
-                    </a>
-
-                    <div class="collapse navbar-collapse">
-                        <ul class="navbar-nav mr-auto">
-                            <li class="nav-item active">
-                                <a href="index.html" class="nav-link">Home</a>
-                            </li>
-                            <li class="nav-item dropdown">
-                                <a href="#" class="nav-link dropdown-toggle">Categories</a>
-                                <ul class="dropdown-menu">
-                                    <?php
-                                        //snippet to select categories
-                                        $cat_query = "SELECT category FROM categories";
-                                        $cat_res = $connection->query($cat_query);
-                                        if ($cat_res) {
-                                            $cat_numrows = $cat_res->num_rows;
-                                            if ($cat_numrows >= 1) {
-                                               for ($i=0; $i < $cat_numrows; $i++) { 
-                                                  $cat_res->data_seek($i);
-                                                  $cat_data = $cat_res->fetch_array(MYSQLI_ASSOC);
-                                                  echo "<li>
-                                                  <a href='categories.php?cat=$cat_data[category]' class='dropdown-item'>$cat_data[category]</a>
-                                                    </li>";
-                                               }
-                                            }
-                                        }
-                                    ?>
-                                </ul>
-                            </li>
-                            <li class="nav-item">
-                                <a href="#" class="nav-link">About Us</a>
-                            </li>
-                            <li class="nav-item">
-                                <a href="#" class="nav-link">Contact</a>
-                            </li>
-                            
-                        </ul>
-                        <!-- <img src="images/moon.png" id="icon"> -->
-                    </div>
-
-                    <!-- right side of header  -->
-                    <div class="header-right">
-                        <!-- buttons  -->
-                        <div class="header-buttons">
-                            <a href="login.php" class="btn btn-default btn-write">Login</a>
-                            <a href="signup.php" class="btn btn-default btn-write">Become a writer</a>
-                            <button class="search icon-button">
-                            <i class="icon-magnifier"></i>
-                        </button>
-                        <button class="burger-menu icon-button">
-                            <span class="burger-icon"></span>
-                        </button>
-                        </div>
-                    </div>
-                </div>
-            </nav>
-
-
-        </header>
-
-
-
+            <!-- Navbar component -->
+        <?php include 'header.php'; ?>
+        <!-- End of navbar component -->
         <!-- section starts  -->
         <section id="hero">
             <div class="container-xl">
                 <div class="row gy-4">
                     <div class="col-lg-8">
+                        <?php
+                            $car_rows = 0;
+                            $car_query = "SELECT P_ID, coverimg, title, date_created FROM posts WHERE published = 'yes' ORDER BY date_created DESC LIMIT 3";
+                            $car_res = $connection->query($car_query);
+                            if ($car_res) {
+                                $car_rows = $car_res->num_rows;
+                            }
+                        ?>
                     <div id="carouselExampleCaptions" style="border-radius: 10px;" class="carousel slide mt-3" data-bs-ride="carousel">
                         <div class="carousel-indicators">
-                            <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
-                            <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="1" aria-label="Slide 2"></button>
-                            <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="2" aria-label="Slide 3"></button>
+                            <?php
+                                for ($i=0; $i < $car_rows; $i++) {
+                            ?>
+                            <?php
+                                if ($i == 0) {
+                            ?>
+                            <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="<?php echo $i ?>" class="active" aria-current="true" aria-label="Slide <?php echo $i ?>"></button>
+                            <?php } 
+                                else{
+                            ?>
+                            <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="<?php echo $i ?>" aria-label="Slide <?php echo $i ?>"></button>
+                            <?php
+                                }
+                            }
+                            ?>
                         </div>
                         <div class="carousel-inner">
+                            <?php
+                                for ($i=0; $i < $car_rows; $i++) {
+                                    $car_res->data_seek($i);
+                                    $car_data = $car_res->fetch_array(MYSQLI_ASSOC); 
+                                ?>
+                            <?php
+                                if ($i == 0) {
+                                    ?>    
                             <div class="carousel-item active">
                                 <div class="carimg-cover">
-                                    <img src="images/posts/featured-lg.jpg" class="d-block w-100 car-img" alt="...">
+                                    <img src="<?php echo $car_data['coverimg'] ?>" class="d-block w-100 car-img" alt="...">
                                     <div class='overlay'>
                                     <div class="carousel-caption d-md-block text-left">
-                                        <small class="car-date">26 May 2021</small>
-                                        <a href="" class="car-title" target="_blank"><h3>Bitcoin prices surpasses all time high in recent trends</h3></a>
+                                        <small class="car-date"><?php echo format_date($car_data['date_created']) ?></small>
+                                        <a href="viewpost.php?pid=<?php echo base64_encode($car_data['P_ID']) ?>" class="car-title"><h3><?php echo $car_data['title'] ?></h3></a>
                                     </div>
                                     </div>
                                 </div>
                             </div>
+                            <?php
+                                }
+                                else{
+                            ?>
                             <div class="carousel-item">
-                                <a href="" target="_blank">
                                 <div class="carimg-cover">
-                                    <img src="images/posts/kingsjacobfrancis@gmail.com2021-09-081489592566.png" class="d-block w-100 car-img" alt="...">
+                                    <img src="<?php echo $car_data['coverimg'] ?>" class="d-block w-100 car-img" alt="...">
                                     <div class='overlay'>
                                     <div class="carousel-caption d-md-block text-left">
-                                        <small class="car-date">26 May 2021</small>
-                                        <a href="" class="car-title" target="_blank"><h3>Bitcoin prices surpasses all time high in recent trends</h3></a>
-                                    </div>
-                                    </div>
-                                </div>
-                                </a>
-                            </div>
-                            <div class="carousel-item">
-                            <div class="carimg-cover">
-                                    <img src="images/posts/kingsjacobfrancis@gmail.com2021-09-081724339386.png" class="d-block w-100 car-img" alt="...">
-                                    <div class='overlay'>
-                                    <div class="carousel-caption d-md-block text-left">
-                                        <small class="car-date">26 May 2021</small>
-                                        <a href="" class="car-title" target="_blank"><h3>Bitcoin prices surpasses all time high in recent trends</h3></a>
+                                        <small class="car-date"><?php echo format_date($car_data['date_created']) ?></small>
+                                        <a href="viewpost.php?pid=<?php echo base64_encode($car_data['P_ID']) ?>" class="car-title"><h3><?php echo $car_data['title'] ?></h3></a>
                                     </div>
                                     </div>
                                 </div>
                             </div>
+                            <?php
+                                    }
+                                }
+                            ?>
                         </div>
                         <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="prev">
                             <span class="carousel-control-prev-icon" aria-hidden="true"></span>
@@ -151,11 +118,11 @@ $rand = rand();
                     <div class="col-lg-4">
                         <div class="card mt-3">
                             <div class="card-header text-center bg-white">
-                            <h5>Some random ad here</h5>
+                            <h5>Become a writer ✍️!</h5>
                             </div>
                             <div class="card-body">
-                            <p class="text-center text-dark">Lorem ipsum, dolor sit amet consectetur adipisicing elit. Perspiciatis rem facere voluptateem esse!</p>
-                            <!-- <a style="width: 100%;" href="https://www.crowndidactic.com/register" target="_blank" class="btn btn-default">Become a writer</a>   -->
+                            <p class="text-center text-dark">Join one of the fastest rising content sharing platforms in Africa and start contributing to the body of knowledge!</p>
+                             <a style="width: 100%;" href="signup.php" target="_blank" class="btn btn-dark">Become a writer</a>
                           </div>
                         </div>
                         <div class="card mt-3">
@@ -185,7 +152,7 @@ $rand = rand();
             </div>
             <div class="row">
                     <?php
-                        $t_query = "SELECT P_ID, coverimg, W_email, title, category, excerpt, date_created FROM posts ORDER BY no_of_likes DESC LIMIT 4";
+                        $t_query = "SELECT P_ID, coverimg, W_email, title, category, excerpt, date_created FROM posts WHERE published = 'yes' ORDER BY no_of_likes DESC LIMIT 4";
                         $t_res = $connection->query($t_query);
                         if ($t_res) {
                             $t_numrows = $t_res->num_rows;
@@ -196,17 +163,17 @@ $rand = rand();
                                    $w_details = get_writer_details($connection, $t_data['W_email']);
                     ?>
                             <div class="col-sm-6 mb-3">
-                                <div class="post mt-2">
+                                <div class="post">
                                     <a href="viewpost.php?pid=<?php echo base64_encode($t_data['P_ID']) ?>"><img decoding="async" class="ipost-img" src="<?php echo $t_data['coverimg']."?randomurl=$rand" ?>" alt=""></a>
-                                    <div class="user mt-3">
+                                    <div class="user mt-2">
                                         <ul class="list-inline" style="list-style-type: square !important;">
                                             <li class="list-inline-item"><a href="profile.php?wid=<?php echo base64_encode($w_details['email']) ?>" target="_blank"><img class="user-img" src="<?php echo $w_details['profilepic']."?randomurl=$rand" ?>" alt=""></a></li>
-                                            <li class="list-inline-item"><a href="profile.php?wid=<?php echo base64_encode($w_details['email']) ?>" target="_blank"><small><?php echo substr($w_details['firstname'], 0, 1).". ".$w_details['lastname'] ?></small></a></li>
+                                            <li class="list-inline-item"><a href="profile.php?wid=<?php echo base64_encode($w_details['email']) ?>" target="_blank"><small><?php echo "@".substr($w_details['firstname'], 0, 1).".".$w_details['lastname'] ?></small></a></li>
                                             <li class="list-inline-item"><a href="categories.php?cat=<?php echo $t_data['category'] ?>"><small>#<?php echo $t_data['category'] ?></small></a></li>
-                                            <li class="list-inline-item"><small><?php echo format_date($t_data['date_created']) ?></small></li>
+                                            <li class="list-inline-item"><small class="text-muted"><?php echo format_date($t_data['date_created']) ?></small></li>
                                         </ul>    
                                     </div>
-                                    <h5 class="post-title mb-2 mt-3">
+                                    <h5 class="post-title mb-2 mt-1">
                                             <a href="viewpost.php?pid=<?php echo base64_encode($t_data['P_ID']) ?>">
                                             <?php 
                                             if (strlen($t_data['title']) > 50) {
@@ -214,27 +181,38 @@ $rand = rand();
                                             }
                                             else echo $t_data['title'] ?></a>
                                     </h5>
-                                    <p class="excerpt mb-0">
-                                        <?php echo substr($t_data['excerpt'], 0, 80)."..." ?>
-                                    </p>
+                                    
                                 </div>
                             </div>
                             <?php
                                 }
+                                echo "
+                                <a href='categories.php?gen=trending' class='text-decoration-underline'>View more &rsaquo;&rsaquo;</a>";
+                            }
+                            else{
+                                echo "<div class='col-sm-6 justify-content-center align-items-center'>
+                                <div class='d-flex justify-content-center align-items-center'>
+                                <lord-icon
+                                    src='https://cdn.lordicon.com/tdrtiskw.json'
+                                    trigger='loop'
+                                    colors='primary:#335fbe,secondary:#335fbe'
+                                    style='width:100px;height:100px'>
+                                </lord-icon>
+                                <h6 style='color: #203656;'>No posts here</h6>
+                                <a href='signup.php' class='btn btn-default'>Become a writer</a>
+                                </div>
+                                </div>";
                             }
                         }
                             ?>
-                            <div class="col-sm-6">
-                                <a href="categories.php?gen=trending" class="v-all">View more posts &rsaquo;&rsaquo;</a>
-                            </div>
+                            
                         </div> 
                         <div class="section-header mt-5">
                             <h3 class="section-title">Latest Posts</h3>
                         </div>
-                        <div class="row justify-content-center mt-4">
-                            <div class="col-sm-12">
-                            <?php
-                        $l_query = "SELECT P_ID, coverimg, W_email, title, category, excerpt, date_created FROM posts ORDER BY date_created DESC LIMIT 8";
+                        <div class="row">
+                        <?php
+                        $l_query = "SELECT P_ID, coverimg, W_email, title, category, excerpt, date_created FROM posts WHERE published = 'yes' ORDER BY date_created DESC LIMIT 4";
                         $l_res = $connection->query($l_query);
                         if ($l_res) {
                             $l_numrows = $l_res->num_rows;
@@ -244,40 +222,51 @@ $rand = rand();
                                    $l_data = $l_res->fetch_array(MYSQLI_ASSOC);
                                    $pw_details = get_writer_details($connection, $l_data['W_email']);
                             ?>
-                                <div class="hor-post mb-4">
-                                    <div class="p-img">
-                                        <a href="viewpost.php?pid=<?php echo base64_encode($l_data['P_ID']) ?>"><img decoding="async" class="ipost-img" src="<?php echo $l_data['coverimg']."?randomurl=$rand" ?>" alt=""></a>
+                            <div class="col-sm-6 mb-3">
+                                <div class="post">
+                                    <a href="viewpost.php?pid=<?php echo base64_encode($l_data['P_ID']) ?>"><img decoding="async" class="ipost-img" src="<?php echo $l_data['coverimg']."?randomurl=$rand" ?>" alt=""></a>
+                                    <div class="user mt-2">
+                                        <ul class="list-inline" style="list-style-type: square !important;">
+                                            <li class="list-inline-item"><a href="profile.php?wid=<?php echo base64_encode($pw_details['email']) ?>" target="_blank"><img class="user-img" src="<?php echo $pw_details['profilepic']."?randomurl=$rand" ?>" alt=""></a></li>
+                                            <li class="list-inline-item"><a href="profile.php?wid=<?php echo base64_encode($pw_details['email']) ?>" target="_blank"><small><?php echo "@".substr($pw_details['firstname'], 0, 1).".".$pw_details['lastname'] ?></small></a></li>
+                                            <li class="list-inline-item"><a href="categories.php?cat=<?php echo $l_data['category'] ?>"><small>#<?php echo $l_data['category'] ?></small></a></li>
+                                            <li class="list-inline-item"><small class="text-muted"><?php echo format_date($l_data['date_created']) ?></small></li>
+                                        </ul>    
                                     </div>
-                                    <div class="p-details">
-                                        <div class="user mt-2">
-                                            <ul class="meta list-inline" style="list-style-type: square;">
-                                                <li class="list-inline-item"><a href="profile.php?wid=<?php echo base64_encode($pw_details['email']) ?>" target="_blank"><img class="user-img" src="<?php echo $pw_details['profilepic']."?randomurl=$rand" ?>" alt=""></a></li>
-                                                <li class="list-inline-item"><a href="profile.php?wid=<?php echo base64_encode($pw_details['email']) ?>" target="_blank"><small><?php echo substr($pw_details['firstname'], 0, 1).". ".$pw_details['lastname'] ?></small></a></li>
-                                                <li class="list-inline-item"><a href="categories.php?cat=<?php echo $l_data['category'] ?>" target="_blank"><small>#<?php echo $l_data['category'] ?></small></a></li>
-                                                <li class="list-inline-item"><small><?php echo format_date($l_data['date_created']) ?></small></li>
-                                            </ul>    
-                                        </div>
-                                        <h5 class="post-title mb-2">
-                                                <a href="viewpost.php?pid=<?php echo base64_encode($l_data['P_ID']) ?>">
-                                                <?php 
-                                                if (strlen($l_data['title']) > 50) {
-                                                    echo substr($l_data['title'], 0, 50)."...";
-                                                }
-                                            else echo $l_data['title'] ?></a></a>
-                                        </h5>
-                                        <p class="excerpt mb-0">
-                                           <?php echo substr($l_data['excerpt'], 0, 80)."..." ?>
-                                        </p>
-                                    </div>
+                                    <h5 class="post-title mb-2 mt-1">
+                                            <a href="viewpost.php?pid=<?php echo base64_encode($l_data['P_ID']) ?>">
+                                            <?php 
+                                            if (strlen($l_data['title']) > 50) {
+                                                echo substr($l_data['title'], 0, 50)."...";
+                                            }
+                                            else echo $l_data['title'] ?></a>
+                                    </h5>
+                                    
                                 </div>
-                                <?php
+                            </div>
+                            <?php
                                 }
+                                echo "
+                                <a href='categories.php?gen=latest' class='text-decoration-underline'>View more &rsaquo;&rsaquo;</a>";
+                            }
+                            else{
+                                echo "<div class='col-sm-6 justify-content-center align-items-center'>
+                                <div class='d-flex justify-content-center align-items-center'>
+                                <lord-icon
+                                    src='https://cdn.lordicon.com/tdrtiskw.json'
+                                    trigger='loop'
+                                    colors='primary:#335fbe,secondary:#335fbe'
+                                    style='width:100px;height:100px'>
+                                </lord-icon>
+                                <h6 style='color: #203656;'>No posts here</h6>
+                                <a href='signup.php' class='btn btn-default'>Become a writer</a>
+                                </div>
+                                </div>";
                             }
                         }
                             ?>
-                            <a href="categories.php?gen=latest" class="mt-5 v-all">View more posts &rsaquo;&rsaquo;</a>
-                            </div>
-                        </div>
+                            
+                        </div> 
                     </div>
 
                     
@@ -304,7 +293,7 @@ $rand = rand();
                                     <h3 class="widget-title">Tag Clouds</h3>
                                 </div>
                                 <div class="widget-content">
-                                    <a href="categories.php?tag=cooking" class="tag">#Cooking</a>
+                                    <a href="categories.php?tag=softwar" class="tag">#Software</a>
                                     <a href="categories.php?tag=fashion" class="tag">#Fashion</a>
                                     <a href="categories.php?tag=finance" class="tag">#Finance</a>
                                     <a href="categories.php?tag=business" class="tag">#business</a>
@@ -316,56 +305,7 @@ $rand = rand();
                 </div>
             </div>
         </section>
-        <footer>
-            <div class="container-xl">
-                <div class="footer-inner">
-                    <div class="row d-flex align-items-center gy-4">
-                        <div class="col-md-4">
-                            <span class="copyright">&copy; 2021 Edulearn</span>
-                        </div>
-                        <div class="col-md-4 text-center">
-                            <ul class="social-icons list-unstyled list-inline mb-0">
-                                <li class="list-inline-item">
-                                    <a href="#">
-                                        <i class="fab fa-facebook-f"></i>
-                                    </a>
-                                </li>
-                                <li class="list-inline-item">
-                                    <a href="#">
-                                        <i class="fab fa-instagram"></i>
-                                    </a>
-                                </li>
-                                <li class="list-inline-item">
-                                    <a href="#">
-                                        <i class="fab fa-whatsapp"></i>
-                                    </a>
-                                </li>
-                                <li class="list-inline-item">
-                                    <a href="#">
-                                        <i class="fab fa-telegram"></i>
-                                    </a>
-                                </li>
-                                <li class="list-inline-item">
-                                    <a href="#">
-                                        <i class="fab fa-linkedin"></i>
-                                    </a>
-                                </li>
-                            </ul>
-                        </div>
-                        <div class="col-md-4">
-                            <a href="#" id="return-to-top" class="float-md-end">
-                                <i class="icon-arrow-up"></i>
-                                Back to Top
-                            </a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </footer>
-
-
-
-
+        <?php include 'footer.php' ?>
     </div>
 
 
@@ -378,7 +318,7 @@ $rand = rand();
         </div>
         <nav>
             <ul class="vertical-menu">
-                <li class="active"><a href="index.php">Home</a></li>
+                <li class="active"><a href="index">Home</a></li>
                 <li>
                     <a href="#">Categories</a>
                     <ul class="submenu">
@@ -393,7 +333,7 @@ $rand = rand();
                                     $cat_res->data_seek($i);
                                     $cat_data = $cat_res->fetch_array(MYSQLI_ASSOC);
                                     echo "<li>
-                                    <a href='categories.php?cat=$cat_data[category]'>$cat_data[category]</a>
+                                    <a href='categories?cat=$cat_data[category]'>$cat_data[category]</a>
                                     </li>";
                                 }
                             }
@@ -401,11 +341,11 @@ $rand = rand();
                     ?>
                     </ul>
                 </li>
-                <li><a href="#">About Us</a></li>
+                <li><a href="#">About</a></li>
                 <li><a href="#">Contact</a></li>
-                <li><a href="login.php">Login</a></li>
+                <li><a href="login">Login</a></li>
                 <li>
-                    <a href="signup.php" class="btn btn-default text-light">Become a writer</a>
+                    <a href="signup" class="btn btn-default text-light">Become a writer</a>
                 </li>
             </ul>
         </nav>
@@ -439,79 +379,11 @@ $rand = rand();
 
     <!-- javascripts  -->
     <script src="js/jquery.min.js"></script>
-    <script src="js/popper.min.js"></script>
-    <script src="js/bootstrap.min.js"></script>
-    <script src="js/slick.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js" integrity="sha384-7+zCNj/IqJ95wo16oMtfsKbZ9ccEh31eOz1HGyDuCQ6wgnyJNSYdrPa03rtR1zdB" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js" integrity="sha384-QJHtvGhmr9XOIpI6YVutG+2QOK9T+ZnN4kzFN1RtK3zEFEIsxhlmWl5/YESvpZ13" crossorigin="anonymous"></script>
     <script src="js/jquery.sticky-sidebar.min.js"></script>
     <script src="js/main.js"></script>
-    <script>
-        $(document).ready(function(){
-            $("#sub-btn").click(function(e) {
-                e.preventDefault();
-                var email = $("#sub-email").val()
-                if (email == "") {
-                    Swal.fire({
-                        title: 'Error!',
-                        text: "Field is required",
-                        icon: 'error',
-                    })
-                } 
-                else{
-                    $.ajax({
-                        type: 'POST',
-                        url: 'addsub.php',
-                        data: { subemail: email }
-                    }).done(function(msg) {
-                        if (msg == "Subscription successful") {
-                            Swal.fire({
-                            title: 'Success!',
-                            text: msg,
-                            icon: 'success',
-                            })   
-                        }
-                        else{
-                            Swal.fire({
-                            title: 'Error!',
-                            text: msg,
-                            icon: 'error',
-                            })   
-                        }
-                    }).fail(function(msg){
-                        Swal.fire({
-                            title: 'Error!',
-                            text: "Error in connection",
-                            icon: 'error',
-                        })
-                    })
-                }
-            })
-
-            $("#mysearch").keyup(function(e){
-                e.preventDefault()
-                value = $("#mysearch").val()
-                if (value != "") {
-                    $("#res_card").removeClass("d-none")
-                    $.ajax({
-                        type: 'POST',
-                        url: 'searchlogic.php',
-                        data: {search: value}
-                    }).done(function(val){
-                            // console.log(val)
-                            $(".list-group").html(val)                        
-                    }).fail(function(e){
-                        Swal.fire({
-                            title: 'Error!',
-                            text: "Error in connection",
-                            icon: 'error',
-                        })
-                    })
-                }
-                else{
-                    $("#res_card").addClass("d-none")
-                }
-            })
-        })
-    </script>
+    <script src="js/general.js"></script>
 </body>
 
 </html>

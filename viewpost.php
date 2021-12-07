@@ -5,12 +5,23 @@ include 'functions.php';
 
 $pid = "";
 $rand = rand();
+$selector = "";
+
+//Check if user is logged in
+if (isset($_SESSION['w_email'])) {
+    $selector = $_SESSION['w_email'];
+}
+
 
 if (isset($_GET['pid'])) {
     $pid = check_string($connection, base64_decode($_GET['pid']));
 }
+//Get post details
 $post_details = get_post_details($connection, $pid);
+//Get post creator details
 $writer_details = get_writer_details($connection, $post_details['W_email']);
+//Get user details
+$user_details = get_writer_details($connection, $selector);
 
 
 ?>
@@ -19,7 +30,13 @@ $writer_details = get_writer_details($connection, $post_details['W_email']);
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="description" content="<?php echo substr($post_details['excerpt'],0,40)."..." ?>">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta property="og:title" content="<?php echo $post_details['title'] ?>" />
+    <meta property="og:type" content="article" />
+    <meta property="og:image" content="<?php echo $post_details['coverimg']."?randomurl=$rand" ?>" />
+    <meta property="og:url" content="https://bobblenote.com/viewpost?pid=<?php echo $_GET['pid'] ?>" />
+    <meta property="og:description" content="<?php echo substr($post_details['excerpt'],0,40)."..." ?>">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous">
     <title><?php echo $post_details['title'] ?></title>
     <link rel="stylesheet" href="css/bootstrap.min.css">
@@ -27,71 +44,13 @@ $writer_details = get_writer_details($connection, $post_details['W_email']);
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/simple-line-icons/2.5.5/css/simple-line-icons.min.css">
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <link rel="stylesheet" href="css/prism.css">
     <link rel="stylesheet" href="css/viewpost.css">
     </head>
 <body>
-    <header class="header-default">
-        <nav class="navbar navbar-expand-lg">
-            <div class="container-xl">
-                <!-- logo  -->
-                <a href="index.php" class="navbar-brand">
-                    <img src="images/logo.svg" alt="">
-                </a>
-
-                <div class="collapse navbar-collapse">
-                    <ul class="navbar-nav mr-auto">
-                        <li class="nav-item">
-                            <a href="index.php" class="nav-link">Home</a>
-                        </li>
-                        <li class="nav-item dropdown">
-                            <a href="#" class="nav-link dropdown-toggle">Categories</a>
-                            <ul class="dropdown-menu">
-                            <?php
-                                        //snippet to select categories
-                                        $cat_query = "SELECT category FROM categories";
-                                        $cat_res = $connection->query($cat_query);
-                                        if ($cat_res) {
-                                            $cat_numrows = $cat_res->num_rows;
-                                            if ($cat_numrows >= 1) {
-                                               for ($i=0; $i < $cat_numrows; $i++) { 
-                                                  $cat_res->data_seek($i);
-                                                  $cat_data = $cat_res->fetch_array(MYSQLI_ASSOC);
-                                                  echo "<li>
-                                                  <a href='categories.php?cat=$cat_data[category]' class='dropdown-item'>$cat_data[category]</a>
-                                                    </li>";
-                                               }
-                                            }
-                                        }
-                                    ?>
-                            </ul>
-                        </li>
-                        <li class="nav-item">
-                            <a href="#" class="nav-link">About Us</a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="#" class="nav-link">Contact</a>
-                        </li>
-                        
-                    </ul>
-                </div>
-
-                <!-- right side of header  -->
-                <div class="header-right">
-                    <!-- buttons  -->
-                    <div class="header-buttons">
-                        <a href="login.php" class="btn btn-default btn-write">Login</a>
-                        <a href="signup.php" class="btn btn-default btn-write">Become a writer</a>
-                        <button class="search icon-button">
-                            <i class="icon-magnifier"></i>
-                        </button>
-                        <button class="burger-menu icon-button">
-                            <span class="burger-icon"></span>
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </nav>
-    </header>
+    <!-- Navbar component -->
+    <?php include 'header.php'; ?>
+    <!-- End of navbar component -->
     <div class="container">
         <div class="row">
             <div class="col-md-8">
@@ -128,11 +87,18 @@ $writer_details = get_writer_details($connection, $post_details['W_email']);
                             <span class="d-none" id="postid" data-id="<?php echo $pid ?>" data-likes="<?php echo $post_details['no_of_likes'] ?>"></span>
                             </div>
                             <div class="section-share">
-                                <a href="#" class="share-link"><i class="fab fa-facebook"></i></a>
-                                <a title="share to twitter" href="#" class="share-link"><i class="fab fa-twitter"></i></a>
-                                <a href="#" class="share-link"><i class="fab fa-instagram"></i></a>
-                                <a href="#" class="share-link"><i class="fab fa-telegram"></i></a>
-                                <a href="#" class="share-link"><i class="fab fa-whatsapp"></i></a>
+                                <!-- AddToAny BEGIN -->
+                                <div class="a2a_kit a2a_kit_size_32 a2a_default_style" data-a2a-icon-color="#335fbe">
+                                <!-- <a class="a2a_dd" href="https://www.addtoany.com/share"></a> -->
+                                <a class="a2a_button_facebook"></a>
+                                <a class="a2a_button_twitter"></a>
+                                <a class="a2a_button_linkedin"></a>
+                                <a class="a2a_button_whatsapp"></a>
+                                <a class="a2a_button_telegram"></a>
+                                <a class="a2a_button_email"></a>
+                                </div>
+                                <script async src="https://static.addtoany.com/menu/page.js"></script>
+                                <!-- AddToAny END -->
                             </div>
                         </div>
                         <div class="comments-section">
@@ -140,7 +106,8 @@ $writer_details = get_writer_details($connection, $post_details['W_email']);
                             <p>Add a comment</p>
                             <form>
                                 <div class="form-group">
-                                    <input type="text" id="name" class="form-control" placeholder="Full Name">
+                                    <!-- <label for="">(<small><strong>Note:</strong> Go to settings to change name</small>)</label> -->
+                                    <input type="hidden" id="name" class="form-control" readonly value="<?php echo $user_details['firstname']." ".$user_details['lastname'] ?>">
                                     <input type="text" id="prev_val" value="<?php echo $post_details['no_of_comments']; ?>" class="form-control" hidden>
                                     <input type="text" id="pid" value="<?php echo $post_details['P_ID']; ?>" hidden>
                                 </div>
@@ -149,7 +116,9 @@ $writer_details = get_writer_details($connection, $post_details['W_email']);
                                     <Textarea class="form-control" id="comment" placeholder="Share your thoughts..." rows="5"></Textarea>
                                 </div>
                                 <div class="mt-3 sub-btn">
-                                    <button class="btn btn-default" id="btn-com">Submit</button>
+                                    <button class="btn btn-default <?php if ($selector == "") {
+                                        echo "disabled";
+                                    } ?>" id="btn-com">Submit</button>
                                 </div>
                             </form>
                         </div>
@@ -210,52 +179,7 @@ $writer_details = get_writer_details($connection, $post_details['W_email']);
             </div>
         </div>
     </div>
-    <footer>
-        <div class="container-xl">
-            <div class="footer-inner">
-                <div class="row d-flex align-items-center gy-4">
-                    <div class="col-md-4">
-                        <span class="copyright">&copy; 2021 Acutelearn</span>
-                    </div>
-                    <div class="col-md-4 text-center">
-                        <ul class="social-icons list-unstyled list-inline mb-0">
-                            <li class="list-inline-item">
-                                <a href="#">
-                                    <i class="fab fa-facebook-f"></i>
-                                </a>
-                            </li>
-                            <li class="list-inline-item">
-                                <a href="#">
-                                    <i class="fab fa-instagram"></i>
-                                </a>
-                            </li>
-                            <li class="list-inline-item">
-                                <a href="#">
-                                    <i class="fab fa-pinterest"></i>
-                                </a>
-                            </li>
-                            <li class="list-inline-item">
-                                <a href="#">
-                                    <i class="fab fa-itunes"></i>
-                                </a>
-                            </li>
-                            <li class="list-inline-item">
-                                <a href="#">
-                                    <i class="fab fa-youtube"></i>
-                                </a>
-                            </li>
-                        </ul>
-                    </div>
-                    <div class="col-md-4">
-                        <a href="#" id="return-to-top" class="float-md-end">
-                            <i class="icon-arrow-up"></i>
-                            Back to Top
-                        </a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </footer>
+    <?php include 'footer.php' ?>
 
     <!-- canvas menu  -->
     <div class="canvas-menu d-flex align-items-end flex-column">
@@ -327,77 +251,23 @@ $writer_details = get_writer_details($connection, $post_details['W_email']);
 
     
         <script src="js/jquery.min.js"></script>
-        <script src="js/popper.min.js"></script>
-        <script src="js/bootstrap.min.js"></script>
-        <script src="js/slick.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js" integrity="sha384-7+zCNj/IqJ95wo16oMtfsKbZ9ccEh31eOz1HGyDuCQ6wgnyJNSYdrPa03rtR1zdB" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js" integrity="sha384-QJHtvGhmr9XOIpI6YVutG+2QOK9T+ZnN4kzFN1RtK3zEFEIsxhlmWl5/YESvpZ13" crossorigin="anonymous"></script>
         <script src="js/jquery.sticky-sidebar.min.js"></script>
         <script src="js/main.js"></script>
+        <script src="js/general.js"></script>
+        <script src="js/prism.js"></script>
         <script>
             $(document).ready(function(){
-
-                //Snippet to check if a session has been created
+                
+                //Snippet to check if a user is logged in
                 var check = "check"
                 $.ajax({
                     type: 'POST',
                     url: 'readersession.php',
                     data: {check: check}
                 }).done(function(msg){
-                    if (msg == "false") {
-                        Swal.fire({
-                            title: 'Start session',
-                            icon: 'info',
-                            allowOutsideClick: false,
-                            allowEscapeKey: false,
-                            closeOnClickOutside: false,
-                            closeOnEsc: false,
-                            html: `<small>Session allows us to keep track of the posts you like.<br>To start your session please verify your email. <br> <strong>Note: </strong>Ensure your email is valid.</small><br>
-                            <input type="email" id="email" class="swal2-input mb-1" placeholder="Email address...">
-                            `,
-                            confirmButtonText: 'Start session',
-                            focusConfirm: false,
-                            preConfirm: () => {
-                                const email = Swal.getPopup().querySelector('#email').value
-                                if (!email) {
-                                    Swal.showValidationMessage(`Please enter a valid email address`)
-                                }
-                                return { email: email }
-                            }
-                            }).then((result) => {
-                                    email = result.value.email
-                                    $.ajax({
-                                        type: 'POST',
-                                        url: 'readersession.php',
-                                        data: {v_email: email}
-                                    }).done(function(msg){
-                                        if (msg == "session started") {
-                                            Swal.fire({
-                                            title: 'Success!',
-                                            text: msg,
-                                            icon: 'success',
-                                            showCancelButton: false
-                                            }).then((result) => {
-                                                if (result.isConfirmed) {
-                                                    location.reload()
-                                                }
-                                            })
-                                        }
-                                        else{
-                                            Swal.fire(
-                                            'Error!',
-                                            msg,
-                                            'error'
-                                            )
-                                        }
-                                    }).fail(function(){
-                                        Swal.fire(
-                                        'Error!',
-                                         'Error in connection',
-                                        'error'
-                                        )
-                                    })
-                                })
-                    }
-                    else{
+                    if (msg == "true") {
                         var pid = $("#postid").attr('data-id');
                         var likebtn = $("#likebtn")
                         $.ajax({
@@ -410,10 +280,11 @@ $writer_details = get_writer_details($connection, $post_details['W_email']);
                             }
                         }).fail(function(msg){
                             console.log("error occured")
-                        })
+                        })   
                     }
                 })
-                
+                //End of snippet to check if user is logged in
+
                 //Snippet to like post
                 var likebtn = $("#likebtn")
                 likebtn.click(function(e){
@@ -426,10 +297,23 @@ $writer_details = get_writer_details($connection, $post_details['W_email']);
                             url: 'addlike.php',
                             data: {pid: pid, prev_val: prev_val}
                         }).done(function(val){
-                            if (val != "Error in connection!") {
+                            if (val != "Error in connection!" && val != "not logged in") {
                                 likebtn.addClass("liked")
                                 likebtn.html("<i class='far fa-thumbs-up'></i>&nbsp; "+val)
                                 $("#postid").attr('data-likes', val)
+                            }
+                            else if(val == "not logged in"){
+                                Swal.fire({
+                                title: 'Sorry!',
+                                text: "You're not logged in. Login to like post!",
+                                icon: 'warning',
+                                showCancelButton: false,
+                                confirmButtonText: 'Login'
+                                }).then((result) => {
+                                if (result.isConfirmed) {
+                                    location.replace("login.php")
+                                }
+                                })
                             }
                         }).fail(function(){
                             console.log("Error in connection")
@@ -443,60 +327,30 @@ $writer_details = get_writer_details($connection, $post_details['W_email']);
                             url: 'remlike.php',
                             data: {pid: pid, prev_val: prev_val}
                         }).done(function(val){
-                            if (val != "Error in connection!") {
+                            if (val != "Error in connection!" && val != "not logged in") {
                                 likebtn.removeClass("liked")
                                 likebtn.html("<i class='far fa-thumbs-up'></i>&nbsp; "+val)
                                 $("#postid").attr('data-likes', val)
+                            }
+                            else if(val == "not logged in"){
+                                Swal.fire({
+                                title: 'Warning!',
+                                text: "You're not logged in",
+                                icon: 'warning',
+                                showCancelButton: false
+                                }).then((result) => {
+                                if (result.isConfirmed) {
+                                    location.replace("login.php")
+                                }
+                                })
                             }
                         }).fail(function(){
                             console.log("Error in connection")
                         })
                     }
                 })
-
-
-                //snippet to subscribe to newsletter
-                $("#sub-btn").click(function(e) {
-                    e.preventDefault();
-                    var email = $("#sub-email").val()
-                    if (email == "") {
-                        Swal.fire({
-                            title: 'Error!',
-                            text: "Field is required",
-                            icon: 'error',
-                        })
-                    } 
-                    else{
-                        $.ajax({
-                            type: 'POST',
-                            url: 'addsub.php',
-                            data: { subemail: email }
-                        }).done(function(msg) {
-                            if (msg == "Subscription successful") {
-                                Swal.fire({
-                                title: 'Success!',
-                                text: msg,
-                                icon: 'success',
-                                })   
-                            }
-                            else{
-                                Swal.fire({
-                                title: 'Error!',
-                                text: msg,
-                                icon: 'error',
-                                })   
-                            }
-                        }).fail(function(msg){
-                            Swal.fire({
-                                title: 'Error!',
-                                text: "Error in connection",
-                                icon: 'error',
-                            })
-                        })
-                    }
-                })
-                //end of snippet
-
+                //End of snippet to like post
+                
                 //snippet to add a comment
                 $("#btn-com").click(function(e){
                     e.preventDefault()
@@ -537,6 +391,19 @@ $writer_details = get_writer_details($connection, $post_details['W_email']);
                                 }
                                 })   
                             }
+                            else if(msg == "not logged in"){
+                                Swal.fire({
+                                title: 'Warning!',
+                                text: "You're not logged in. Login to comment on this post!",
+                                icon: 'warning',
+                                showCancelButton: false,
+                                confirmButtonText: 'Login'
+                                }).then((result) => {
+                                if (result.isConfirmed) {
+                                    location.replace("login.php")
+                                }
+                                })
+                            }
                             else{
                                 Swal.fire({
                                 title: 'Error!',
@@ -554,31 +421,6 @@ $writer_details = get_writer_details($connection, $post_details['W_email']);
                     }
                 })
                 //End of snippet
-
-                $("#mysearch").keyup(function(e){
-                e.preventDefault()
-                value = $("#mysearch").val()
-                if (value != "") {
-                    $("#res_card").removeClass("d-none")
-                    $.ajax({
-                        type: 'POST',
-                        url: 'searchlogic.php',
-                        data: {search: value}
-                    }).done(function(val){
-                            // console.log(val)
-                            $(".list-group").html(val)                        
-                    }).fail(function(e){
-                        Swal.fire({
-                            title: 'Error!',
-                            text: "Error in connection",
-                            icon: 'error',
-                        })
-                    })
-                }
-                else{
-                    $("#res_card").addClass("d-none")
-                }
-            })
             })
         </script>
 </body>
