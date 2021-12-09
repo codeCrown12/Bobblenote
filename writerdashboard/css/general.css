@@ -119,6 +119,51 @@ button:focus {
 .u-name-one, .u-name-two{
     font-weight: bolder !important;
 }
+     /* Style the tab */
+     .tab {
+        overflow: hidden;
+        border-bottom: 1px solid #dee2e6;
+        background-color: #fff;
+      }
+      
+      /* Style the buttons that are used to open the tab content */
+      .tab button {
+        background-color: inherit;
+        float: left;
+        border: none;
+        outline: none;
+        cursor: pointer;
+        padding: 10px;
+        transition: 0.3s;
+        font-size: 15px;
+      }
+      
+      /* Change background color of buttons on hover */
+      .tab button:hover {
+        background-color: #d8d8d8;
+      }
+      
+      /* Create an active/current tablink class */
+      .tab button.active-tab {
+        color: #335fbe;
+        border-bottom: 2px solid #335fbe;
+      }
+      
+      /* Style the tab content */
+      .tabcontent {
+        display: none;
+        padding: 1px;
+      }
+      
+      .tabcontent {
+        animation: fadeEffect 1s; /* Fading effect takes 1 second */
+      }
+      
+      /* Go from zero to full opacity */
+      @keyframes fadeEffect {
+        from {opacity: 0;}
+        to {opacity: 1;}
+      }
 footer {
     margin-top: 50px;
 }

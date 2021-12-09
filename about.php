@@ -101,7 +101,7 @@ $user_details = get_writer_details($connection, $selector);
                         <img src="images/posts/insp-1.jpg" class="card-img-top rounded-0 w-100" alt="...">
                         <div class="card-body p-2">
                             <h6 class="card-title mt-1 mb-1">John Doe</h6>
-                            <p class="m-0">CEO / Co-Founder</p>
+                            <p class="m-0">Lead Developer</p>
                             <div class="team-socials">
                                 <a href="#"><i class="fab fa-twitter"></i></a>
                                 <a href="#"><i class="fab fa-telegram"></i></a>
@@ -115,7 +115,7 @@ $user_details = get_writer_details($connection, $selector);
                         <img src="images/posts/insp-1.jpg" class="card-img-top rounded-0 w-100" alt="...">
                         <div class="card-body p-2">
                             <h6 class="card-title mt-1 mb-1">John Doe</h6>
-                            <p class="m-0">CTO / Co-Founder</p>
+                            <p class="m-0">Developer</p>
                             <div class="team-socials">
                                 <a href="#"><i class="fab fa-twitter"></i></a>
                                 <a href="#"><i class="fab fa-telegram"></i></a>
@@ -129,7 +129,7 @@ $user_details = get_writer_details($connection, $selector);
                         <img src="images/posts/insp-1.jpg" class="card-img-top rounded-0 w-100" alt="...">
                         <div class="card-body p-2">
                             <h6 class="card-title mt-1 mb-1">John Doe</h6>
-                            <p class="m-0">Manager</p>
+                            <p class="m-0">Designer</p>
                             <div class="team-socials">
                                 <a href="#"><i class="fab fa-twitter"></i></a>
                                 <a href="#"><i class="fab fa-telegram"></i></a>

@@ -102,15 +102,6 @@ $rand = rand();
               </div>
               <div class="card-body">
                 <div class="row">
-                <!-- <div class="col-sm-5">
-                      <div class="d-flex justify-content-center">
-                        <div class="d-block">
-                          <p class="text-center m-0"><img src="images/Card Payment_Outline.svg" alt="" width="300px"></p>
-                          <h5 class="text-center">Make Payment</h5>
-                          <p class="text-center fst-italic">Lorem ipsum dolor sit amet consectetur adipisicing elit. Necessitatibus, vero.</p>
-                        </div>
-                      </div>
-                  </div> -->
                   <div class="col-sm-12">
                       <form action="">
                           <div class="mb-3"><p class="mb-1">Payment Gateway</p><img src="images/1200px-Paystack_Logo.png" width="150px" alt=""></div>
@@ -133,7 +124,7 @@ $rand = rand();
                             <input type="number" id="awardees_no" class="form-control" placeholder="E.g 3">
                             <button class="btn btn-default mt-2" id="gen_fields">Specify prizes</button>
                           </div>
-                          <p id="gen_inst" style="display: none;">Please input individual prizes of the awardees starting from highest award to lowest. <br><small><strong>Note: </strong>The sum of all the amounts inputed must be equal to your deposit minus the 10% fee.</small></p>
+                          <p id="gen_inst" style="display: none;">Please input individual prizes of the awardees starting from highest award to lowest. <br><small><strong>Note: </strong>The sum of all the amounts inputed must <strong>not</strong> be greater than your deposit minus the 10% fee.</small></p>
                           <div id="awards_form"></div>
                           <button class="btn btn-success" type="submit" name="btn_pay" id="btn_pay" style="display: none;">Proceed to payment <i class="fas fa-paper-plane"></i></button>
                         </form>

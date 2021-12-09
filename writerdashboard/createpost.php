@@ -27,7 +27,7 @@
     
     //snippet to save as draft
     if (isset($_POST['save'])) {
-        $newimg = "";
+        $newimg = "images/posts/insp-1.jpg";
 
         //Get the value from the text input fields
         $title = check_string($connection, $_POST['title']);
@@ -66,15 +66,16 @@
                 $excerpt = substr($content_txt, 0, 150);
 
                 //upload image to server
-                $newimg = "images/posts/insp-1.jpg";
-                $query = "INSERT INTO posts (W_email, coverimg, title, category, tags, content, excerpt, published) VALUES (?,?,?,?,?,?,?,?)";
+                // $newimg = "images/posts/insp-1.jpg";
+                $date = date('Y-m-d');
+                $query = "INSERT INTO posts (W_email, coverimg, title, category, tags, content, excerpt, published, date_created) VALUES (?,?,?,?,?,?,?,?,?)";
                 $ins_result = $connection->prepare($query);
-                $ins_result->bind_param("ssssssss", $selector, $newimg, $title, $category, $tags_stripped, $content, $excerpt, $published);
+                $ins_result->bind_param("sssssssss", $selector, $newimg, $title, $category, $tags_stripped, $content, $excerpt, $published, $date);
                 if ($ins_result->execute()) {
                     $msg = "<div class='alert alert-success alert-dismissible fade show mt-2' role='alert'>
-                Post saved to drafts successfully! You can edit all the post details and publish later.
-                <button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button>
-            </div>";
+                    Post saved to drafts successfully! You can edit all the post details and publish later.
+                    <button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button>
+                    </div>";
                 } else {
                     unlink($newimg);
                     $msg = "<div class='alert alert-danger alert-dismissible fade show mt-2' role='alert'>
@@ -126,9 +127,10 @@
 
             //upload image to server
             $newimg = "images/posts/".$selector.date('Y-m-d').rand().".png";
-            $query = "INSERT INTO posts (W_email, coverimg, title, category, tags, content, excerpt, published) VALUES (?,?,?,?,?,?,?,?)";
+            $date = date('Y-m-d');
+            $query = "INSERT INTO posts (W_email, coverimg, title, category, tags, content, excerpt, published, date_created) VALUES (?,?,?,?,?,?,?,?,?)";
             $ins_result = $connection->prepare($query);
-            $ins_result->bind_param("ssssssss", $selector, $newimg, $title, $category, $tags_stripped, $content, $excerpt, $published);
+            $ins_result->bind_param("sssssssss", $selector, $newimg, $title, $category, $tags_stripped, $content, $excerpt, $published, $date);
             if ($ins_result->execute()) {
                 move_uploaded_file($_FILES['coverimg']['tmp_name'], "../".$newimg);
                 $msg = "<div class='alert alert-success alert-dismissible fade show mt-2' role='alert'>
@@ -282,17 +284,15 @@
                   </form>
               </div>
               <div class="col-sm-4">
-                <div class="card mt-5">
-                    <div class="card-header text-center bg-white">
-                    <a href="https://www.crowndidactic.com" target="_blank">
-                    <img src="../images/crownEdLogo.png" style="object-fit: cover;" width="80%" alt="">
-                    </a>
-                    </div>
-                    <div class="card-body">
-                    <p class="text-center">Advertise your school with crowndidactic. Sign up! for <strong>free</strong> and enjoy our sweet features.</p>
-                    <a style="width: 100%;" href="https://www.crowndidactic.com/register" target="_blank" class="btn btn-default">Sign up</a>  
-                  </div>
+              <div class="card mt-5">
+                <div class="card-header text-center bg-white p-3">
+                   <h5 class="card-title m-0 text-dark">Start a competition 🏆!</h5>
                 </div>
+                <div class="card-body">
+                  <p class="text-center text-dark">Host article/essay writing competitions on our platform easily and seamlessly !</p>
+                  <a style="width: 100%;" href="writerdashboard/mycompetitions.php" target="_blank" class="btn btn-dark">Start a competition</a>
+                </div>
+              </div>
                 <div class="guidelines mt-4">
                     <p>
                         <h4 class="text-center" style="color: #203656;">Tips for using the editor</h4>

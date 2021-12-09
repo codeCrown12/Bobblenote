@@ -26,59 +26,17 @@ $rand = rand();
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>My competitions</title>
     <link rel="stylesheet" href="../css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.11.3/css/dataTables.bootstrap5.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
     <link rel="stylesheet" href="css/general.css">
     <style>
       small{
         font-size: 12px;
       }
-     /* Style the tab */
-.tab {
-  overflow: hidden;
-  border-bottom: 1px solid #dee2e6;
-  background-color: #fff;
-}
 
-/* Style the buttons that are used to open the tab content */
-.tab button {
-  background-color: inherit;
-  float: left;
-  border: none;
-  outline: none;
-  cursor: pointer;
-  padding: 10px;
-  transition: 0.3s;
-  font-size: 15px;
-}
-
-/* Change background color of buttons on hover */
-.tab button:hover {
-  background-color: #d8d8d8;
-}
-
-/* Create an active/current tablink class */
-.tab button.active-tab {
-  color: #335fbe;
-  border-bottom: 2px solid #335fbe;
-}
-
-/* Style the tab content */
-.tabcontent {
-  display: none;
-  padding: 1px;
-}
-
-.tabcontent {
-  animation: fadeEffect 1s; /* Fading effect takes 1 second */
-}
-
-/* Go from zero to full opacity */
-@keyframes fadeEffect {
-  from {opacity: 0;}
-  to {opacity: 1;}
-}
 .comp-item{
   display: flex;
+  justify-content: center;
 }
 .comp-logo{
   margin-right: 10px;
@@ -87,6 +45,11 @@ $rand = rand();
   width: 80px;
   border-radius: 50%;
   /* border: 1px solid #ccc; */
+  background-color: #02b50b;
+  height: 80px; 
+  width: 80px; 
+  font-size: 40px; 
+  font-weight: bold;
 }
 .comp-txts{
   display: flex;
@@ -94,7 +57,7 @@ $rand = rand();
   border-bottom: 1px solid #dee2e6;
 }
 .comp-info{
-  width: 80%;
+  width: 85%;
   margin-right: 10px;
 }
 .comp-date{
@@ -184,8 +147,8 @@ $rand = rand();
                   <div class="tab">
                       <button class="tablinks active-tab" onclick="viewSetting(event, 'start-comp')">Start Competition</button>
                       <button class="tablinks" onclick="viewSetting(event, 'enrollments')">My Enrollments</button>
-                      <button class="tablinks" onclick="viewSetting(event, 'history')">History</button>
                       <button class="tablinks" onclick="viewSetting(event, 'organized')">My Competitions</button>
+                      <button class="tablinks" onclick="viewSetting(event, 'history')">Transactions</button>
                   </div>
                           
                    <!-- Tab content -->
@@ -199,13 +162,7 @@ $rand = rand();
                           <div class="d-flex justify-content-center"><p class="text-center m-0"><img width="400px" src="images/Winners_Outline.svg" alt=""></p></div>
                           <h3 class="text-center">Get started on your competition</h3>
                           <p class="text-center text-muted fst-italic">Lorem ipsum dolor sit amet consectetur adipisicing elit. Ab, provident? Non, dolor!</p>
-                          <!-- <ul class="guide-ul">
-                            <li>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Vel, iste?</li>
-                            <li>Lorem, ipsum dolor elit. Vel, iste?</li>
-                            <li>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Vel, iste?</li>
-                            <li>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Vel, iste?</li>
-                            <li>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Sapiente, autem fuga! Voluptates.</li>
-                          </ul> -->
+                          <div class="d-flex justify-content-center"><a href="#" class="btn btn-default" target="_blank">Learn More</a></div>
                         </div>
                       </div>
                       <div class="col-sm-7">
@@ -248,7 +205,7 @@ $rand = rand();
 
                    <!-- Enrollments -->
                   <div id="enrollments" class="tabcontent">
-                    <div class="d-flex justify-content-center">
+                    <!-- <div class="d-flex justify-content-center">
                       <div class="d-block">
                         <p class="text-center m-0"><img src="images/Winner _Outline.svg" width="250px" alt=""></p>
                         <h6 class="text-center">
@@ -256,12 +213,76 @@ $rand = rand();
                         </h6>
                         <p class="text-center"><a href="#" class="btn btn-default text-center">Search competitions</a></p>
                       </div>
+                    </div> -->
+                    <div class="mt-4">
+                    <div class="comp-item mb-3">
+                          <div class="comp-logo">
+                            <div class="comp-logo-img d-flex justify-content-center align-items-center text-light">P</div>
+                          </div>
+                          <div class="comp-txts">
+                            <div class="comp-info">
+                              <h6 class="m-0">Penactive competition</h6>
+                              <small style="color: #06ad03;"><i class="far fa-calendar-check"></i> Active</small> - 
+                              <small class="text-muted comp-date">Joined on: Sep 20 2021</small>
+                              <p class="mt-1 comp-desc mb-1">Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsam sint delectus culpa dolorum velit, sequi dignissimos numquam odio esse soluta...</p>
+                              <!-- <a href="#" class="text-decoration-underline">View article</a> -->
+                            </div>
+                            <div class="comp-action">
+                              <a href="#" class="btn btn-default btn-sm">View Info</a>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="comp-item mb-3">
+                          <div class="comp-logo">
+                            <div class="comp-logo-img d-flex justify-content-center align-items-center text-light">P</div>
+                          </div>
+                          <div class="comp-txts">
+                            <div class="comp-info">
+                              <h6 class="m-0">Penactive competition</h6>
+                              <small style="color: #cc0e00;"><i class="far fa-calendar-times"></i> Disqualified</small> -
+                              <small class="text-muted comp-date">Joined on: Sep 20 2021</small>
+                              <p class="mt-1 comp-desc mb-1">Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsam sint delectus culpa dolorum velit, sequi dignissimos numquam odio esse soluta...</p>
+                              <!-- <a href="#" class="text-decoration-underline">View article</a> -->
+                            </div>
+                            <div class="comp-action">
+                              <a href="#" class="btn btn-default btn-sm">View Info</a>
+                            </div>
+                          </div>
+                        </div>
                     </div>
                   </div>
                   
                   <!-- History -->
                   <div class="tabcontent" id="history">
-
+                  <div class="table-responsive mt-3">
+                            <table class="table table-striped table-hover" id="example" style="font-size: 14px;">
+                                <thead>
+                                    <tr>
+                                        <th>#T_ID</th>
+                                        <th>Type</th>
+                                        <th>Narration</th>
+                                        <th>Amount</th>
+                                        <th>Date</th>
+                                        <th></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <?php
+                                        for ($i=0; $i < 10; $i++) {
+                                            ?>
+                                    <tr>
+                                        <td><?php echo $i ?></td>
+                                        <td>Credit</td>
+                                        <td>Winner prize</td>
+                                        <td>10000</td>
+                                        <td>2011-04-25</td>
+                                        <td><a href="#" class="btn btn-sm btn-success" title="Print receipt">Receipt <i class="fas fa-print"></i></a></td>
+                                    </tr>
+                                        <?php
+                                        } ?>
+                                </tbody>
+                            </table>
+                        </div>
                   </div>
 
                   <!-- Competitions -->
@@ -280,14 +301,15 @@ $rand = rand();
                     <div class="mt-4">
                     <div class="comp-item mb-3">
                           <div class="comp-logo">
-                            <img class="comp-logo-img" src="../images/other/default_dp.svg" alt="">
+                            <div class="comp-logo-img d-flex justify-content-center align-items-center text-light">P</div>
                           </div>
                           <div class="comp-txts">
                             <div class="comp-info">
                               <h6 class="m-0">Penactive competition</h6>
                               <small style="color: #06ad03;"><i class="far fa-calendar-check"></i> Ongoing</small> - 
                               <small class="text-muted comp-date">Created on: Sep 20 2021</small>
-                              <p class="mt-1 comp-desc">Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsam sint delectus culpa dolorum velit, sequi dignissimos numquam odio esse soluta...</p>
+                              <p class="mt-1 comp-desc mb-1">Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsam sint delectus culpa dolorum velit, sequi dignissimos numquam odio esse soluta...</p>
+                              <a href="#" class="text-decoration-underline">See articles</a>
                             </div>
                             <div class="comp-action">
                               <a href="managecompetition.php" class="btn btn-default btn-sm">Manage</a>
@@ -296,14 +318,15 @@ $rand = rand();
                         </div>
                         <div class="comp-item mb-3">
                           <div class="comp-logo">
-                            <img class="comp-logo-img" src="../images/other/default_dp.svg" alt="">
+                            <div class="comp-logo-img d-flex justify-content-center align-items-center text-light">P</div>
                           </div>
                           <div class="comp-txts">
                             <div class="comp-info">
                               <h6 class="m-0">Penactive competition</h6> 
                               <small style="color: #cc0e00;"><i class="far fa-calendar-times"></i> Concluded</small> -
                               <small class="text-muted comp-date">Created on: Sep 20 2021</small>
-                              <p class="mt-1 comp-desc">Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsam sint delectus culpa dolorum velit, sequi dignissimos numquam odio esse soluta...</p>
+                              <p class="mt-1 comp-desc mb-1">Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsam sint delectus culpa dolorum velit, sequi dignissimos numquam odio esse soluta...</p>
+                              <a href="#" class="text-decoration-underline">See articles</a>
                             </div>
                             <div class="comp-action">
                               <a href="#" class="btn btn-default btn-sm">Manage</a>
@@ -325,10 +348,15 @@ $rand = rand();
         <script src="../js/jquery.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js" integrity="sha384-eMNCOe7tC1doHpGoWe/6oMVemdAVTMs2xqW4mwXrXsW0L84Iytr2wi5v2QjrP/xp" crossorigin="anonymous"></script>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.min.js" integrity="sha384-cn7l7gDp0eyniUwwAZgrzD06kc/tftFf19TOAs2zVinnD/C7E91j9yyk5//jjpt/" crossorigin="anonymous"></script>
-        <!-- <script src="https://unpkg.com/slick-loader@1.1.20/slick-loader.min.js"></script> -->
+        <script src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.min.js"></script>
+        <script src="https://cdn.datatables.net/1.11.3/js/dataTables.bootstrap5.min.js"></script>
         <script src="https://cdn.tiny.cloud/1/0h01t537dv5w80phd2kb1873sfhpg9mg6ek7ckr1aly3myzy/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
         <script src="js/general.js"></script>
         <script>
+           $(document).ready(function() {
+            $('#example').DataTable();
+            $('#example1').DataTable();
+        } );
           tinymce.init({
           selector: 'textarea#desc',
           height: 170,

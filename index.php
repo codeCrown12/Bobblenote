@@ -116,15 +116,34 @@ $user_details = get_writer_details($connection, $selector);
                         </div>
                     </div>
                     <div class="col-lg-4">
+                        <?php
+                            if ($selector == "") {
+                                ?>
                         <div class="card mt-3">
                             <div class="card-header text-center bg-white">
                             <h5>Become a writer ✍️!</h5>
                             </div>
                             <div class="card-body">
-                            <p class="text-center text-dark">Join one of the fastest rising content sharing platforms in Africa and start contributing to the body of knowledge!</p>
-                             <a style="width: 100%;" href="signup.php" target="_blank" class="btn btn-dark">Become a writer</a>
+                            <p class="text-center text-dark">Join one of the fastest rising content sharing platforms in Africa!</p>
+                             <a style="width: 100%;" href="signup.php" target="_blank" class="btn btn-dark">Create an account</a>
                           </div>
                         </div>
+                        <?php
+                            }
+                            else{
+                        ?>
+                        <div class="card mt-3">
+                            <div class="card-header text-center bg-white">
+                            <h5>Start a competition 🏆!</h5>
+                            </div>
+                            <div class="card-body">
+                            <p class="text-center text-dark">Host article/essay writing competitions on our platform easily and seamlessly !</p>
+                             <a style="width: 100%;" href="writerdashboard/mycompetitions.php" target="_blank" class="btn btn-dark">Start a competition</a>
+                          </div>
+                        </div>
+                        <?php
+                            }
+                        ?>
                         <div class="card mt-3">
                             <div class="card-header text-center bg-white">
                             <a href="https://www.crowndidactic.com" target="_blank">

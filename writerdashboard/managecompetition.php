@@ -27,6 +27,7 @@ $rand = rand();
     <title>Manage competition</title>
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <link rel="stylesheet" href="../css/bootstrap.min.css">
+    <script src="https://cdn.lordicon.com/libs/mssddfmo/lord-icon-2.1.0.js"></script>
     <link rel="stylesheet" href="https://cdn.datatables.net/1.11.3/css/dataTables.bootstrap5.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
     <link rel="stylesheet" href="css/general.css">
@@ -97,24 +98,78 @@ $rand = rand();
         </div>
       </nav>
       <!-- my navigation bars end here -->
-      <div class="container">
+      <div class="container mt-5">
+          <div class="row">
+            <div class="col-md-12">
+              <div class="alert alert-warning" role="alert">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-exclamation-triangle-fill flex-shrink-0 me-2" viewBox="0 0 16 16" role="img" aria-label="Warning:">
+                <path d="M8.982 1.566a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767L8.982 1.566zM8 5c.535 0 .954.462.9.995l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 5.995A.905.905 0 0 1 8 5zm.002 6a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"/>
+              </svg>
+                <strong>Notice!</strong> This competition has expired. Please update the start date and end date of your competetion via the 'Edit details' button and <a href="#" class="text-decoration-underline">Renew!</a>
+              </div>
+            </div>
+          </div>
           <div class="row">
               <div class="col-md-7">
                   <!-- <h4 class="">Penactive Competition</h4> -->
-                  <div class="card mt-5">
+                  <div class="row">
+                    <div class="col-sm-6">
+                      <div class="card">
+                      <div class="card-body d-flex align-items-center">
+                          <div>
+                            <h4>175</h4>
+                            <p class="mb-0">Verified participants</p>
+                          </div>
+                          <div class="ms-auto" style="width: fit-content;">
+                            <lord-icon
+                                src="https://cdn.lordicon.com/imamsnbq.json"
+                                trigger="loop"
+                                colors="primary:#335fbe,secondary:#335fbe"
+                                style="width:70px;height:70px">
+                            </lord-icon>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-sm-6">
+                    <div class="card">
+                        <div class="card-body d-flex align-items-center">
+                          <div>
+                            <h4>55</h4>
+                            <p class="mb-0">Pending participants</p>
+                          </div>
+                          <div class="ms-auto" style="width: fit-content;">
+                            <lord-icon
+                                src="https://cdn.lordicon.com/kbtmbyzy.json"
+                                trigger="loop"
+                                colors="primary:#335fbe,secondary:#335fbe"
+                                style="width:70px;height:70px">
+                            </lord-icon>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="card mt-3">
                     <div class="card-header p-3 bg-white">
                         <h5 class="m-0">Participants</h5>
                     </div>
                     <div class="card-body">
+                      <!-- Tab links -->
+                        <div class="tab mb-4">
+                            <button class="tablinks active-tab" onclick="viewSetting(event, 'pending')">Pending <i class="far fa-clock"></i></button>
+                            <button class="tablinks" onclick="viewSetting(event, 'accepted')">Verified <i class="fas fa-check-double"></i></button>
+                            <button class="tablinks" onclick="viewSetting(event, 'leaderboard')">LeaderBoard <i class="fas fa-trophy"></i></button>
+                        </div>
+                        <div id="accepted" class="tabcontent">
                         <div class="table-responsive">
                             <table class="table table-striped table-hover" id="example">
                                 <thead>
                                     <tr>
-                                        <th>Name</th>
-                                        <th>Office</th>
-                                        <th>Age</th>
-                                        <th>Start date</th>
-                                        <th></th>
+                                        <th>First Name</th>
+                                        <th>Last Name</th>
+                                        <th>Email</th>
+                                        <th>Join date</th>
                                         <th></th>
                                         <th></th>
                                     </tr>
@@ -124,11 +179,10 @@ $rand = rand();
                                         for ($i=0; $i < 10; $i++) {
                                             ?>
                                     <tr>
-                                        <td>Tiger Nixon</td>
-                                        <td>Edinburgh</td>
-                                        <td>61</td>
-                                        <td>2011/04/25</td>
-                                        <td><small style="color: #06ad03;"><i class="fas fa-check-double"></i> Confirmed</small></td>
+                                        <td>King</td>
+                                        <td>Jacob</td>
+                                        <td>kingsjacobfrancis@gmail.com</td>
+                                        <td>2011-04-25</td>
                                         <td><a href="#" class="btn btn-sm btn-danger" title="Disqualify"><i class="fas fa-trash-alt"></i></a></td>
                                         <td><a href="#" class="btn btn-sm btn-success" title="send email"><i class="far fa-envelope"></i></a></td>
                                     </tr>
@@ -137,16 +191,82 @@ $rand = rand();
                                 </tbody>
                             </table>
                         </div>
+                        </div>      
+                        <div id="pending" class="tabcontent" style="display: block;">
+                        <div class="table-responsive">
+                            <table class="table table-striped table-hover" id="example1">
+                                <thead>
+                                    <tr>
+                                        <th>First Name</th>
+                                        <th>Last Name</th>
+                                        <th>Email</th>
+                                        <!-- <th>Join date</th> -->
+                                        <th></th>
+                                        <!-- <th></th> -->
+                                        <th></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <?php
+                                        for ($i=0; $i < 10; $i++) {
+                                            ?>
+                                    <tr>
+                                        <td>King</td>
+                                        <td>Jacob</td>
+                                        <td>kingsjacobfrancis@gmail.com</td>
+                                        <!-- <td>2011-04-25</td> -->
+                                        <td><a href="#" class="btn btn-sm btn-default" title="Confirm">verify</a></td>
+                                        <!-- <td><a href="#" class="btn btn-sm btn-danger" title="Disqualify"><i class="fas fa-trash-alt"></i></a></td> -->
+                                        <td><a href="#" class="btn btn-sm btn-success" title="send email"><i class="far fa-envelope"></i></a></td>
+                                    </tr>
+                                        <?php
+                                        } ?>
+                                </tbody>
+                            </table>
+                        </div>
+                        </div>   
+                        <div id="leaderboard" class="tabcontent">
+                        <div class="table-responsive">
+                            <table class="table table-striped table-hover" id="example1">
+                                <thead>
+                                    <tr>
+                                        <th>NB</th>
+                                        <th>First Name</th>
+                                        <th>Last Name</th>
+                                        <th>Email</th>
+                                        <th>Votes</th>
+                                        <th></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <?php
+                                        for ($i=0; $i < 10; $i++) {
+                                            ?>
+                                    <tr>
+                                        <td><?php echo $i ?></td>
+                                        <td>King</td>
+                                        <td>Jacob</td>
+                                        <td>kingsjacobfrancis@gmail.com</td>
+                                        <td>100</td>
+                                        <td><a href="#" title="View post">View article</a></td>
+                                    </tr>
+                                        <?php
+                                        } ?>
+                                </tbody>
+                            </table>
+                        </div>
+                        </div>
                         </div>  
                         <div class="card-footer bg-white">
-                            <a href="#" class="btn btn-success">Email all confirmed</a>
-                            <a href="#" class="btn btn-primary">Email all pending</a>
-                            <a href="#" class="btn btn-default">See winners</a>
+                            <a href="#" class="btn btn-success" title="Email all verified"><i class="far fa-envelope"></i> Verified</a>
+                            <a href="#" class="btn btn-warning" title="Email all pending"><i class="far fa-envelope"></i> Pending</a>
+                            <a href="#" class="btn btn-default">Verify all</a>
+                            <a href="#" class="btn btn-success disabled">Request payout <i class="fas fa-paper-plane"></i></a>
                         </div>
                   </div>
               </div>
               <div class="col-md-5">
-                  <div class="card mt-5">
+                  <div class="card">
                       <div class="card-header p-3 bg-white d-flex align-items-center">
                           <h5 class="card-title m-0">Details</h5>
                           <button class="btn btn-default ms-auto" data-bs-toggle="modal" data-bs-target="#details">Edit Details</button>
@@ -204,15 +324,32 @@ $rand = rand();
                 <div class="modal-dialog modal-dialog-scrollable">
                 <div class="modal-content">
                     <div class="modal-header">
-                      <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                      <h5 class="modal-title" id="exampleModalLabel">Edit Details</h5>
                       <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
-                      ...
+                    <form action="">
+                        <div class="mb-3">
+                          <label for="" class="mb-2">Competition Name</label>
+                          <input type="text" class="form-control" placeholder="e.g Penactive competition">
+                        </div>
+                        <div class="mb-3">
+                          <label for="" class="mb-2">Description</label>
+                          <textarea name="" id="desc" class="form-control"></textarea>
+                        </div>
+                        <div class="mb-3">
+                          <label for="" class="mb-2">Requirements<br><small>(Should be in a list format)</small></label>
+                          <textarea name="" id="req" class="form-control"></textarea>
+                        </div>
+                        <div class="mb-3">
+                          <label for="" class="mb-2">Rules<br><small>(Should be in a list format)</small></label>
+                          <textarea name="" id="rules" class="form-control"></textarea>
+                        </div>
+                        <button class="btn btn-default">Save changes</button>
+                      </form>
                     </div>
                     <div class="modal-footer">
                       <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                      <button type="button" class="btn btn-primary">Save changes</button>
                     </div>
                   </div>
                 </div>
@@ -226,10 +363,40 @@ $rand = rand();
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.min.js" integrity="sha384-cn7l7gDp0eyniUwwAZgrzD06kc/tftFf19TOAs2zVinnD/C7E91j9yyk5//jjpt/" crossorigin="anonymous"></script>
     <script src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/1.11.3/js/dataTables.bootstrap5.min.js"></script>
+    <script src="https://cdn.tiny.cloud/1/0h01t537dv5w80phd2kb1873sfhpg9mg6ek7ckr1aly3myzy/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
+    <script src="js/general.js"></script>
     <script>
         $(document).ready(function() {
             $('#example').DataTable();
+            $('#example1').DataTable();
         } );
+        tinymce.init({
+          selector: 'textarea#desc',
+          height: 170,
+          plugins: [
+            'emoticons paste'
+            ],
+            toolbar: 'insertfile undo redo | bold italic | fullpage | emoticons',
+            menubar: ''
+       });
+       tinymce.init({
+          selector: 'textarea#req',
+          height: 170,
+          plugins: [
+            'emoticons paste lists'
+            ],
+            toolbar: 'insertfile undo redo | bold italic | fullpage | bullist | emoticons',
+            menubar: ''
+       });
+       tinymce.init({
+          selector: 'textarea#rules',
+          height: 170,
+          plugins: [
+            'emoticons paste lists'
+            ],
+            toolbar: 'insertfile undo redo | bold italic | fullpage | bullist | emoticons',
+            menubar: ''
+       });
     </script>
 </body>
 </html>

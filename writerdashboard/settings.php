@@ -460,7 +460,16 @@ if(isset($_POST['updpass'])){
                 </div>
               </div>
               <div class="col-sm-4">
-                <div class="card mt-3 mt-lg-0">
+              <div class="card">
+                <div class="card-header text-center bg-white p-3">
+                   <h5 class="card-title m-0 text-dark">Start a competition 🏆!</h5>
+                </div>
+                <div class="card-body">
+                  <p class="text-center text-dark">Host article/essay writing competitions on our platform easily and seamlessly !</p>
+                  <a style="width: 100%;" href="writerdashboard/mycompetitions.php" target="_blank" class="btn btn-dark">Start a competition</a>
+                </div>
+              </div>
+                <div class="card mt-3">
                   <div class="card-header text-center bg-white">
                   <a href="https://www.crowndidactic.com" target="_blank">
                   <img src="../images/crownEdLogo.png" style="object-fit: cover;" width="80%" alt="">
@@ -476,14 +485,14 @@ if(isset($_POST['updpass'])){
       </div>
       <!-- Modal -->
   <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
+    <div class="modal-dialog modal-dialog-scrollable">
       <div class="modal-content">
         <div class="modal-header">
           <h5 class="modal-title" id="exampleModalLabel"><i class="fas fa-pen-square"></i> Edit profile</h5>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
-        <form action="settings.php" method="POST" enctype="multipart/form-data">
             <div class="modal-body">
+            <form action="settings.php" method="POST" enctype="multipart/form-data">
               <div class="img-div mt-1 mb-3" style="display: flex; justify-content: center;">
                 <div class="img-cover">
                   <img id="img-prev" src="<?php echo "../".$profile_img ?>?randomurl=<?php $rand ?>" class="dp-img-lg" alt="">
@@ -496,29 +505,34 @@ if(isset($_POST['updpass'])){
               <h6 class="mb-2">General information</h6>
               <div class="row g-2">
                 <div class="col">
+                  <label for="">First Name</label>
                   <input name="fname" type="text" class="form-control" value="<?php echo $details['firstname'] ?>" placeholder="First name">
                 </div>
                 <div class="col">
+                  <label for="">Last Name</label>
                   <input name="lname" type="text" value="<?php echo $details['lastname'] ?>" class="form-control" placeholder="Last name">
                 </div>
               </div>
                 <div class="row mt-1 g-2">
                   <div class="col">
+                    <label for="">Mobile</label>
                     <input name="mobile" type="tel" value="<?php echo $details['mobile'] ?>" class="form-control" placeholder="Phone number">
                   </div>
                   <div class="col">
+                    <label for="">Date of birth</label>
                     <input name="dob" type="text" value="<?php echo $details['dob'] ?>" class="form-control" placeholder="Date of birth" aria-label="Date of birth" onfocus="this.type='date'" onfocusout="this.type='text'">
                   </div>
                 </div>
                 <div class="form-group mt-3">
+                  <label for="">Bio</label>
                   <textarea name="bio" id="bios" cols="30" rows="5" class="form-control" placeholder="Edit bio"><?php echo $details['bio'] ?></textarea>
                 </div>
+                <button name="save" type="submit" class="btn btn-default mt-2">Save changes</button>
+                </form>
                </div>
                <div class="modal-footer">
                  <button type="button" class="btn btn-dark" data-bs-dismiss="modal">Close</button>
-                 <button name="save" type="submit" class="btn btn-default">Save changes</button>
                </div>
-        </form>
       </div>
     </div>
   </div>
@@ -538,7 +552,7 @@ $(document).ready(function(){
                 Swal.fire({
                   title: 'Are you sure?',
                   icon: 'warning',
-                  html: `<small>Deleting your account will remove all your personal data and this action is irreversible. To proceed please enter your password.</small><input type="password" id="password" class="swal2-input mb-1" placeholder="Enter password...">`,
+                  html: `<small>Deleting your account will remove all your personal data and this action is irreversible.</small><input type="password" id="password" class="swal2-input mb-1" placeholder="Enter password...">`,
                   confirmButtonText: 'Verify password',
                   focusConfirm: false,
                   preConfirm: () => {

@@ -114,6 +114,10 @@ $user_details = get_writer_details($connection, $selector);
                                     <li class="list-inline-item"><a href="#" target="_blank" class="text-dark"><small>Penactive group</small></a></li>
                                 </ul>    
                             </div>
+                            <div class="duration">
+                                <h6>Duration</h6>
+                                <p>Sep 26 2021 - February 26 2022</p>
+                            </div>
                             <div class="description">
                                 <h6>Description</h6>
                                 <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Excepturi fuga libero eaque voluptas reprehenderit non repellendus deleniti ipsa asperiores quos nisi, placeat blanditiis explicabo cumque? Autem in eveniet neque enim.</p>
@@ -143,10 +147,6 @@ $user_details = get_writer_details($connection, $selector);
                                     <li>Position 4 prize: $95,000</li>
                                     <li>Position 5 prize: $90,000</li>
                                 </ul>
-                            </div>
-                            <div class="duration">
-                                <h6>Duration</h6>
-                                <p>Sep 26 2021 - February 26 2022</p>
                             </div>
                             <div class="tage">
                                 <h6>Tag</h6>

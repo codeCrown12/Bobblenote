@@ -78,7 +78,8 @@
                                         </li>
                                         <li><hr class="dropdown-divider"></li>
                                         <li><a href='writerdashboard/home.php' class='dropdown-item'>Dashboard</a></li>
-                                        <li><a href='writerdashboard/createpost.php' class='dropdown-item'>Create Post</a></li>
+                                        <li><a href='writerdashboard/createpost.php' class='dropdown-item'>Create post</a></li>
+                                        <li><a href='writerdashboard/mycompetitions.php' class='dropdown-item'>Start competition</a></li>
                                         <li><a href='writerdashboard/settings.php' class='dropdown-item'>settings</a></li>
                                         <li><hr class="dropdown-divider"></li>
                                         <li><a href='writerdashboard/logout.php' class='dropdown-item'>Sign out</a></li>

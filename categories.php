@@ -108,6 +108,15 @@ elseif (isset($_GET['gen']) && $_GET['gen'] == "latest") {
             </div>
             <div class="col-lg-4 col-md-12 mt-3">
             <div class="card">
+                <div class="card-header text-center bg-white p-3">
+                   <h5 class="card-title m-0 text-dark">Start a competition 🏆!</h5>
+                </div>
+                <div class="card-body">
+                  <p class="text-center text-dark">Host article/essay writing competitions on our platform easily and seamlessly !</p>
+                  <a style="width: 100%;" href="writerdashboard/mycompetitions.php" target="_blank" class="btn btn-dark">Start a competition</a>
+                </div>
+              </div>
+            <div class="card mt-3">
                             <div class="card-header text-center bg-white">
                             <a href="https://www.crowndidactic.com" target="_blank">
                             <img src="images/crownEdLogo.png" style="object-fit: cover;" width="80%" alt="">

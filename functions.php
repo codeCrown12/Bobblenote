@@ -211,9 +211,31 @@ function verifynewwriter($connection, $email){
     return true;
 }
 
-//Function to update writer email
+//Function to update writer email_key
 function upd_writer_email($connection, $email, $newemail){
     $query = "UPDATE writers SET email = ? WHERE email = '$email'";
+    $result = $connection->prepare($query);
+    $result->bind_param("s", $newemail);
+    if (!$result->execute()) {
+       return false;
+    }
+    return true;
+}
+
+//function to update posts email_key
+function upd_post_email($connection, $email, $newemail){
+    $query = "UPDATE writers SET W_email = ? WHERE email = '$email'";
+    $result = $connection->prepare($query);
+    $result->bind_param("s", $newemail);
+    if (!$result->execute()) {
+       return false;
+    }
+    return true;
+}
+
+//function to update likes email_key
+function upd_likes_email($connection, $email, $newemail){
+    $query = "UPDATE likes SET email = ? WHERE email = '$email'";
     $result = $connection->prepare($query);
     $result->bind_param("s", $newemail);
     if (!$result->execute()) {
