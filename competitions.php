@@ -27,7 +27,10 @@ $user_details = get_writer_details($connection, $selector);
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/simple-line-icons/2.5.5/css/simple-line-icons.min.css">
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <style>
-
+        .guideline{
+            width: 70%;
+            margin: auto;
+        }
     </style>
 </head>
 <body>
@@ -63,10 +66,10 @@ $user_details = get_writer_details($connection, $selector);
         </div>
     </div>
     <div class="container mt-4">
-        <div class="alert alert-info alert-dismissible fade show" role="alert">
+        <!-- <div class="alert alert-info alert-dismissible fade show" role="alert">
             <strong>Hello there!</strong> Learn more about competitions and our rules <a href="#" class="text-decoration-underline">Here</a>.
             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-        </div>
+        </div> -->
         <div class="row">
             <div class="col-md-6">
                 <div class="contents">
@@ -74,7 +77,7 @@ $user_details = get_writer_details($connection, $selector);
                         <div class="card-body">
                             <div class="d-flex mb-2">
                                 <div class="d-block">
-                                    <h5 class="card-title m-0">Penactive Competition</h5>
+                                    <h5 class="card-title m-0">Bobblenote Competition</h5>
                                     <p class="m-0">
                                         <small style="color: #06ad03;"><i class="far fa-calendar-check"></i> Ongoing</small> - 
                                         <small class="text-muted">Started on: Sep 26 2021</small>
@@ -91,69 +94,17 @@ $user_details = get_writer_details($connection, $selector);
                                 </div>                              
                             </div>
                             <p>Lorem ipsum dolo,erspiciatis blanditiis sint voluptatum autem beatae dignissimos perferendis reprehenderit. Hic doloribus nisi fugiat perspiciatis nam quo voluptatibus a, sed optio...</p>
+                            <button class="btn btn-default">View more</button>
                         </div>
                     </div>
                 </div>
             </div>
             <div class="col-md-6" style="position: relative;">
-                <div class="description" style="position: sticky; top: 70px;">
-                    <div class="card w-100">
-                        <div class="card-header">
-                            <div class="d-flex align-items-center">
-                                <h5 class="card-title me-2">
-                                    Penactive competition
-                                </h5>
-                                <button href="#" class="btn btn-default ms-auto">Join now</button>
-                            </div>
-                        </div>
-                        <div class="card-body" style="max-height: 500px; overflow-y: auto;">
-                            <h6>Organizer</h6>
-                            <div class="user mb-3">
-                                <ul class="list-inline" style="list-style-type: square !important;">
-                                    <li class="list-inline-item"><a href="#" target="_blank"><img class="user-img" src="images/other/default_dp.svg" alt=""></a></li>
-                                    <li class="list-inline-item"><a href="#" target="_blank" class="text-dark"><small>Penactive group</small></a></li>
-                                </ul>    
-                            </div>
-                            <div class="duration">
-                                <h6>Duration</h6>
-                                <p>Sep 26 2021 - February 26 2022</p>
-                            </div>
-                            <div class="description">
-                                <h6>Description</h6>
-                                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Excepturi fuga libero eaque voluptas reprehenderit non repellendus deleniti ipsa asperiores quos nisi, placeat blanditiis explicabo cumque? Autem in eveniet neque enim.</p>
-                            </div>
-                            <div class="requirements">
-                                <h6>Requirements</h6>
-                                <ul>
-                                    <li>Must be at least 18 years of age</li>
-                                    <li>Only one article per applicant is allowed</li>
-                                    <li>Lorem ipsum dolor sit amet consectetur ad</li>
-                                </ul>
-                            </div>
-                            <div class="rules">
-                            <h6>Rules</h6>
-                                <ul>
-                                    <li>Must be at least 18 years of age</li>
-                                    <li>Only one article per applicant is allowed</li>
-                                    <li>Lorem ipsum dolor sit amet consectetur ad</li>
-                                </ul>
-                            </div>
-                            <div class="awards">
-                                <h6>Awards</h6>
-                                <ul>
-                                    <li>Position 1 prize: $200,000</li>
-                                    <li>Position 2 prize: $150,000</li>
-                                    <li>Position 3 prize: $100,000</li>
-                                    <li>Position 4 prize: $95,000</li>
-                                    <li>Position 5 prize: $90,000</li>
-                                </ul>
-                            </div>
-                            <div class="tage">
-                                <h6>Tag</h6>
-                                <p><span style="color: #0044b3; font-weight: bold;">#penactive</span><br> <span>(Note: Please include this tag (without the '#' symbol) in the tags section when creating article you're writing for this competition)</span></p>
-                            </div>
-                        </div>
-                    </div>
+                <div class="guideline">
+                          <div class="d-flex justify-content-center"><p class="text-center m-0"><img width="400px" src="writerDashboard/images/Winners_Outline.svg" alt=""></p></div>
+                          <h3 class="text-center">Get started on your competition</h3>
+                          <p class="text-center text-muted fst-italic">Lorem ipsum dolor sit amet consectetur adipisicing elit. Ab, provident? Non, dolor!</p>
+                          <div class="d-flex justify-content-center"><a href="#" class="btn btn-default" target="_blank">Learn More</a></div>
                 </div>
             </div>
         </div>

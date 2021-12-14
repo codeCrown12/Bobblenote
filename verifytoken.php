@@ -27,7 +27,9 @@ if (isset($_POST['tokenbtn'])) {
     else{
         if ($_SESSION['action'] == 'updemail') {
             $update_email = upd_writer_email($connection, $_SESSION['curremail'], $_SESSION['newemail']);
-            if($update_email == true){
+            $upd_post_key = upd_post_email($connection, $_SESSION['curremail'], $_SESSION['newemail']);
+            $upd_likes_key = upd_likes_email($connection, $_SESSION['curremail'], $_SESSION['newemail']);
+            if($update_email == true && $upd_post_key == true && $upd_likes_key == true){
                 unset($_SESSION['curremail']);
                 unset($_SESSION['newemail']);
                 header( "Location: login.php");

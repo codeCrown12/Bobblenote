@@ -4,11 +4,22 @@ include '../functions.php';
 include '../connection.php';
 
 $selector = "";
+$msg = "";
+$pay_success = "";
+
+
 if ($_SESSION['w_email'] == "") {
   header("Location: ../login.php");
 }
 else{
   $selector = $_SESSION['w_email'];
+}
+
+if (isset($_GET['payment_success'])) {
+  $pay_success = "<div class='alert alert-success alert-dismissible fade show' role='alert'>
+  Competition created successfully! click <span class='text-decoration-underline'>'My Competitions'</span> tab to view
+  <button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button>
+</div>";
 }
 
 //snippet to get details
@@ -17,6 +28,63 @@ $fullname = $details['firstname']. " ". $details['lastname'];
 $profile_img = $details['profilepic'];
 $msg = "";
 $rand = rand();
+
+
+//Logic to create competition
+if (isset($_POST['create_comp'])) {
+  $name = check_string($connection, $_POST['name']);
+  $tag = check_string($connection, $_POST['tag']);
+  $description = $_POST['desc'];
+  $requirements = $_POST['req'];
+  $rules = $_POST['rules'];
+  $start_date = check_string($connection, $_POST['start_date']);
+  $end_date = check_string($connection, $_POST['end_date']);
+  $status = "pending";
+  
+
+  if ($name == "" || $tag == "" || $description == "" || $requirements == "" || $rules == "" || $start_date == "" || $end_date == "") {
+    $msg = "<div class='alert alert-danger alert-dismissible fade show' role='alert'>
+    All fields are required!
+    <button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button>
+  </div>";
+  }
+  elseif (tag_exists($connection, $tag)) {
+    $msg = "<div class='alert alert-danger alert-dismissible fade show' role='alert'>
+    Tag already used! please use another tag
+    <button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button>
+  </div>";
+  }
+  elseif ($start_date < date('m/d/Y')) {
+    $msg = "<div class='alert alert-danger alert-dismissible fade show' role='alert'>
+    Start date must be greater than or equal to today's date!
+    <button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button>
+  </div>";
+  }
+  elseif ($end_date <= $start_date) {
+    $msg = "<div class='alert alert-danger alert-dismissible fade show' role='alert'>
+    End date must be greater than start date!
+    <button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button>
+  </div>";
+  }
+  else{
+    $start_date = date_format(date_create($start_date), 'Y-m-d');
+    $end_date = date_format(date_create($end_date), 'Y-m-d');
+    $query = "INSERT INTO competitions (name, tag, comp_description, requirements, rules, start_date, end_date, u_email, comp_status) VALUES (?,?,?,?,?,?,?,?,?)";
+    $result = $connection->prepare($query);
+    $result->bind_param("sssssssss", $name, $tag, $description, $requirements, $rules, $start_date, $end_date, $selector, $status);
+    if ($result->execute()) {
+      $insert_id = $result->insert_id;
+      header("Location: payment.php?comp_id=$insert_id");
+    }
+    else{
+      $msg = "<div class='alert alert-danger alert-dismissible fade show' role='alert'>
+    Error in connection!
+    <button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button>
+  </div>";
+    }
+  }
+}
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -136,9 +204,14 @@ $rand = rand();
       <!-- my navigation bars end here -->
       <div class="container">
         <div class="row justify-content-center">
-          <div class="col-md-10">
+          <div class="col-md-10 mt-5">
             <!-- <h4 class="mt-5"><i class="fas fa-trophy"></i> Manage Competitions</h4> -->
-            <div class="card rounded-0 mt-5">
+            <?php
+              if ($pay_success != "") {
+                echo $pay_success;
+              }
+            ?>
+            <div class="card rounded-0">
                 <div class="card-header bg-white p-3">
                   <h5 class="card-title m-0"><i class="fas fa-trophy"></i> Competitions</h5>
                 </div>
@@ -166,44 +239,49 @@ $rand = rand();
                         </div>
                       </div>
                       <div class="col-sm-7">
-                        <form action="">
+                        <?php
+                          if ($msg != "") {
+                            echo $msg;
+                          }
+                        ?>
+                        <form action="mycompetitions.php" method="POST">
                         <div class="mb-3">
                           <label for="" class="mb-2">Competition Name</label>
-                          <input type="text" class="form-control" placeholder="e.g Penactive competition">
+                          <input type="text" class="form-control" name="name" placeholder="e.g Bobblenote competition">
                         </div>
                         <div class="mb-3">
                           <label for="" class="mb-2">Tag</label>
-                          <input type="text" class="form-control" placeholder="e.g Penactive">
+                          <input type="text" class="form-control" name="tag" placeholder="e.g Bobblenote">
                         </div>
                         <div class="mb-3">
                           <label for="" class="mb-2">Description</label>
-                          <textarea name="" id="desc" class="form-control"></textarea>
+                          <textarea id="desc" name="desc" class="form-control"></textarea>
                         </div>
                         <div class="mb-3">
                           <label for="" class="mb-2">Requirements<br><small>(Should be in a list format)</small></label>
-                          <textarea name="" id="req" class="form-control"></textarea>
+                          <textarea id="req" name="req" class="form-control"></textarea>
                         </div>
                         <div class="mb-3">
                           <label for="" class="mb-2">Rules<br><small>(Should be in a list format)</small></label>
-                          <textarea name="" id="rules" class="form-control"></textarea>
+                          <textarea id="rules" name="rules" class="form-control"></textarea>
                         </div>
                         <div class="row">
                           <div class="col-6">
                             <label for="">Start Date</label>
-                            <input type="date" class="form-control">
+                            <input type="date" name="start_date" class="form-control">
                           </div>
                           <div class="col-6">
                             <label for="">End Date</label>
-                            <input type="date" class="form-control">
+                            <input type="date" name="end_date" class="form-control">
                           </div>
                         </div>
-                        <a href="payment.php" class="btn btn-default mt-3">Save & continue</a>
+                        <button type="submit" name="create_comp" class="btn btn-default mt-3">Save & continue</button>
                       </form>
                       </div>
                     </div>
                   </div>
 
-                   <!-- Enrollments -->
+                   <!--My Enrollments -->
                   <div id="enrollments" class="tabcontent">
                     <!-- <div class="d-flex justify-content-center">
                       <div class="d-block">
@@ -217,12 +295,12 @@ $rand = rand();
                     <div class="mt-4">
                     <div class="comp-item mb-3">
                           <div class="comp-logo">
-                            <div class="comp-logo-img d-flex justify-content-center align-items-center text-light">P</div>
+                            <div class="comp-logo-img d-flex justify-content-center align-items-center text-light">B</div>
                           </div>
                           <div class="comp-txts">
                             <div class="comp-info">
-                              <h6 class="m-0">Penactive competition</h6>
-                              <small style="color: #06ad03;"><i class="far fa-calendar-check"></i> Active</small> - 
+                              <h6 class="m-0">Bobblenote competition</h6>
+                              <small style="color: #06ad03;"><i class="far fa-calendar-check"></i> Accepted</small> - 
                               <small class="text-muted comp-date">Joined on: Sep 20 2021</small>
                               <p class="mt-1 comp-desc mb-1">Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsam sint delectus culpa dolorum velit, sequi dignissimos numquam odio esse soluta...</p>
                               <!-- <a href="#" class="text-decoration-underline">View article</a> -->
@@ -234,11 +312,11 @@ $rand = rand();
                         </div>
                         <div class="comp-item mb-3">
                           <div class="comp-logo">
-                            <div class="comp-logo-img d-flex justify-content-center align-items-center text-light">P</div>
+                            <div class="comp-logo-img d-flex justify-content-center align-items-center text-light">B</div>
                           </div>
                           <div class="comp-txts">
                             <div class="comp-info">
-                              <h6 class="m-0">Penactive competition</h6>
+                              <h6 class="m-0">Bobblenote competition</h6>
                               <small style="color: #cc0e00;"><i class="far fa-calendar-times"></i> Disqualified</small> -
                               <small class="text-muted comp-date">Joined on: Sep 20 2021</small>
                               <p class="mt-1 comp-desc mb-1">Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsam sint delectus culpa dolorum velit, sequi dignissimos numquam odio esse soluta...</p>
@@ -252,7 +330,7 @@ $rand = rand();
                     </div>
                   </div>
                   
-                  <!-- History -->
+                  <!--Transaction History -->
                   <div class="tabcontent" id="history">
                   <div class="table-responsive mt-3">
                             <table class="table table-striped table-hover" id="example" style="font-size: 14px;">
@@ -285,7 +363,7 @@ $rand = rand();
                         </div>
                   </div>
 
-                  <!-- Competitions -->
+                  <!--My Competitions -->
                   <div id="organized" class="tabcontent">
                     <!-- <div class="d-flex justify-content-center">
                       <div class="d-block">
@@ -299,13 +377,21 @@ $rand = rand();
                       </div>
                     </div> -->
                     <div class="mt-4">
-                    <div class="comp-item mb-3">
+                      <?php
+                        /** Section to select all hosted competitions **/
+                          
+                          $hosted_query = "SELECT ";
+
+                        /** End of section to select all hosted competitions **/
+                      
+                      ?>
+                      <div class="comp-item mb-3">
                           <div class="comp-logo">
-                            <div class="comp-logo-img d-flex justify-content-center align-items-center text-light">P</div>
+                            <div class="comp-logo-img d-flex justify-content-center align-items-center text-light">B</div>
                           </div>
                           <div class="comp-txts">
                             <div class="comp-info">
-                              <h6 class="m-0">Penactive competition</h6>
+                              <h6 class="m-0">Bobblenote competition</h6>
                               <small style="color: #06ad03;"><i class="far fa-calendar-check"></i> Ongoing</small> - 
                               <small class="text-muted comp-date">Created on: Sep 20 2021</small>
                               <p class="mt-1 comp-desc mb-1">Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsam sint delectus culpa dolorum velit, sequi dignissimos numquam odio esse soluta...</p>
@@ -315,24 +401,8 @@ $rand = rand();
                               <a href="managecompetition.php" class="btn btn-default btn-sm">Manage</a>
                             </div>
                           </div>
-                        </div>
-                        <div class="comp-item mb-3">
-                          <div class="comp-logo">
-                            <div class="comp-logo-img d-flex justify-content-center align-items-center text-light">P</div>
-                          </div>
-                          <div class="comp-txts">
-                            <div class="comp-info">
-                              <h6 class="m-0">Penactive competition</h6> 
-                              <small style="color: #cc0e00;"><i class="far fa-calendar-times"></i> Concluded</small> -
-                              <small class="text-muted comp-date">Created on: Sep 20 2021</small>
-                              <p class="mt-1 comp-desc mb-1">Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsam sint delectus culpa dolorum velit, sequi dignissimos numquam odio esse soluta...</p>
-                              <a href="#" class="text-decoration-underline">See articles</a>
-                            </div>
-                            <div class="comp-action">
-                              <a href="#" class="btn btn-default btn-sm">Manage</a>
-                            </div>
-                          </div>
-                        </div>
+                      </div>
+                      <?php ?>
                     </div>
                   </div>
                 </div>

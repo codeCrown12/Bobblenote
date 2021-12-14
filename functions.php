@@ -293,4 +293,42 @@ function count_photos($connection, $email){
         return "Error";
     }
 }
+
+//function to add transaction
+function add_transaction($connection, $amount, $type, $credit, $debit){
+    $query = "INSERT INTO transactions (type, credit, debit, amount) VALUES (?,?,?,?)";
+    $result = $connection->prepare($query);
+    $result->bind_param("sssi", $type, $credit, $debit, $amount);
+    if ($result->execute()) {
+        return true;
+    }
+    return false;
+}
+
+//function to check if tag exists
+function tag_exists($connection, $tag){
+    $query = "SELECT tag FROM competitions WHERE tag = '$tag'";
+    $result = $connection->query($query);
+    $rows = $result->num_rows;
+    if ($rows >= 1) {
+        return true;
+    }
+    return false;
+}
+
+//function to generate color
+function gen_color($num){
+    if ($num == 1) {
+        return "#d4243b";
+    }
+    elseif ($num == 2) {
+        return "#1a30d9";
+    }
+    elseif ($num == 3) {
+        return "#06ad03";
+    }
+    else{
+        return "#333336";
+    }
+}
 ?>

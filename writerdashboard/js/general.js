@@ -1,5 +1,6 @@
   //function for nav-tabs
   function viewSetting(evt, setting) {
+    evt.preventDefault()
     // Declare all variables
     var tabcontent, tablinks;
 

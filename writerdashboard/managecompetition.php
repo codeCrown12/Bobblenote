@@ -105,7 +105,7 @@ $rand = rand();
               <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-exclamation-triangle-fill flex-shrink-0 me-2" viewBox="0 0 16 16" role="img" aria-label="Warning:">
                 <path d="M8.982 1.566a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767L8.982 1.566zM8 5c.535 0 .954.462.9.995l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 5.995A.905.905 0 0 1 8 5zm.002 6a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"/>
               </svg>
-                <strong>Notice!</strong> This competition has expired. Please update the start date and end date of your competetion via the 'Edit details' button and <a href="#" class="text-decoration-underline">Renew!</a>
+                <strong>Notice!</strong> This competition has expired/concluded and can no longer be seen by prospective participants. Please <a href="#" class="text-decoration-underline">Renew!</a>
               </div>
             </div>
           </div>
@@ -113,12 +113,12 @@ $rand = rand();
               <div class="col-md-7">
                   <!-- <h4 class="">Penactive Competition</h4> -->
                   <div class="row">
-                    <div class="col-sm-6">
+                    <div class="col-sm-4">
                       <div class="card">
                       <div class="card-body d-flex align-items-center">
                           <div>
                             <h4>175</h4>
-                            <p class="mb-0">Verified participants</p>
+                            <p class="mb-0">Verified</p>
                           </div>
                           <div class="ms-auto" style="width: fit-content;">
                             <lord-icon
@@ -131,16 +131,34 @@ $rand = rand();
                         </div>
                       </div>
                     </div>
-                    <div class="col-sm-6">
+                    <div class="col-sm-4">
                     <div class="card">
                         <div class="card-body d-flex align-items-center">
                           <div>
                             <h4>55</h4>
-                            <p class="mb-0">Pending participants</p>
+                            <p class="mb-0">Pending</p>
                           </div>
                           <div class="ms-auto" style="width: fit-content;">
                             <lord-icon
                                 src="https://cdn.lordicon.com/kbtmbyzy.json"
+                                trigger="loop"
+                                colors="primary:#335fbe,secondary:#335fbe"
+                                style="width:70px;height:70px">
+                            </lord-icon>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-sm-4">
+                    <div class="card">
+                        <div class="card-body d-flex align-items-center">
+                          <div>
+                            <h4>15</h4>
+                            <p class="mb-0">Disqualified</p>
+                          </div>
+                          <div class="ms-auto" style="width: fit-content;">
+                            <lord-icon
+                                src="https://cdn.lordicon.com/gsqxdxog.json"
                                 trigger="loop"
                                 colors="primary:#335fbe,secondary:#335fbe"
                                 style="width:70px;height:70px">
@@ -159,6 +177,7 @@ $rand = rand();
                         <div class="tab mb-4">
                             <button class="tablinks active-tab" onclick="viewSetting(event, 'pending')">Pending <i class="far fa-clock"></i></button>
                             <button class="tablinks" onclick="viewSetting(event, 'accepted')">Verified <i class="fas fa-check-double"></i></button>
+                            <button class="tablinks" onclick="viewSetting(event, 'disqualified')">Disqualified <i class="fas fa-trash-alt"></i></button>
                             <button class="tablinks" onclick="viewSetting(event, 'leaderboard')">LeaderBoard <i class="fas fa-trophy"></i></button>
                         </div>
                         <div id="accepted" class="tabcontent">
@@ -184,6 +203,37 @@ $rand = rand();
                                         <td>kingsjacobfrancis@gmail.com</td>
                                         <td>2011-04-25</td>
                                         <td><a href="#" class="btn btn-sm btn-danger" title="Disqualify"><i class="fas fa-trash-alt"></i></a></td>
+                                        <td><a href="#" class="btn btn-sm btn-success" title="send email"><i class="far fa-envelope"></i></a></td>
+                                    </tr>
+                                        <?php
+                                        } ?>
+                                </tbody>
+                            </table>
+                        </div>
+                        </div>
+                        <div id="disqualified" class="tabcontent">
+                        <div class="table-responsive">
+                            <table class="table table-striped table-hover" id="example2">
+                                <thead>
+                                    <tr>
+                                        <th>First Name</th>
+                                        <th>Last Name</th>
+                                        <th>Email</th>
+                                        <th>Join date</th>
+                                        <th></th>
+                                        <th></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <?php
+                                        for ($i=0; $i < 10; $i++) {
+                                            ?>
+                                    <tr>
+                                        <td>King</td>
+                                        <td>Jacob</td>
+                                        <td>kingsjacobfrancis@gmail.com</td>
+                                        <td>2011-04-25</td>
+                                        <td><a href="#" class="btn btn-sm btn-default" title="Accept"><i class="fas fa-trash-restore-alt"></i></a></td>
                                         <td><a href="#" class="btn btn-sm btn-success" title="send email"><i class="far fa-envelope"></i></a></td>
                                     </tr>
                                         <?php
@@ -225,9 +275,10 @@ $rand = rand();
                             </table>
                         </div>
                         </div>   
+
                         <div id="leaderboard" class="tabcontent">
                         <div class="table-responsive">
-                            <table class="table table-striped table-hover" id="example1">
+                            <table class="table table-striped table-hover" id="example3">
                                 <thead>
                                     <tr>
                                         <th>NB</th>
@@ -266,7 +317,7 @@ $rand = rand();
                   </div>
               </div>
               <div class="col-md-5">
-                  <div class="card">
+                  <div class="card" style="font-size: 15px;">
                       <div class="card-header p-3 bg-white d-flex align-items-center">
                           <h5 class="card-title m-0">Details</h5>
                           <button class="btn btn-default ms-auto" data-bs-toggle="modal" data-bs-target="#details">Edit Details</button>
@@ -277,6 +328,10 @@ $rand = rand();
                             <p class="text-dark">
                                 Penactive Competition
                             </p>
+                        </div>
+                        <div class="amount">
+                          <h6>Total Deposit</h6>
+                          <p>₦ 50000</p>
                         </div>
                     <div class="description">
                                 <h6>Description</h6>
@@ -296,16 +351,6 @@ $rand = rand();
                                     <li>Must be at least 18 years of age</li>
                                     <li>Only one article per applicant is allowed</li>
                                     <li>Lorem ipsum dolor sit amet consectetur ad</li>
-                                </ul>
-                            </div>
-                            <div class="awards">
-                                <h6>Awards</h6>
-                                <ul>
-                                    <li>Position 1 prize: $200,000</li>
-                                    <li>Position 2 prize: $150,000</li>
-                                    <li>Position 3 prize: $100,000</li>
-                                    <li>Position 4 prize: $95,000</li>
-                                    <li>Position 5 prize: $90,000</li>
                                 </ul>
                             </div>
                             <div class="duration">
@@ -369,6 +414,8 @@ $rand = rand();
         $(document).ready(function() {
             $('#example').DataTable();
             $('#example1').DataTable();
+            $('#example2').DataTable();
+            $('#example3').DataTable();
         } );
         tinymce.init({
           selector: 'textarea#desc',
