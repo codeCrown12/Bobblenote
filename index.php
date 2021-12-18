@@ -184,7 +184,7 @@ if ($selector != "") {
                             </div>
                             <div class="card-body">
                             <p class="text-center text-dark">Join one of the fastest rising content sharing platforms in Africa!</p>
-                             <a style="width: 100%;" href="signup.php" target="_blank" class="btn btn-dark">Create an account</a>
+                             <a style="width: 100%;" href="signup.php" target="_blank" class="btn btn-default">Create an account</a>
                           </div>
                         </div>
                         <?php
