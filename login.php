@@ -83,7 +83,7 @@ if(isset($_POST['login'])){
                                 echo $errormsg;
                             }
                         ?>
-                        <form action="login.php" method="POST">
+                        <form action="login.php" method="POST" autocomplete="off">
                             <div class="form-outline mb-3 mt-3">
                                 <input type="email" name="email" id="formemail" class="form-control form-control-lg" />
                                 <label class="form-label" for="formemail">Email address</label>

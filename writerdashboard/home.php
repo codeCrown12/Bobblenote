@@ -197,7 +197,7 @@ $rand = rand();
                           <div class='card-body'>
                           <div class='error-container'>
                           <div class='text-center'>
-                          <h6 style='color: #203656;'>No posts drafts here</h6>
+                          <h6 style='color: #203656;' class='m-0'>No posts drafts here <i class='far fa-meh-blank'></i></h6>
                           </div> 
                         </div>
                           </div>

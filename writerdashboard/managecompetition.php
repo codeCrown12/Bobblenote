@@ -125,7 +125,7 @@ $rand = rand();
                                 src="https://cdn.lordicon.com/imamsnbq.json"
                                 trigger="loop"
                                 colors="primary:#335fbe,secondary:#335fbe"
-                                style="width:70px;height:70px">
+                                style="width:60px;height:60px">
                             </lord-icon>
                           </div>
                         </div>
@@ -143,7 +143,7 @@ $rand = rand();
                                 src="https://cdn.lordicon.com/kbtmbyzy.json"
                                 trigger="loop"
                                 colors="primary:#335fbe,secondary:#335fbe"
-                                style="width:70px;height:70px">
+                                style="width:60px;height:60px">
                             </lord-icon>
                           </div>
                         </div>
@@ -161,7 +161,7 @@ $rand = rand();
                                 src="https://cdn.lordicon.com/gsqxdxog.json"
                                 trigger="loop"
                                 colors="primary:#335fbe,secondary:#335fbe"
-                                style="width:70px;height:70px">
+                                style="width:60px;height:60px">
                             </lord-icon>
                           </div>
                         </div>
@@ -317,7 +317,7 @@ $rand = rand();
                   </div>
               </div>
               <div class="col-md-5">
-                  <div class="card" style="font-size: 15px;">
+                  <div class="card" style="font-size: 14px;">
                       <div class="card-header p-3 bg-white d-flex align-items-center">
                           <h5 class="card-title m-0">Details</h5>
                           <button class="btn btn-default ms-auto" data-bs-toggle="modal" data-bs-target="#details">Edit Details</button>

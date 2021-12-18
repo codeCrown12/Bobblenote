@@ -100,7 +100,7 @@ elseif (isset($_GET['gen']) && $_GET['gen'] == "latest") {
                     }
                 }
                 else{
-                    echo "<h4 style='color: #203656;' class='text-center'><i style='font-size:50px;' class='far fa-smile-wink'></i> <br> No posts here yet!</h4>
+                    echo "<h4 style='color: #203656;' class='text-center'><i style='font-size:50px;' class='fas fa-cat'></i> <br> No posts here yet!</h4>
                     <h4 class='text-center mt-3'><a href='signup.php' class='btn btn-default'>Become a writer</a></h4>";
                 }
             }
@@ -113,7 +113,7 @@ elseif (isset($_GET['gen']) && $_GET['gen'] == "latest") {
                 </div>
                 <div class="card-body">
                   <p class="text-center text-dark">Host article/essay writing competitions on our platform easily and seamlessly !</p>
-                  <a style="width: 100%;" href="writerdashboard/mycompetitions.php" target="_blank" class="btn btn-dark">Start a competition</a>
+                  <a style="width: 100%;" href="writerdashboard/mycompetitions.php" target="_blank" class="btn btn-default">Start a competition</a>
                 </div>
               </div>
             <div class="card mt-3">

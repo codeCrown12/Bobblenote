@@ -5,6 +5,7 @@ include 'functions.php';
 
 $rand = rand();
 $selector = "";
+$comp_query = "SELECT * FROM competitions WHERE comp_status = 'ongoing' ORDER BY comp_ID DESC";
 
 //Check if user is logged in
 if (isset($_SESSION['w_email'])) {
@@ -12,6 +13,27 @@ if (isset($_SESSION['w_email'])) {
 }
 //Get user details
 $user_details = get_writer_details($connection, $selector);
+
+if (isset($_POST['btn_search'])) {
+    $keywrd = check_string($connection, $_POST['keywrd']);
+    $comp_query = "SELECT * FROM competitions WHERE name LIKE '%$keywrd%' AND comp_status = 'ongoing' ORDER BY comp_ID DESC";
+}
+
+if (isset($_POST['sort_select'])) {
+    $sort_select = check_string($connection, $_POST['sort_select']);
+    if ($sort_select == "early") {
+        $comp_query = "SELECT * FROM competitions WHERE comp_status = 'ongoing' ORDER BY start_date";
+    }
+    elseif ($sort_select == "late") {
+        $comp_query = "SELECT * FROM competitions WHERE comp_status = 'ongoing' ORDER BY start_date DESC";
+    }
+    elseif ($sort_select == "highest_award") {
+        $comp_query = "SELECT * FROM competitions WHERE comp_status = 'ongoing' ORDER BY total_deposit DESC";
+    }
+    else{
+        $comp_query = "SELECT * FROM competitions WHERE comp_status = 'ongoing' ORDER BY comp_ID DESC";
+    }
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -42,20 +64,24 @@ $user_details = get_writer_details($connection, $selector);
         <div class="container">
             <div class="row align-items-center pb-3 pt-3">
                 <div class="col-md-5">
-                    <form action="">
-                        <div class="">
-                            <input type="search" placeholder="Search by competition name..." class="form-control">
+                    <form action="competitions.php" method="POST">
+                        <div class="d-flex align-items-center">
+                            <input autocomplete="off" type="search" name="keywrd" placeholder="Search by competition name..." class="form-control w-75 me-2">
+                            <button class="btn btn-default w-25 p-2" type="submit" name="btn_search">Search <i class="fas fa-search"></i></button>
                         </div>
                     </form>
                 </div>
                 <div class="col-md-7">
                     <div class="row">
                         <div class="col-md-8">
-                            <select name="" class="form-select" id="">
-                                <option value="">-- Sort competitions by --</option>
-                                <option value="">Latest (newly added)</option>
-                                <option value="">Highest awards</option>
-                            </select>
+                            <form action="competitions.php" method="POST" id="sort_form">
+                                <select name="sort_select" class="form-select" id="sort_select">
+                                    <option value="">-- Sort competitions by --</option>
+                                    <option value="early">Early competitions</option>
+                                    <option value="late">Late competitions</option>
+                                    <option value="highest_award">Highest awards</option>
+                                </select>
+                            </form>
                         </div>
                         <div class="col-md-4">
                             <button class="btn btn-default p-2 w-100">Start a new competition <i class="fas fa-rocket"></i></button>
@@ -66,21 +92,29 @@ $user_details = get_writer_details($connection, $selector);
         </div>
     </div>
     <div class="container mt-4">
-        <!-- <div class="alert alert-info alert-dismissible fade show" role="alert">
-            <strong>Hello there!</strong> Learn more about competitions and our rules <a href="#" class="text-decoration-underline">Here</a>.
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-        </div> -->
         <div class="row">
             <div class="col-md-6">
                 <div class="contents">
+                <?php
+                        /** Section to select all ongoing competitions **/
+                          
+                          $comp_result = $connection->query($comp_query);
+                          if ($comp_result) {
+                            $comp_rows = $comp_result->num_rows;
+                            if ($comp_rows >= 1) {
+                              for ($i=0; $i < $comp_rows; $i++) { 
+                                $comp_result->data_seek($i);
+                                $comp_data = $comp_result->fetch_array(MYSQLI_ASSOC);
+                      
+                      ?>
                     <div class="card mb-3">
                         <div class="card-body">
                             <div class="d-flex mb-2">
                                 <div class="d-block">
-                                    <h5 class="card-title m-0">Bobblenote Competition</h5>
+                                    <h5 class="card-title m-0"><?php echo $comp_data['name'] ?></h5>
                                     <p class="m-0">
                                         <small style="color: #06ad03;"><i class="far fa-calendar-check"></i> Ongoing</small> - 
-                                        <small class="text-muted">Started on: Sep 26 2021</small>
+                                        <small class="text-muted">Starts on: <?php echo format_date($comp_data['start_date']) ?></small>
                                     </p>
                                 </div>
                                 <div class="dropdown ms-auto">
@@ -88,15 +122,27 @@ $user_details = get_writer_details($connection, $selector);
                                         <i class="fas fa-ellipsis-v"></i>
                                     </a>
                                     <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="menu1">
-                                        <li><a class="dropdown-item" href="#"><i class="fas fa-bookmark"></i> Save competition</a></li>
+                                        <li><a class="dropdown-item" href="#"><i class="fas fa-share"></i> Share competition</a></li>
                                         <li><a class="dropdown-item" href="#"><i class="fas fa-bullhorn"></i> Report competition</a></li>
                                     </ul>
                                 </div>                              
                             </div>
-                            <p>Lorem ipsum dolo,erspiciatis blanditiis sint voluptatum autem beatae dignissimos perferendis reprehenderit. Hic doloribus nisi fugiat perspiciatis nam quo voluptatibus a, sed optio...</p>
-                            <button class="btn btn-default">View more</button>
+                            <div><?php echo substr($comp_data['comp_description'], 0, 179) ?>...</div>
+                            <a class="btn btn-default" href="compinfo.php?comp_ID=<?php echo $comp_data['comp_ID'] ?>">View more</a>
                         </div>
                     </div>
+                    <?php 
+                       }
+                      }
+                      else{
+                        echo "<h4 style='color: #203656;' class='text-center'><i style='font-size:50px;' class='fas fa-cat'></i> <br> No competitions!</h4>
+                        <h4 class='text-center mt-3'><a href='signup.php' class='btn btn-default'>Start a new competition</a></h4>";
+                      }
+                    }
+
+                  /** End of section to select all ongoing competitions **/
+                      
+                      ?>
                 </div>
             </div>
             <div class="col-md-6" style="position: relative;">
@@ -186,7 +232,11 @@ $user_details = get_writer_details($connection, $selector);
     <script src="js/main.js"></script>
     <script src="js/general.js"></script>
     <script>
-        
+        var sort_select = document.getElementById("sort_select")
+        sort_select.addEventListener('change', ()=>{
+            var myform = document.getElementById("sort_form")
+            myform.submit()
+        })
     </script>
 </body>
 </html>

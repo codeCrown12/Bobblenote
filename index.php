@@ -10,6 +10,65 @@ if (isset($_SESSION['w_email'])) {
     $selector = $_SESSION['w_email'];
 }
 $user_details = get_writer_details($connection, $selector);
+
+//Function to prevent more than one post per competition
+function check_double_post_comp($connection, $tag, $u_email){
+    $query = "SELECT COUNT(*) AS total FROM posts WHERE W_email = '$u_email' AND tags LIKE '%$tag%' AND published = 'yes'";
+    $result = $connection->query($query);
+    if ($result) {
+        $data = $result->fetch_array(MYSQLI_ASSOC);
+        if ($data['total'] > 1) {
+            return true;
+        }
+    }
+    return false;
+}
+
+//Function to prevent early publishing befor competition start date
+function check_early_pub($connection, $start_date, $tag, $u_email){
+    $query = "SELECT COUNT(*) AS total FROM posts WHERE W_email = '$u_email' AND tags LIKE '%$tag%' AND date_created < '$start_date' AND published = 'yes'";
+    $result = $connection->query($query);
+    if ($result) {
+        $data = $result->fetch_array(MYSQLI_ASSOC);
+        if ($data['total'] > 1) {
+            return true;
+        }
+    }
+    return false;
+}
+
+//Function to disqualify participant
+function disqualify_participant($connection, $part_id){
+    $query = "UPDATE participants SET part_status = 'disqualified' WHERE part_ID = $part_id";
+    $result = $connection->query($query);
+    if ($result) {
+        return true;
+    }
+    return false;
+}
+
+if ($selector != "") {
+    $comp_query = "SELECT comp_ID, part_ID FROM participants WHERE u_email = '$selector' AND part_status <> 'disqualified'";
+    $comp_result = $connection->query($comp_query);
+    if ($comp_result) {
+        $comp_rows = $comp_result->num_rows;
+        if ($comp_rows >= 1) {
+            for ($i=0; $i < $comp_rows; $i++) { 
+                $comp_result->data_seek($i);
+                $comp_data = $comp_result->fetch_array(MYSQLI_ASSOC);
+                $comp_id = $comp_data['comp_ID'];
+                $part_id = $comp_data['part_ID'];
+                $comp_info = get_comp($connection, $comp_id);
+                if (check_double_post_comp($connection, $comp_info['tag'], $selector)) {
+                    disqualify_participant($connection, $part_id);
+                }
+                elseif (check_early_pub($connection, $comp_info['start_date'], $comp_info['tag'], $selector)) {
+                    disqualify_participant($connection, $part_id);
+                }
+            }
+        }
+    }
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -138,7 +197,7 @@ $user_details = get_writer_details($connection, $selector);
                             </div>
                             <div class="card-body">
                             <p class="text-center text-dark">Host article/essay writing competitions on our platform easily and seamlessly !</p>
-                             <a style="width: 100%;" href="writerdashboard/mycompetitions.php" target="_blank" class="btn btn-dark">Start a competition</a>
+                             <a style="width: 100%;" href="writerdashboard/mycompetitions.php" target="_blank" class="btn btn-default">Start a competition</a>
                           </div>
                         </div>
                         <?php

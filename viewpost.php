@@ -95,7 +95,7 @@ $user_details = get_writer_details($connection, $selector);
                                 <a class="a2a_button_linkedin"></a>
                                 <a class="a2a_button_whatsapp"></a>
                                 <a class="a2a_button_telegram"></a>
-                                <a class="a2a_button_email"></a>
+                                <!-- <a class="a2a_button_email"></a> -->
                                 </div>
                                 <script async src="https://static.addtoany.com/menu/page.js"></script>
                                 <!-- AddToAny END -->
@@ -118,7 +118,7 @@ $user_details = get_writer_details($connection, $selector);
                                 <div class="mt-3 sub-btn">
                                     <button class="btn btn-default <?php if ($selector == "") {
                                         echo "disabled";
-                                    } ?>" id="btn-com">Submit</button>
+                                    } ?>" id="btn-com">Post Comment <i class="fas fa-paper-plane"></i></button>
                                 </div>
                             </form>
                         </div>
@@ -155,7 +155,7 @@ $user_details = get_writer_details($connection, $selector);
                     </div>
                     <div class="card-body p-3">
                         <p class="text-center text-dark">Host article/essay writing competitions on our platform easily and seamlessly !</p>
-                        <a style="width: 100%;" href="writerdashboard/mycompetitions.php" target="_blank" class="btn btn-dark">Start a competition</a>
+                        <a style="width: 100%;" href="writerdashboard/mycompetitions.php" target="_blank" class="btn btn-default">Start a competition</a>
                     </div>
                 </div>
                 <div class="card mt-3">
@@ -185,6 +185,19 @@ $user_details = get_writer_details($connection, $selector);
                         </span>
                     </div>
                 </div>
+                <div class="widget rounded">
+                                <div class="widget-header text-center">
+                                    <h3 class="widget-title">Tag Clouds</h3>
+                                </div>
+                                <div class="widget-content">
+                                    <a href="categories.php?tag=softwar" class="tag">#Software</a>
+                                    <a href="categories.php?tag=fashion" class="tag">#Fashion</a>
+                                    <a href="categories.php?tag=finance" class="tag">#Finance</a>
+                                    <a href="categories.php?tag=business" class="tag">#business</a>
+                                    <a href="categories.php?tag=tech" class="tag">#tech</a>
+                                    <a href="categories.php?tag=AI" class="tag">#AI</a>
+                                </div>
+                            </div>
             </div>
         </div>
     </div>
@@ -266,7 +279,17 @@ $user_details = get_writer_details($connection, $selector);
         <script src="js/main.js"></script>
         <script src="js/general.js"></script>
         <script src="js/prism.js"></script>
+        <script src="https://cdn.tiny.cloud/1/0h01t537dv5w80phd2kb1873sfhpg9mg6ek7ckr1aly3myzy/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
         <script>
+            tinymce.init({
+          selector: 'textarea#comment',
+          height: 250,
+          plugins: [
+            'emoticons paste'
+            ],
+            toolbar: 'insertfile undo redo | bold italic | fullpage | emoticons',
+            menubar: ''
+       });
             $(document).ready(function(){
                 
                 //Snippet to check if a user is logged in
@@ -363,6 +386,7 @@ $user_details = get_writer_details($connection, $selector);
                 //snippet to add a comment
                 $("#btn-com").click(function(e){
                     e.preventDefault()
+                    tinyMCE.triggerSave();
                     var name = $("#name").val()
                     var comment = $("#comment").val()
                     var prev_val = $("#prev_val").val()

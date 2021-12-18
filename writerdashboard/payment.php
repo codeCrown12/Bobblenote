@@ -3,6 +3,7 @@ session_start();
 include '../functions.php';
 include '../connection.php';
 
+//function to generate reference
 function gen_ref(){
   $rand_num =  rand(5, 5);
   $permitted_chars = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';

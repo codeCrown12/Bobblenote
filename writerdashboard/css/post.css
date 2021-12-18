@@ -29,3 +29,6 @@
     display: flex;
     justify-content: center;
 }
+li{
+    font-size: 14px;
+}

@@ -204,7 +204,7 @@ if (isset($_POST['create_comp'])) {
       <!-- my navigation bars end here -->
       <div class="container">
         <div class="row justify-content-center">
-          <div class="col-md-10 mt-5">
+          <div class="col-md-9 mt-5">
             <!-- <h4 class="mt-5"><i class="fas fa-trophy"></i> Manage Competitions</h4> -->
             <?php
               if ($pay_success != "") {
@@ -219,8 +219,8 @@ if (isset($_POST['create_comp'])) {
                   <!-- Tab links -->
                   <div class="tab">
                       <button class="tablinks active-tab" onclick="viewSetting(event, 'start-comp')">Start Competition</button>
-                      <button class="tablinks" onclick="viewSetting(event, 'enrollments')">My Enrollments</button>
-                      <button class="tablinks" onclick="viewSetting(event, 'organized')">My Competitions</button>
+                      <button class="tablinks" onclick="viewSetting(event, 'enrollments')">Enrollments</button>
+                      <button class="tablinks" onclick="viewSetting(event, 'organized')">Competitions</button>
                       <button class="tablinks" onclick="viewSetting(event, 'history')">Transactions</button>
                   </div>
                           
@@ -250,7 +250,7 @@ if (isset($_POST['create_comp'])) {
                           <input type="text" class="form-control" name="name" placeholder="e.g Bobblenote competition">
                         </div>
                         <div class="mb-3">
-                          <label for="" class="mb-2">Tag</label>
+                          <label for="" class="mb-2">Tag</small></label>
                           <input type="text" class="form-control" name="tag" placeholder="e.g Bobblenote">
                         </div>
                         <div class="mb-3">
@@ -293,40 +293,56 @@ if (isset($_POST['create_comp'])) {
                       </div>
                     </div> -->
                     <div class="mt-4">
+                    <?php
+                      $en_query = "SELECT * FROM participants WHERE u_email = '$selector'";
+                      $en_result = $connection->query($en_query);
+                      if ($en_result) {
+                        $en_rows = $en_result->num_rows;
+                        if ($en_rows >= 1) {
+                          for ($i=0; $i < $en_rows; $i++) { 
+                            $en_result->data_seek($i);
+                            $en_data = $en_result->fetch_array(MYSQLI_ASSOC);
+                            $en_comp_data = get_comp($connection, $en_data['comp_ID']);
+                        
+                    ?>
                     <div class="comp-item mb-3">
                           <div class="comp-logo">
-                            <div class="comp-logo-img d-flex justify-content-center align-items-center text-light">B</div>
+                            <div class="comp-logo-img d-flex justify-content-center align-items-center text-light" style="background-color: <?php echo gen_color(rand(0, 3)) ?>;"><?php echo substr($en_comp_data['name'], 0, 1) ?></div>
                           </div>
                           <div class="comp-txts">
                             <div class="comp-info">
-                              <h6 class="m-0">Bobblenote competition</h6>
-                              <small style="color: #06ad03;"><i class="far fa-calendar-check"></i> Accepted</small> - 
-                              <small class="text-muted comp-date">Joined on: Sep 20 2021</small>
-                              <p class="mt-1 comp-desc mb-1">Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsam sint delectus culpa dolorum velit, sequi dignissimos numquam odio esse soluta...</p>
-                              <!-- <a href="#" class="text-decoration-underline">View article</a> -->
+                              <h6 class="m-0"><?php echo $en_comp_data['name'] ?></h6>
+                              <?php
+                                if ($en_data['part_status'] == "accepted") {
+                              ?>
+                              <small style="color: #06ad03;"><i class="fas fa-check-double"></i> <?php echo $en_data['part_status'] ?></small> - 
+                              <?php 
+                                }
+                                elseif ($en_data['part_status'] == "disqualified") {
+                                  
+                              ?>
+                              <small style="color: #ed1811;"><i class="fas fa-times"></i> <?php echo $en_data['part_status'] ?></small> - 
+                              <?php
+                            }
+                            else{
+                              ?>
+                              <small style="color: #d4b102;"><i class="fas fa-clock"></i> <?php echo $en_data['part_status'] ?></small> -
+                            <?php                            
+                            }
+                            ?>
+                              <small class="text-muted comp-date">Joined on: <?php echo format_date($en_data['date_joined']) ?></small>
+                              <div class="mt-1 comp-desc mb-1"><?php echo substr($en_comp_data['comp_description'], 0, 139) ?>...</div>
                             </div>
                             <div class="comp-action">
-                              <a href="#" class="btn btn-default btn-sm">View Info</a>
+                              <a href="../compinfo.php?comp_ID=<?php echo $en_data['comp_ID'] ?>" class="btn btn-default btn-sm">View Info</a>
                             </div>
                           </div>
                         </div>
-                        <div class="comp-item mb-3">
-                          <div class="comp-logo">
-                            <div class="comp-logo-img d-flex justify-content-center align-items-center text-light">B</div>
-                          </div>
-                          <div class="comp-txts">
-                            <div class="comp-info">
-                              <h6 class="m-0">Bobblenote competition</h6>
-                              <small style="color: #cc0e00;"><i class="far fa-calendar-times"></i> Disqualified</small> -
-                              <small class="text-muted comp-date">Joined on: Sep 20 2021</small>
-                              <p class="mt-1 comp-desc mb-1">Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsam sint delectus culpa dolorum velit, sequi dignissimos numquam odio esse soluta...</p>
-                              <!-- <a href="#" class="text-decoration-underline">View article</a> -->
-                            </div>
-                            <div class="comp-action">
-                              <a href="#" class="btn btn-default btn-sm">View Info</a>
-                            </div>
-                          </div>
-                        </div>
+                        <?php
+                        }
+                      }
+                    }
+                        ?>
                     </div>
                   </div>
                   
@@ -338,7 +354,6 @@ if (isset($_POST['create_comp'])) {
                                     <tr>
                                         <th>#T_ID</th>
                                         <th>Type</th>
-                                        <th>Narration</th>
                                         <th>Amount</th>
                                         <th>Date</th>
                                         <th></th>
@@ -346,18 +361,32 @@ if (isset($_POST['create_comp'])) {
                                 </thead>
                                 <tbody>
                                     <?php
-                                        for ($i=0; $i < 10; $i++) {
-                                            ?>
+                                      /** -------- Logic to select all transactions for a user from db --------- **/
+
+                                      $trans_query = "SELECT T_ID, type, amount, date_created FROM transactions WHERE credit = '$selector' OR debit = '$selector' ORDER BY T_ID";
+                                      $trans_result = $connection->query($trans_query);
+                                      if ($trans_result) {
+                                        $trans_rows = $trans_result->num_rows;
+                                        if ($trans_rows >= 1) {
+                                          for ($i=0; $i < $trans_rows; $i++) { 
+                                            $trans_result->data_seek($i);
+                                            $trans_data = $trans_result->fetch_array(MYSQLI_ASSOC);
+                                    ?>
                                     <tr>
-                                        <td><?php echo $i ?></td>
-                                        <td>Credit</td>
-                                        <td>Winner prize</td>
-                                        <td>10000</td>
-                                        <td>2011-04-25</td>
+                                        <td><?php echo "#BOB-".$trans_data['T_ID'] ?></td>
+                                        <td style="<?php if ($trans_data['type'] != "debit") {
+                                          echo "color: #3bb75e";
+                                        }
+                                        else echo "color: #e61c0e";?>"><?php echo $trans_data['type'] ?></td>
+                                        <td><?php echo "₦ ".$trans_data['amount'] ?></td>
+                                        <td><?php echo format_date($trans_data['date_created'])?></td>
                                         <td><a href="#" class="btn btn-sm btn-success" title="Print receipt">Receipt <i class="fas fa-print"></i></a></td>
                                     </tr>
                                         <?php
-                                        } ?>
+                                        }
+                                      }
+                                    }
+                                        ?>
                                 </tbody>
                             </table>
                         </div>
@@ -365,7 +394,55 @@ if (isset($_POST['create_comp'])) {
 
                   <!--My Competitions -->
                   <div id="organized" class="tabcontent">
-                    <!-- <div class="d-flex justify-content-center">
+                    <div class="mt-4">
+                      <?php
+                        /** Section to select all hosted competitions **/
+                          
+                          $hosted_query = "SELECT * FROM competitions WHERE u_email = '$selector' ORDER BY comp_ID DESC";
+                          $hosted_result = $connection->query($hosted_query);
+                          if ($hosted_result) {
+                            $hosted_rows = $hosted_result->num_rows;
+                            if ($hosted_rows >= 1) {
+                              for ($i=0; $i < $hosted_rows; $i++) { 
+                                $hosted_result->data_seek($i);
+                                $hosted_data = $hosted_result->fetch_array(MYSQLI_ASSOC);
+                      
+                      ?>
+                      <div class="comp-item mb-3">
+                          <div class="comp-logo">
+                            <div class="comp-logo-img d-flex justify-content-center align-items-center text-light" style="background-color: <?php echo gen_color(rand(0, 3)) ?>;"><?php echo substr($hosted_data['name'], 0, 1) ?></div>
+                          </div>
+                          <div class="comp-txts">
+                            <div class="comp-info">
+                              <h6 class="m-0"><?php echo $hosted_data['name'] ?></h6>
+                              <?php
+                                if ($hosted_data['comp_status'] == "ongoing") {
+                              ?>
+                              <small style="color: #06ad03;"><i class="far fa-calendar-check"></i> <?php echo $hosted_data['comp_status'] ?></small> - 
+                              <?php 
+                                }
+                                elseif ($hosted_data['comp_status'] == "concluded") {
+                                  
+                              ?>
+                              <small style="color: #ed1811;"><i class="far fa-calendar-times"></i> <?php echo $hosted_data['comp_status'] ?></small> - 
+                              <?php
+                            }
+                              ?>
+                              <small class="text-muted comp-date">Created on: <?php echo format_date($hosted_data['date_created']) ?></small>
+                              <div class="mt-1 comp-desc mb-1"><?php echo substr($hosted_data['comp_description'], 0, 139) ?>...</div>
+                            </div>
+                            <div class="comp-action">
+                              <a href="managecompetition.php?comp_id=<?php echo $hosted_data['comp_ID'] ?>" class="btn btn-default btn-sm">Manage</a>
+                            </div>
+                          </div>
+                      </div>
+
+                      <?php 
+                       }
+                      }
+                      else{
+                      ?>
+                      <div class="d-flex justify-content-center">
                       <div class="d-block">
                         <p class="text-center m-0">
                           <img src="images/Creative Process_Outline.svg" width="250px" alt="">
@@ -373,36 +450,17 @@ if (isset($_POST['create_comp'])) {
                         <h6 class="text-center">
                           You've not organized any competitions!
                         </h6>
-                        <p class="text-center"><a href="#" class="btn btn-default text-center">Create competitions</a></p>
+                        <p class="text-center"><a href="mycompetitions.php" class="btn btn-default text-center">Create competitions</a></p>
                       </div>
-                    </div> -->
-                    <div class="mt-4">
+                    </div>
                       <?php
-                        /** Section to select all hosted competitions **/
-                          
-                          $hosted_query = "SELECT ";
+                        
+                      }
+                    }
 
-                        /** End of section to select all hosted competitions **/
+                  /** End of section to select all hosted competitions **/
                       
                       ?>
-                      <div class="comp-item mb-3">
-                          <div class="comp-logo">
-                            <div class="comp-logo-img d-flex justify-content-center align-items-center text-light">B</div>
-                          </div>
-                          <div class="comp-txts">
-                            <div class="comp-info">
-                              <h6 class="m-0">Bobblenote competition</h6>
-                              <small style="color: #06ad03;"><i class="far fa-calendar-check"></i> Ongoing</small> - 
-                              <small class="text-muted comp-date">Created on: Sep 20 2021</small>
-                              <p class="mt-1 comp-desc mb-1">Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsam sint delectus culpa dolorum velit, sequi dignissimos numquam odio esse soluta...</p>
-                              <a href="#" class="text-decoration-underline">See articles</a>
-                            </div>
-                            <div class="comp-action">
-                              <a href="managecompetition.php" class="btn btn-default btn-sm">Manage</a>
-                            </div>
-                          </div>
-                      </div>
-                      <?php ?>
                     </div>
                   </div>
                 </div>

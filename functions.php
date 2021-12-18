@@ -318,17 +318,32 @@ function tag_exists($connection, $tag){
 
 //function to generate color
 function gen_color($num){
-    if ($num == 1) {
-        return "#d4243b";
+    $colors_arr = array("#d4243b", "#1a30d9", "#0475cc", "#333336");
+    return $colors_arr[$num];
+}
+
+//function to prevent double participation
+function check_participant($connection, $u_email, $comp_id){
+    $query = "SELECT * FROM participants WHERE u_email = '$u_email' AND comp_ID = '$comp_id'";
+    $result = $connection->query($query);
+    $rows = $result->num_rows;
+    if ($rows >= 1) {
+        return true;
     }
-    elseif ($num == 2) {
-        return "#1a30d9";
-    }
-    elseif ($num == 3) {
-        return "#06ad03";
+    return false;
+}
+
+//function to get competition details
+function get_comp($connection, $comp_id){
+    $comp_data = "";
+    $query = "SELECT * FROM competitions WHERE comp_ID = $comp_id";
+    $result = $connection->query($query);
+    if ($result) {
+        $comp_data = $result->fetch_array(MYSQLI_ASSOC);
+        return $comp_data;
     }
     else{
-        return "#333336";
+        return "error in getting details";
     }
 }
 ?>
