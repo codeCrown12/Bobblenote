@@ -346,4 +346,36 @@ function get_comp($connection, $comp_id){
         return "error in getting details";
     }
 }
+
+//Function to prevent more than one post per competition
+function double_post($connection, $tag, $u_email){
+    $query = "SELECT COUNT(*) AS total FROM posts WHERE tags LIKE '%$tag%' AND W_email = '$u_email' AND published = 'yes'";
+    $result = $connection->query($query);
+    if ($result) {
+        $data = $result->fetch_array(MYSQLI_ASSOC);
+        return $data['total'];
+    }
+    return false;
+}
+
+//Function to prevent early publishing befor competition start date
+function early_pub($connection, $start_date, $tag, $u_email){
+    $query = "SELECT COUNT(*) AS total FROM posts WHERE W_email = '$u_email' AND tags LIKE '%$tag%' AND date_created < '$start_date' AND published = 'yes'";
+    $result = $connection->query($query);
+    if ($result) {
+        $data = $result->fetch_array(MYSQLI_ASSOC);
+        return $data['total'];
+    }
+    return false;
+}
+
+//Function to disqualify participant
+function disqualify_participant($connection, $comp_id, $u_email){
+    $query = "UPDATE participants SET part_status = 'disqualified' WHERE comp_ID = $comp_id AND u_email = '$u_email'";
+    $result = $connection->query($query);
+    if ($result) {
+        return true;
+    }
+    return false;
+}
 ?>

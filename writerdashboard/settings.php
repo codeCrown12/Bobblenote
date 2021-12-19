@@ -38,6 +38,7 @@ else{
 $details = get_writer_details($connection, $selector);
 $fullname = $details['firstname']. " ". $details['lastname'];
 $profile_img = $details['profilepic'];
+include '../compdefaulterscheck.php';
 
 //function to update details with image
 function update_details_wimage($connection, $selector, $fname, $lname, $mobile, $dob, $bio, $dp_img){

@@ -11,8 +11,10 @@ $comp_query = "SELECT * FROM competitions WHERE comp_status = 'ongoing' ORDER BY
 if (isset($_SESSION['w_email'])) {
     $selector = $_SESSION['w_email'];
 }
+
 //Get user details
 $user_details = get_writer_details($connection, $selector);
+include 'compdefaulterscheck.php';
 
 if (isset($_POST['btn_search'])) {
     $keywrd = check_string($connection, $_POST['keywrd']);

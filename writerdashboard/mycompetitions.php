@@ -14,7 +14,7 @@ if ($_SESSION['w_email'] == "") {
 else{
   $selector = $_SESSION['w_email'];
 }
-
+include '../compdefaulterscheck.php';
 if (isset($_GET['payment_success'])) {
   $pay_success = "<div class='alert alert-success alert-dismissible fade show' role='alert'>
   Competition created successfully! click <span class='text-decoration-underline'>'My Competitions'</span> tab to view

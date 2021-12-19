@@ -10,7 +10,7 @@ if ($_SESSION['w_email'] == "") {
 else{
   $selector = $_SESSION['w_email'];
 }
-
+include '../compdefaulterscheck.php';
 //snippet to get details
 $details = get_writer_details($connection, $selector);
 $fullname = $details['firstname']. " ". $details['lastname'];

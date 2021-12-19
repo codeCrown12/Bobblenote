@@ -1,14 +1,15 @@
 <?php
     session_start();
+    include '../connection.php';
+    include '../functions.php';
     $selector = "";
     if ($_SESSION['w_email'] == "") {
     header("Location: ../login.php");
     }
     else{
     $selector = $_SESSION['w_email'];
-}
-    include '../connection.php';
-    include '../functions.php';
+    }
+    include '../compdefaulterscheck.php';
 
     //variable declarations
     $msg =  "";

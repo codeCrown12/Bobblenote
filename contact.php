@@ -12,6 +12,7 @@ if (isset($_SESSION['w_email'])) {
 }
 //Get user details
 $user_details = get_writer_details($connection, $selector);
+include 'compdefaulterscheck.php';
 ?>
 
 <!DOCTYPE html>

@@ -17,6 +17,7 @@ $fullname = $details['firstname']. " ". $details['lastname'];
 $profile_img = $details['profilepic'];
 $msg = "";
 $rand = rand();
+include '../compdefaulterscheck.php';
 ?>
 <!DOCTYPE html>
 <html lang="en">

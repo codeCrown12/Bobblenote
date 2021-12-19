@@ -10,6 +10,7 @@ if (isset($_SESSION['w_email'])) {
     $selector = $_SESSION['w_email'];
 }
 $user_details = get_writer_details($connection, $selector);
+include 'compdefaulterscheck.php';
 
 //Posts filtering logic
 $query = "SELECT P_ID, coverimg, W_email, title, category, excerpt, date_created FROM posts WHERE published = 'yes' ORDER BY P_ID DESC";;

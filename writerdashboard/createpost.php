@@ -1,5 +1,7 @@
 <?php
     session_start();
+    include '../connection.php';
+    include '../functions.php';
     $selector = "";
     if ($_SESSION['w_email'] == "") {
     header("Location: ../login.php");
@@ -7,14 +9,11 @@
     else{
     $selector = $_SESSION['w_email'];
     }
-    include '../connection.php';
-    include '../functions.php';
-
     //snippet to get profile pic and name
     $details = get_writer_details($connection, $selector);
     $fullname = $details['firstname']. " ". $details['lastname'];
     $profile_img = $details['profilepic'];
-
+    include '../compdefaulterscheck.php';
     //variable declarations
     $msg =  "";
     $rand = rand();
