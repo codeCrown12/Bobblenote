@@ -268,8 +268,8 @@ $rand = rand();
                    <h5 class="card-title m-0 text-dark">Start a competition 🏆!</h5>
                 </div>
                 <div class="card-body">
-                  <p class="text-center text-dark">Host article/essay writing competitions on our platform easily and seamlessly !</p>
-                  <a style="width: 100%;" href="writerdashboard/mycompetitions.php" target="_blank" class="btn btn-dark">Start a competition</a>
+                  <p class="text-center">Host article/essay writing competitions on our platform easily and seamlessly !</p>
+                  <a style="width: 100%;" href="mycompetitions.php" target="_blank" class="btn btn-dark">Start a competition</a>
                 </div>
               </div>
                 <div class="card mt-3">

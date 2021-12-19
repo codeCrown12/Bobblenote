@@ -92,7 +92,11 @@ else{
                             <h6 class="mt-3">Rules</h6>
                             <div><?php echo $comp_data['rules'] ?></div>
 
-                            <button class="btn btn-default mt-5 w-100 p-2" id="join">Join this competition <i class="far fa-thumbs-up"></i></button>
+                            <button class="btn btn-default mt-5 w-100 p-2 <?php
+                                if (check_participant($connection, $selector, $compid)) {
+                                    echo "disabled";
+                                }
+                            ?>" id="join">Join this competition <i class="far fa-thumbs-up"></i></button>
                         </div>
                     </div>
                 </div>

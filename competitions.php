@@ -113,7 +113,7 @@ if (isset($_POST['sort_select'])) {
                                 <div class="d-block">
                                     <h5 class="card-title m-0"><?php echo $comp_data['name'] ?></h5>
                                     <p class="m-0">
-                                        <small style="color: #06ad03;"><i class="far fa-calendar-check"></i> Ongoing</small> - 
+                                        <small style="color: #06ad03;"><i class="far fa-calendar-check"></i> Active</small> - 
                                         <small class="text-muted">Starts on: <?php echo format_date($comp_data['start_date']) ?></small>
                                     </p>
                                 </div>

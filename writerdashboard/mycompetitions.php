@@ -379,7 +379,7 @@ if (isset($_POST['create_comp'])) {
                                         }
                                         else echo "color: #e61c0e";?>"><?php echo $trans_data['type'] ?></td>
                                         <td><?php echo "₦ ".$trans_data['amount'] ?></td>
-                                        <td><?php echo format_date($trans_data['date_created'])?></td>
+                                        <td><?php echo $trans_data['date_created']?></td>
                                         <td><a href="#" class="btn btn-sm btn-success" title="Print receipt">Receipt <i class="fas fa-print"></i></a></td>
                                     </tr>
                                         <?php
