@@ -17,7 +17,7 @@ else{
 include '../compdefaulterscheck.php';
 if (isset($_GET['payment_success'])) {
   $pay_success = "<div class='alert alert-success alert-dismissible fade show' role='alert'>
-  Competition created successfully! click <span class='text-decoration-underline'>'My Competitions'</span> tab to view
+  Competition created successfully! click <span class='text-decoration-underline'>'Competitions'</span> tab to view
   <button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button>
 </div>";
 }
