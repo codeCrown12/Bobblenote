@@ -148,7 +148,7 @@ include '../compdefaulterscheck.php';
                             <div class="card-content">
                               <div class="stat-icon">
                                 <lord-icon
-                                src="https://cdn.lordicon.com/vixtkkbk.json"
+                                src="https://cdn.lordicon.com/uuxlmlza.json"
                                 trigger="loop"
                                 colors="primary:#335fbe,secondary:#335fbe"
                                 style="width:70px;height:70px">
@@ -157,9 +157,9 @@ include '../compdefaulterscheck.php';
                               </div>
                               <div class="stat">
                                   <h4><?php
-                                      echo numFormatter(count_photos($connection, $selector)); 
+                                      echo numFormatter(count_comp($connection, $selector)); 
                                    ?></h4>
-                                  <p class="stat-title">Photos</p>
+                                  <p class="stat-title">Competitions</p>
                               </div>
                             </div>
                         </div>
@@ -234,7 +234,7 @@ include '../compdefaulterscheck.php';
                                   <p class='stat-item'><i class='fas fa-thumbs-up'></i> $pub_data[no_of_likes] Like(s)</p>
                                   <p class='stat-item'><i class='fas fa-comments'></i> $pub_data[no_of_comments] Comment(s)</p>
                                   </div>
-                                  <div class='stat-two'><p class='stat-item'><a href='../viewpost.php?pid=$encpid' target='_blank' class='btn btn-default'>View Post <i class='fas fa-eye'></i></a></p></div>
+                                  <div class='stat-two'><p class='stat-item'><a href='../viewpost.php?pid=$encpid' target='_blank' class='btn btn-default btn-sm'>View Post <i class='fas fa-eye'></i></a></p></div>
                               </div>
                           </div>
                       </div>"; 

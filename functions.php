@@ -281,19 +281,6 @@ function count_published($connection, $email){
     }
 }
 
-//function to count published posts
-function count_photos($connection, $email){
-    $query = "SELECT COUNT(*) AS total FROM gallery WHERE w_email = '$email'";
-    $result = $connection->query($query);
-    if ($result) {
-        $data = $result->fetch_array(MYSQLI_ASSOC);
-        return $data['total'];
-    }
-    else{
-        return "Error";
-    }
-}
-
 //function to add transaction
 function add_transaction($connection, $amount, $type, $credit, $debit){
     $query = "INSERT INTO transactions (type, credit, debit, amount) VALUES (?,?,?,?)";
@@ -370,8 +357,71 @@ function early_pub($connection, $start_date, $tag, $u_email){
 }
 
 //Function to disqualify participant
-function disqualify_participant($connection, $comp_id, $u_email){
-    $query = "UPDATE participants SET part_status = 'disqualified' WHERE comp_ID = $comp_id AND u_email = '$u_email'";
+function disqualify_participant($connection, $part_id){
+    $query = "UPDATE participants SET part_status = 'disqualified' WHERE part_ID = $part_id";
+    $result = $connection->query($query);
+    if ($result) {
+        return true;
+    }
+    return false;
+}
+
+function expire_comp($connection, $comp_id){
+    $query = "UPDATE competitions SET comp_status = 'expired' WHERE comp_ID = $comp_id";
+    $result = $connection->query($query);
+    if ($result) {
+        return true;
+    }
+    return false;
+}
+
+//function to count hosted competition
+function count_comp($connection, $email){
+    $query = "SELECT COUNT(*) AS total FROM competitions WHERE u_email = '$email'";
+    $result = $connection->query($query);
+    if ($result) {
+        $data = $result->fetch_array(MYSQLI_ASSOC);
+        return $data['total'];
+    }
+    else{
+        return "Error";
+    }
+}
+
+//function to count pending participants for a competition
+function count_part($connection, $comp_id, $type){
+    if ($type == "pending") {
+        $query = "SELECT COUNT(*) AS total FROM participants WHERE comp_ID = $comp_id AND part_status = 'pending'";
+    }
+    elseif ($type == "verified") {
+        $query = "SELECT COUNT(*) AS total FROM participants WHERE comp_ID = $comp_id AND part_status = 'verified'";
+    }
+    elseif ($type == "disqualified") {
+        $query = "SELECT COUNT(*) AS total FROM participants WHERE comp_ID = $comp_id AND part_status = 'disqualified'";
+    }
+    $result = $connection->query($query);
+    if ($result) {
+        $data = $result->fetch_array(MYSQLI_ASSOC);
+        return $data['total'];
+    }
+    else{
+        return "Error";
+    }
+}
+
+//Dump participants
+function dump_exp_part($connection, $comp_id){
+    $query = "INSERT INTO participants_dump SELECT * FROM participants WHERE comp_ID = $comp_id";
+    $result = $connection->query($query);
+    if ($result) {
+        return true;
+    }
+    return false;
+}
+
+//Empty expired competitions participants
+function empty_exp_part($connection, $comp_id){
+    $query = "DELETE FROM participants WHERE comp_ID = $comp_id";
     $result = $connection->query($query);
     if ($result) {
         return true;

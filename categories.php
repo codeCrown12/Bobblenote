@@ -160,7 +160,7 @@ elseif (isset($_GET['gen']) && $_GET['gen'] == "latest") {
             <ul class="vertical-menu">
                 <li><a href="index.php">Home</a></li>
                 <li>
-                    <a href="#" class="active">Categories</a>
+                    <a href="#">Categories</a>
                     <ul class="submenu">
                     <?php
                         //snippet to select categories
@@ -181,12 +181,19 @@ elseif (isset($_GET['gen']) && $_GET['gen'] == "latest") {
                     ?>
                     </ul>
                 </li>
-                <li><a href="#">About</a></li>
-                <li><a href="#">Contact</a></li>
+                <li><a href="competitions.php">Competitions</a></li>
+                <li><a href="about.php">About</a></li>
+                <li><a href="contact.php">Contact</a></li>
+                <?php
+                    if ($selector == "") {
+                ?>
                 <li><a href="login.php">Login</a></li>
                 <li>
-                    <a href="signup.php" class="btn btn-default text-light">Become a writer</a>
+                    <a href="#" class="btn btn-default text-light">Sign up</a>
                 </li>
+                <?php
+                    }
+                ?>
             </ul>
         </nav>
     </div>

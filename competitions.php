@@ -55,6 +55,9 @@ if (isset($_POST['sort_select'])) {
             width: 70%;
             margin: auto;
         }
+        .dropdown-item{
+            cursor: pointer;
+        }
     </style>
 </head>
 <body>
@@ -64,9 +67,9 @@ if (isset($_POST['sort_select'])) {
 
     <div class="container-fluid" style="border: 1px solid #e6e6e6;">
         <div class="container">
-            <div class="row align-items-center pb-3 pt-3">
+            <div class="row align-items-center p-2">
                 <div class="col-md-5">
-                    <form action="competitions.php" method="POST">
+                    <form action="competitions.php" class="mb-1 mt-1" method="POST">
                         <div class="d-flex align-items-center">
                             <input autocomplete="off" type="search" name="keywrd" placeholder="Search by competition name..." class="form-control w-75 me-2">
                             <button class="btn btn-default w-25 p-2" type="submit" name="btn_search">Search <i class="fas fa-search"></i></button>
@@ -76,7 +79,7 @@ if (isset($_POST['sort_select'])) {
                 <div class="col-md-7">
                     <div class="row">
                         <div class="col-md-8">
-                            <form action="competitions.php" method="POST" id="sort_form">
+                            <form action="competitions.php" class="mb-1 mt-1" method="POST" id="sort_form">
                                 <select name="sort_select" class="form-select" id="sort_select">
                                     <option value="">-- Sort competitions by --</option>
                                     <option value="early">Early competitions</option>
@@ -86,7 +89,7 @@ if (isset($_POST['sort_select'])) {
                             </form>
                         </div>
                         <div class="col-md-4">
-                            <button class="btn btn-default p-2 w-100">Start a new competition <i class="fas fa-rocket"></i></button>
+                            <button class="btn btn-default p-2 w-100 mb-1 mt-1">Start a new competition <i class="fas fa-rocket"></i></button>
                         </div>
                     </div>
                 </div>
@@ -115,8 +118,8 @@ if (isset($_POST['sort_select'])) {
                                 <div class="d-block">
                                     <h5 class="card-title m-0"><?php echo $comp_data['name'] ?></h5>
                                     <p class="m-0">
-                                        <small style="color: #06ad03;"><i class="far fa-calendar-check"></i> Active</small> - 
-                                        <small class="text-muted">Starts on: <?php echo format_date($comp_data['start_date']) ?></small>
+                                        <small style="color: #06ad03;"><i class="far fa-calendar-check"></i> Active</small>
+                                        <!-- <small class="text-muted">Starts on: <?php echo format_date($comp_data['start_date']) ?></small> -->
                                     </p>
                                 </div>
                                 <div class="dropdown ms-auto">
@@ -124,12 +127,12 @@ if (isset($_POST['sort_select'])) {
                                         <i class="fas fa-ellipsis-v"></i>
                                     </a>
                                     <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="menu1">
-                                        <li><a class="dropdown-item" href="#"><i class="fas fa-share"></i> Share competition</a></li>
-                                        <li><a class="dropdown-item" href="#"><i class="fas fa-bullhorn"></i> Report competition</a></li>
+                                        <li><a class="dropdown-item" onclick="CopyToClipboard(<?php echo $comp_data['comp_ID'] ?>)"><i class="fas fa-share"></i> Share competition</a></li>
+                                        <li><a class="dropdown-item"><i class="fas fa-bullhorn"></i> Report competition</a></li>
                                     </ul>
                                 </div>                              
                             </div>
-                            <div><?php echo substr($comp_data['comp_description'], 0, 179) ?>...</div>
+                            <div><?php echo substr($comp_data['comp_description'], 0, 150) ?>...</div>
                             <a class="btn btn-default" href="compinfo.php?comp_ID=<?php echo $comp_data['comp_ID'] ?>">View more</a>
                         </div>
                     </div>
@@ -192,12 +195,19 @@ if (isset($_POST['sort_select'])) {
                     ?>
                     </ul>
                 </li>
-                <li><a href="#">About</a></li>
-                <li><a href="#">Contact</a></li>
+                <li><a href="competitions.php">Competitions</a></li>
+                <li><a href="about.php">About</a></li>
+                <li><a href="contact.php">Contact</a></li>
+                <?php
+                    if ($selector == "") {
+                ?>
                 <li><a href="login.php">Login</a></li>
                 <li>
-                    <a href="#" class="btn btn-default text-light">Become a writer</a>
+                    <a href="#" class="btn btn-default text-light">Sign up</a>
                 </li>
+                <?php
+                    }
+                ?>
             </ul>
         </nav>
     </div>
@@ -239,6 +249,27 @@ if (isset($_POST['sort_select'])) {
             var myform = document.getElementById("sort_form")
             myform.submit()
         })
+
+        function CopyToClipboard(TextToCopy) {
+            var TempText = document.createElement("input");
+            var url = "http://localhost/edulearn/compinfo.php?comp_ID="+TextToCopy;
+            TempText.value = url;
+            document.body.appendChild(TempText);
+            TempText.select();
+            
+            document.execCommand("copy");
+            document.body.removeChild(TempText);
+            
+            Swal.fire({
+                toast: 'true',
+                position: 'top-end',
+                title: "Url copied to clipboard!",
+                icon: 'success',
+                showConfirmButton: false,
+                timer: 2000,
+                timerProgressBar: true
+            })
+        }
     </script>
 </body>
 </html>

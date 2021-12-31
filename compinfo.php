@@ -6,7 +6,6 @@ include 'functions.php';
 $rand = rand();
 $selector = "";
 $compid = "";
-$comp_data = "";
 
 //Check if user is logged in
 if (isset($_SESSION['w_email'])) {
@@ -19,15 +18,8 @@ include 'compdefaulterscheck.php';
 if (isset($_GET['comp_ID'])) {
     $compid = $_GET['comp_ID'];
 }
-
-$query = "SELECT * FROM competitions WHERE comp_ID = $compid";
-$result = $connection->query($query);
-if ($result) {
-    $comp_data = $result->fetch_array(MYSQLI_ASSOC);
-}
-else{
-    die($connection->error);
-}
+//Get competition details
+$comp_data = get_comp($connection, $compid);
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -137,12 +129,19 @@ else{
                     ?>
                     </ul>
                 </li>
-                <li><a href="#">About</a></li>
-                <li><a href="#">Contact</a></li>
+                <li><a href="competitions.php">Competitions</a></li>
+                <li><a href="about.php">About</a></li>
+                <li><a href="contact.php">Contact</a></li>
+                <?php
+                    if ($selector == "") {
+                ?>
                 <li><a href="login.php">Login</a></li>
                 <li>
-                    <a href="#" class="btn btn-default text-light">Become a writer</a>
+                    <a href="#" class="btn btn-default text-light">Sign up</a>
                 </li>
+                <?php
+                    }
+                ?>
             </ul>
         </nav>
     </div>

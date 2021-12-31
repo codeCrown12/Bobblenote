@@ -12,6 +12,11 @@ body{
 .post-title{
     color: #132e69;
 }
+.post-text{
+    font-size: 17px;
+    letter-spacing: -0.003em;
+    line-height: 28px;
+}
 .post-time{
     margin-left: 10px;
 }
@@ -72,18 +77,25 @@ body{
     margin-left: auto;
 }
 .com-head{
-    color: #6e6e6e;
-    font-size: 12px;
+    font-size: 15px;
+    font-weight: bold;
     margin-bottom: 7px;
 }
 .com-body{
     color: #1b1b1b;
 }
+.com-img{
+    width: 40px;
+    height: 40px; 
+    border-radius: 50%;
+    object-fit:cover;
+}
 .com-content{
     background: #faf9f9;
-    border-radius: 5px;
+    border-radius: 0px 6px 6px 6px;
     padding: 13px;
     margin-top: 13px;
+    width: 94%;
 }
 .all-comments{
     padding: 15px;
@@ -118,5 +130,14 @@ font-size: 20px;
 @media screen and (max-width: 992px){
     .burger-menu{
         display: inline-block;
+    }
+    .com-content{
+        width: 400px;
+    }
+}
+
+@media screen and (max-width: 700px){
+    .com-content{
+        width: 270px;
     }
 }

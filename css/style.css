@@ -834,15 +834,15 @@ section {
     width: 100%;
     object-fit: cover;
 }
-.ipost-img:hover{
-    /* animation-name: p-img-animation;
-    animation-duration: 1s; */
+/* .ipost-img:hover{
+    animation-name: p-img-animation;
+    animation-duration: 1s;
     animation: p-img-animation 1s forwards;
-}
-@keyframes p-img-animation {
+} */
+/* @keyframes p-img-animation {
     from{transform: rotate(1deg);}
     to{transform: rotate(-1deg);}
-}
+} */
 
 .hor-post{
     width: 100%;

@@ -66,7 +66,7 @@ include 'compdefaulterscheck.php';
                                     <a href="profile.php?wid=<?php echo base64_encode($writer_details['email']) ?>" target="_blank"><img src="<?php echo $writer_details['profilepic']."?randomurl=$rand" ?>" alt="" class="u-img"></a>
                                     <a href="profile.php?wid=<?php echo base64_encode($writer_details['email']) ?>" target="_blank"><p class="post-time"><?php echo $writer_details['firstname']." ".$writer_details['lastname'] ?> | <?php echo format_date($post_details['date_created']) ?></p></a>
                                 </div>
-                                <p class="post-text"><?php echo $post_details['content'] ?></p>
+                                <div class="post-text mt-4"><?php echo $post_details['content'] ?></div>
                                 <h6>Tags</h6>
                                 <p style="color: #686868;font-size: 14px !important;">
                                     <?php
@@ -107,7 +107,7 @@ include 'compdefaulterscheck.php';
                             <form>
                                 <div class="form-group">
                                     <!-- <label for="">(<small><strong>Note:</strong> Go to settings to change name</small>)</label> -->
-                                    <input type="hidden" id="name" class="form-control" readonly value="<?php echo $user_details['firstname']." ".$user_details['lastname'] ?>">
+                                    <!-- <input type="hidden" id="name" class="form-control" readonly value="<?php echo $selector ?>"> -->
                                     <input type="text" id="prev_val" value="<?php echo $post_details['no_of_comments']; ?>" class="form-control" hidden>
                                     <input type="text" id="pid" value="<?php echo $post_details['P_ID']; ?>" hidden>
                                 </div>
@@ -125,17 +125,29 @@ include 'compdefaulterscheck.php';
                         <div class="all-comments">
                             <h6>All Comments</h6>
                             <?php
-                                $query = "SELECT name, comment_text, date_created FROM comments WHERE P_ID = $pid";
+                                $query = "SELECT u_email, comment_text, date_created FROM comments WHERE P_ID = $pid";
                                 $result = $connection->query($query);
                                 $num_rows = $result->num_rows;
                                 if ($num_rows >= 1) {
                                     for ($i=0; $i < $num_rows; $i++) { 
                                         $result->data_seek($i);
                                         $data = $result->fetch_array(MYSQLI_ASSOC);
+                                        //Details of the owner of the comment
+                                        $u_details = get_writer_details($connection, $data['u_email']);
                             ?>
-                            <div class="com-content">
-                                <p class="com-head"><?php echo $data['name']. " - ".format_date($data['date_created']) ?></p>
-                                <p class="com-body"><?php echo $data['comment_text']; ?></p>
+                            <div class="d-flex">
+                                <div class="mt-3 me-2"><img class="com-img" src="<?php echo $u_details['profilepic']."?randomurl=".rand() ?>" alt=""></div>
+                                <div class="com-content">
+                                    <p class="com-head mb-0 mt-1"><?php echo $u_details['firstname']." ".$u_details['lastname']?></p>
+                                    <div class="m-0 text-muted"><small>
+                                        <?php 
+                                        if (strlen($u_details['bio']) > 150) {
+                                            echo substr($u_details['bio'], 0, 150)."...";
+                                        }
+                                        else echo $u_details['bio'];
+                                    ?></small></div>
+                                    <div class="com-body mt-1"><?php echo $data['comment_text']; ?></div>
+                                </div>
                             </div>
                             <?php
                                 }
@@ -235,12 +247,19 @@ include 'compdefaulterscheck.php';
                     ?>
                     </ul>
                 </li>
-                <li><a href="#">About Us</a></li>
-                <li><a href="#">Contact</a></li>
+                <li><a href="competitions.php">Competitions</a></li>
+                <li><a href="about.php">About</a></li>
+                <li><a href="contact.php">Contact</a></li>
+                <?php
+                    if ($selector == "") {
+                ?>
                 <li><a href="login.php">Login</a></li>
                 <li>
-                    <a href="#" class="btn btn-default text-light">Become a writer</a>
+                    <a href="#" class="btn btn-default text-light">Sign up</a>
                 </li>
+                <?php
+                    }
+                ?>
             </ul>
         </nav>
     </div>
@@ -410,7 +429,7 @@ include 'compdefaulterscheck.php';
                         $.ajax({
                             type: 'POST',
                             url: 'addcomment.php',
-                            data: {pid: pid, name: name, comment: comment, prev_val: prev_val}
+                            data: {pid: pid, comment: comment, prev_val: prev_val}
                         }).done(function(msg){
                             if (msg == "Comment added successfully!") {
                                 Swal.fire({

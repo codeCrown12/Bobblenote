@@ -7,7 +7,7 @@ $selector = "";
 $msg = "";
 $pay_success = "";
 
-
+//Snippet to show logged in user details
 if ($_SESSION['w_email'] == "") {
   header("Location: ../login.php");
 }
@@ -22,18 +22,26 @@ if (isset($_GET['payment_success'])) {
 </div>";
 }
 
-//snippet to get details
+
 $details = get_writer_details($connection, $selector);
 $fullname = $details['firstname']. " ". $details['lastname'];
 $profile_img = $details['profilepic'];
 $msg = "";
 $rand = rand();
 
+//snippet to create competitions
+$name = "";
+$tag = "";
+$description = "";
+$requirements = "";
+$rules = "";
+$start_date = "";
+$end_date = "";
 
 //Logic to create competition
 if (isset($_POST['create_comp'])) {
   $name = check_string($connection, $_POST['name']);
-  $tag = check_string($connection, $_POST['tag']);
+  $tag = strtolower(check_string($connection, $_POST['tag']));
   $description = $_POST['desc'];
   $requirements = $_POST['req'];
   $rules = $_POST['rules'];
@@ -54,13 +62,13 @@ if (isset($_POST['create_comp'])) {
     <button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button>
   </div>";
   }
-  elseif ($start_date < date('m/d/Y')) {
+  elseif (strtotime($start_date) < strtotime(date('m/d/Y'))) {
     $msg = "<div class='alert alert-danger alert-dismissible fade show' role='alert'>
     Start date must be greater than or equal to today's date!
     <button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button>
   </div>";
   }
-  elseif ($end_date <= $start_date) {
+  elseif (strtotime($end_date) <= strtotime($start_date)) {
     $msg = "<div class='alert alert-danger alert-dismissible fade show' role='alert'>
     End date must be greater than start date!
     <button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button>
@@ -245,37 +253,37 @@ if (isset($_POST['create_comp'])) {
                           }
                         ?>
                         <form action="mycompetitions.php" method="POST">
-                        <div class="mb-3">
-                          <label for="" class="mb-2">Competition Name</label>
-                          <input type="text" class="form-control" name="name" placeholder="e.g Bobblenote competition">
-                        </div>
-                        <div class="mb-3">
-                          <label for="" class="mb-2">Tag</small></label>
-                          <input type="text" class="form-control" name="tag" placeholder="e.g Bobblenote">
-                        </div>
-                        <div class="mb-3">
-                          <label for="" class="mb-2">Description</label>
-                          <textarea id="desc" name="desc" class="form-control"></textarea>
-                        </div>
-                        <div class="mb-3">
-                          <label for="" class="mb-2">Requirements<br><small>(Should be in a list format)</small></label>
-                          <textarea id="req" name="req" class="form-control"></textarea>
-                        </div>
-                        <div class="mb-3">
-                          <label for="" class="mb-2">Rules<br><small>(Should be in a list format)</small></label>
-                          <textarea id="rules" name="rules" class="form-control"></textarea>
-                        </div>
-                        <div class="row">
-                          <div class="col-6">
-                            <label for="">Start Date</label>
-                            <input type="date" name="start_date" class="form-control">
+                          <div class="mb-3">
+                            <label for="" class="mb-2">Competition Name</label>
+                            <input type="text" autocomplete="off" class="form-control" value="<?php echo $name ?>" name="name" placeholder="e.g Bobblenote competition">
                           </div>
-                          <div class="col-6">
-                            <label for="">End Date</label>
-                            <input type="date" name="end_date" class="form-control">
+                          <div class="mb-3">
+                            <label for="" class="mb-2">Tag</small></label>
+                            <input type="text" autocomplete="off" class="form-control" value="<?php echo $tag?>" name="tag" placeholder="e.g Bobblenote">
                           </div>
-                        </div>
-                        <button type="submit" name="create_comp" class="btn btn-default mt-3">Save & continue</button>
+                          <div class="mb-3">
+                            <label for="" class="mb-2">Description</label>
+                            <textarea id="desc" name="desc" class="form-control" value="<?php echo $description ?>"></textarea>
+                          </div>
+                          <div class="mb-3">
+                            <label for="" class="mb-2">Requirements<br><small>(Should be in a list format)</small></label>
+                            <textarea id="req" name="req" class="form-control" value="<?php echo $requirements ?>"></textarea>
+                          </div>
+                          <div class="mb-3">
+                            <label for="" class="mb-2">Rules<br><small>(Should be in a list format)</small></label>
+                            <textarea id="rules" name="rules" class="form-control" value="<?php echo $rules ?>"></textarea>
+                          </div>
+                          <div class="row">
+                            <div class="col-6">
+                              <label for="">Start Date</label>
+                              <input type="date" name="start_date" class="form-control" value="<?php echo $start_date ?>">
+                            </div>
+                            <div class="col-6">
+                              <label for="">End Date</label>
+                              <input type="date" name="end_date" class="form-control" value="<?php echo $end_date ?>">
+                            </div>
+                          </div>
+                          <button type="submit" name="create_comp" class="btn btn-default mt-3 w-100 btn-sm">Create competition</button>
                       </form>
                       </div>
                     </div>
@@ -313,7 +321,7 @@ if (isset($_POST['create_comp'])) {
                             <div class="comp-info">
                               <h6 class="m-0"><?php echo $en_comp_data['name'] ?></h6>
                               <?php
-                                if ($en_data['part_status'] == "accepted") {
+                                if ($en_data['part_status'] == "verified") {
                               ?>
                               <small style="color: #06ad03;"><i class="fas fa-check-double"></i> <?php echo $en_data['part_status'] ?></small> - 
                               <?php 
@@ -378,7 +386,7 @@ if (isset($_POST['create_comp'])) {
                                           echo "color: #3bb75e";
                                         }
                                         else echo "color: #e61c0e";?>"><?php echo $trans_data['type'] ?></td>
-                                        <td><?php echo "₦ ".$trans_data['amount'] ?></td>
+                                        <td><?php echo "₦ ".number_format($trans_data['amount']) ?></td>
                                         <td><?php echo $trans_data['date_created']?></td>
                                         <td><a href="#" class="btn btn-sm btn-success" title="Print receipt">Receipt <i class="fas fa-print"></i></a></td>
                                     </tr>
@@ -421,7 +429,7 @@ if (isset($_POST['create_comp'])) {
                               <small style="color: #06ad03;"><i class="far fa-calendar-check"></i> <?php echo $hosted_data['comp_status'] ?></small> - 
                               <?php 
                                 }
-                                elseif ($hosted_data['comp_status'] == "concluded") {
+                                elseif ($hosted_data['comp_status'] == "expired") {
                                   
                               ?>
                               <small style="color: #ed1811;"><i class="far fa-calendar-times"></i> <?php echo $hosted_data['comp_status'] ?></small> - 
@@ -432,7 +440,7 @@ if (isset($_POST['create_comp'])) {
                               <div class="mt-1 comp-desc mb-1"><?php echo substr($hosted_data['comp_description'], 0, 139) ?>...</div>
                             </div>
                             <div class="comp-action">
-                              <a href="managecompetition.php?comp_id=<?php echo $hosted_data['comp_ID'] ?>" class="btn btn-default btn-sm">Manage</a>
+                              <a href="managecompetition.php?comp_ID=<?php echo $hosted_data['comp_ID'] ?>" class="btn btn-default btn-sm">Manage</a>
                             </div>
                           </div>
                       </div>

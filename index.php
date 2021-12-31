@@ -339,7 +339,7 @@ include 'compdefaulterscheck.php';
         </div>
         <nav>
             <ul class="vertical-menu">
-                <li class="active"><a href="index">Home</a></li>
+                <li><a href="index.php">Home</a></li>
                 <li>
                     <a href="#">Categories</a>
                     <ul class="submenu">
@@ -354,7 +354,7 @@ include 'compdefaulterscheck.php';
                                     $cat_res->data_seek($i);
                                     $cat_data = $cat_res->fetch_array(MYSQLI_ASSOC);
                                     echo "<li>
-                                    <a href='categories?cat=$cat_data[category]'>$cat_data[category]</a>
+                                    <a href='categories.php?cat=$cat_data[category]'>$cat_data[category]</a>
                                     </li>";
                                 }
                             }
@@ -362,12 +362,19 @@ include 'compdefaulterscheck.php';
                     ?>
                     </ul>
                 </li>
-                <li><a href="#">About</a></li>
-                <li><a href="#">Contact</a></li>
-                <li><a href="login">Login</a></li>
+                <li><a href="competitions.php">Competitions</a></li>
+                <li><a href="about.php">About</a></li>
+                <li><a href="contact.php">Contact</a></li>
+                <?php
+                    if ($selector == "") {
+                ?>
+                <li><a href="login.php">Login</a></li>
                 <li>
-                    <a href="signup" class="btn btn-default text-light">Become a writer</a>
+                    <a href="#" class="btn btn-default text-light">Sign up</a>
                 </li>
+                <?php
+                    }
+                ?>
             </ul>
         </nav>
     </div>

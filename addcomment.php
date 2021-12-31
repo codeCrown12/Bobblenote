@@ -7,15 +7,14 @@ if (isset($_POST['pid'])) {
     if (isset($_SESSION['w_email']) && $_SESSION['w_email'] != "") {
         $pid = $_POST['pid'];
         $prev_val = $_POST['prev_val'];
-        $name = check_string($connection, $_POST['name']);
         $comment = check_string($connection, $_POST['comment']);
-        if ($name == "" || $comment == ""){
+        if ($comment == ""){
             echo "All fields are required!";
         }
         else{
-            $query = "INSERT INTO comments (P_ID, name, comment_text) VALUES (?,?,?)";
+            $query = "INSERT INTO comments (P_ID, u_email, comment_text) VALUES (?,?,?)";
             $result = $connection->prepare($query);
-            $result->bind_param("iss", $pid, $name, $comment);
+            $result->bind_param("iss", $pid, $_SESSION['w_email'], $comment);
             if ($result->execute()) {
                 if (update_no_of_comments($connection, $pid, $prev_val)) {
                     echo "Comment added successfully!";
