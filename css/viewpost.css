@@ -13,9 +13,12 @@ body{
     color: #132e69;
 }
 .post-text{
-    font-size: 17px;
+    font-size: 18px;
     letter-spacing: -0.003em;
     line-height: 28px;
+    text-rendering: optimizeLegibility;
+    line-height: 2;
+    word-spacing: 2px;
 }
 .post-time{
     margin-left: 10px;

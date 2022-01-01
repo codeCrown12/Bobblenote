@@ -89,7 +89,7 @@ if (isset($_POST['sort_select'])) {
                             </form>
                         </div>
                         <div class="col-md-4">
-                            <button class="btn btn-default p-2 w-100 mb-1 mt-1">Start a new competition <i class="fas fa-rocket"></i></button>
+                            <a href="writerdashboard/mycompetitions.php" class="btn btn-default p-2 w-100 mb-1 mt-1">Start a new competition <i class="fas fa-medal"></i></a>
                         </div>
                     </div>
                 </div>

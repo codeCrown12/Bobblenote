@@ -31,7 +31,7 @@ a:hover {
 a:focus {
     outline: 0;
 }
-h1, h2, h3, h4, h5, h6 {
+h2, h3, h4, h5, h6 {
     color: #010f4b;
     font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
     font-weight: 700;
@@ -119,19 +119,12 @@ img{
     height: 170px;
     /* border-radius: 6px; */
 }
-.ipost-img:hover{
-    animation: p-img-animation 1s forwards;
-}
 .post-cat a{
     /* background-color: #4b51fd; */
     color: #060ba0;
     padding: 4px;
     border-radius: 10px;
     font-size: 13px;
-}
-@keyframes p-img-animation {
-    from{transform: rotate(1deg);}
-    to{transform: rotate(-1deg);}
 }
 /* footer styling */
 
