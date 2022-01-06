@@ -165,13 +165,14 @@ include 'compdefaulterscheck.php';
         <!-- main content  -->
         
         <section class="main-content">
-            <div class="container-xl">       
+            <div class="container-xl">   
+                <!-- Trending articles section -->
+                <div class="section-header">
+                    <h5 class="section-title"><i class="far fa-chart-bar"></i> Trending</h5>
+                </div>    
                 <div class="row">
                     <div class="col-lg-8">
-                    <div class="section-header">
-                <h3 class="section-title">Trending Posts</h3>
-            </div>
-            <div class="row">
+                    <div class="row">
                     <?php
                         $t_query = "SELECT P_ID, coverimg, W_email, title, category, excerpt, date_created FROM posts WHERE published = 'yes' ORDER BY no_of_likes DESC LIMIT 4";
                         $t_res = $connection->query($t_query);
@@ -188,8 +189,8 @@ include 'compdefaulterscheck.php';
                                     <a href="viewpost.php?pid=<?php echo base64_encode($t_data['P_ID']) ?>"><img decoding="async" class="ipost-img" src="<?php echo $t_data['coverimg']."?randomurl=$rand" ?>" alt=""></a>
                                     <div class="user mt-2">
                                         <ul class="list-inline" style="list-style-type: square !important;">
-                                            <li class="list-inline-item"><a href="profile.php?wid=<?php echo base64_encode($w_details['email']) ?>" target="_blank"><img class="user-img" src="<?php echo $w_details['profilepic']."?randomurl=$rand" ?>" alt=""></a></li>
-                                            <li class="list-inline-item"><a href="profile.php?wid=<?php echo base64_encode($w_details['email']) ?>" target="_blank"><small><?php echo "@".substr($w_details['firstname'], 0, 1).".".$w_details['lastname'] ?></small></a></li>
+                                            <li class="list-inline-item"><a href="profile.php?wid=<?php echo base64_encode($w_details['email']) ?>"><img class="user-img" src="<?php echo $w_details['profilepic']."?randomurl=$rand" ?>" alt=""></a></li>
+                                            <li class="list-inline-item"><a href="profile.php?wid=<?php echo base64_encode($w_details['email']) ?>"><small><?php echo "@".substr($w_details['firstname'], 0, 1).".".$w_details['lastname'] ?></small></a></li>
                                             <li class="list-inline-item"><a href="categories.php?cat=<?php echo $t_data['category'] ?>"><small>#<?php echo $t_data['category'] ?></small></a></li>
                                             <li class="list-inline-item"><small class="text-muted"><?php echo format_date($t_data['date_created']) ?></small></li>
                                         </ul>    
@@ -207,8 +208,6 @@ include 'compdefaulterscheck.php';
                             </div>
                             <?php
                                 }
-                                echo "
-                                <a href='categories.php?gen=trending' class='text-decoration-underline'>View more &rsaquo;&rsaquo;</a>";
                             }
                             else{
                                 echo "<div class='col-sm-6 justify-content-center align-items-center'>
@@ -227,13 +226,16 @@ include 'compdefaulterscheck.php';
                         }
                             ?>
                             
-                        </div> 
+                        </div>
+                        <!-- End of trending articles section -->
+
+                        <!-- All articles section -->
                         <div class="section-header mt-5">
-                            <h3 class="section-title">Latest Posts</h3>
+                            <h5 class="section-title"><i class="fas fa-stream"></i> Explore</h5>
                         </div>
                         <div class="row">
                         <?php
-                        $l_query = "SELECT P_ID, coverimg, W_email, title, category, excerpt, date_created FROM posts WHERE published = 'yes' ORDER BY date_created DESC LIMIT 4";
+                        $l_query = "SELECT P_ID, coverimg, W_email, title, category, excerpt, date_created FROM posts WHERE published = 'yes' ORDER BY date_created DESC";
                         $l_res = $connection->query($l_query);
                         if ($l_res) {
                             $l_numrows = $l_res->num_rows;
@@ -243,32 +245,37 @@ include 'compdefaulterscheck.php';
                                    $l_data = $l_res->fetch_array(MYSQLI_ASSOC);
                                    $pw_details = get_writer_details($connection, $l_data['W_email']);
                             ?>
-                            <div class="col-sm-6 mb-3">
-                                <div class="post">
-                                    <a href="viewpost.php?pid=<?php echo base64_encode($l_data['P_ID']) ?>"><img decoding="async" class="ipost-img" src="<?php echo $l_data['coverimg']."?randomurl=$rand" ?>" alt=""></a>
-                                    <div class="user mt-2">
-                                        <ul class="list-inline" style="list-style-type: square !important;">
-                                            <li class="list-inline-item"><a href="profile.php?wid=<?php echo base64_encode($pw_details['email']) ?>" target="_blank"><img class="user-img" src="<?php echo $pw_details['profilepic']."?randomurl=$rand" ?>" alt=""></a></li>
-                                            <li class="list-inline-item"><a href="profile.php?wid=<?php echo base64_encode($pw_details['email']) ?>" target="_blank"><small><?php echo "@".substr($pw_details['firstname'], 0, 1).".".$pw_details['lastname'] ?></small></a></li>
+                                <div class="hor-post mb-4">
+                                    <div class="p-img">
+                                    <a href="viewpost.php?pid=<?php echo base64_encode($l_data['P_ID']) ?>"><img class="ipost-img" src="<?php echo $l_data['coverimg']."?randomurl=$rand" ?>" alt=""></a>
+                                        </div>
+                                            <div class="p-details">
+                                        <div class="user mt-2">
+                                            <ul class="meta list-inline">
+                                            <li class="list-inline-item"><a href="profile.php?wid=<?php echo base64_encode($pw_details['email']) ?>"><img class="user-img" src="<?php echo $pw_details['profilepic']."?randomurl=$rand" ?>" alt=""></a></li>
+                                            <li class="list-inline-item"><a href="profile.php?wid=<?php echo base64_encode($pw_details['email']) ?>"><small><?php echo substr($pw_details['firstname'], 0, 1).". ".$pw_details['lastname'] ?></small></a></li>
                                             <li class="list-inline-item"><a href="categories.php?cat=<?php echo $l_data['category'] ?>"><small>#<?php echo $l_data['category'] ?></small></a></li>
                                             <li class="list-inline-item"><small class="text-muted"><?php echo format_date($l_data['date_created']) ?></small></li>
-                                        </ul>    
-                                    </div>
-                                    <h5 class="post-title mb-2 mt-1">
-                                            <a href="viewpost.php?pid=<?php echo base64_encode($l_data['P_ID']) ?>">
-                                            <?php 
-                                            if (strlen($l_data['title']) > 50) {
-                                                echo substr($l_data['title'], 0, 50)."...";
+                                            </ul>    
+                                        </div>
+                                        <h5 class="post-title mb-2">
+                                        <a href="viewpost.php?pid=<?php echo base64_encode($l_data['P_ID']) ?>">
+                                        <?php 
+                                            if (strlen($l_data['title']) > 60) {
+                                                echo substr($l_data['title'], 0, 60)."...";
                                             }
-                                            else echo $l_data['title'] ?></a>
-                                    </h5>
-                                    
-                                </div>
+                                            else echo $l_data['title'] ?>
+                                        </a>
+                                        </h5>
+                                        <p class="excerpt mb-0 text-muted">
+                                        <?php echo substr($l_data['excerpt'], 0, 80)."..." ?>
+                                        </p>
+                                    </div>
                             </div>
                             <?php
                                 }
-                                echo "
-                                <a href='categories.php?gen=latest' class='text-decoration-underline'>View more &rsaquo;&rsaquo;</a>";
+                                // echo "
+                                // <a href='categories.php?gen=latest' class='text-decoration-underline'>View more &rsaquo;&rsaquo;</a>";
                             }
                             else{
                                 echo "<div class='col-sm-6 justify-content-center align-items-center'>
@@ -287,7 +294,8 @@ include 'compdefaulterscheck.php';
                         }
                             ?>
                             
-                        </div> 
+                        </div>
+                         <!--End of all articles section  -->
                     </div>
 
                     
@@ -305,7 +313,7 @@ include 'compdefaulterscheck.php';
                                         </div>
                                         <button class="btn btn-default btn-full" id="sub-btn">Subscribe</button>
                                     <span class="newsletter-privacy text-center mt-3">
-                                        By signing up, you agree to our <a href="#">Privacy policy</a>
+                                        By subscribing, you agree to our <a href="#">Privacy policy</a>
                                     </span>
                                 </div>
                             </div>
@@ -335,7 +343,7 @@ include 'compdefaulterscheck.php';
         <button class="btn-close" aria-label="Close" type="button"></button>
 
         <div class="logo">
-            <img src="images/logo.svg" alt="">
+            <h1 style="font-family: 'Poetsen One', sans-serif;">Bobblenote</h1>
         </div>
         <nav>
             <ul class="vertical-menu">

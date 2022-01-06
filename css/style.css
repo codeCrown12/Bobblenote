@@ -43,7 +43,7 @@ img {
 }
 
 h1, h2, h3, h4, h5, h6 {
-    font-weight: 700;
+    font-weight: 600;
     line-height: 1.4;
     margin: 10px 0;
     font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
@@ -593,7 +593,10 @@ button:focus {
     outline: 0;
     box-shadow: none;
 }
-
+.btn-success{
+    background-color: #3bb75e;
+    border-color: #3bb75e;
+}
 .btn-outline-default{
     color: #335fbe;
     border-color: #335fbe;
@@ -625,11 +628,8 @@ button:focus {
     display: block;
     border-radius: 4px;
     width: 100%;
-    padding: 7px 14px;
     font-size: 14px;
     line-height: 1.6;
-    /* color: #8f9bad; */
-    border-color: #b4b2b2;
     box-shadow: none;
 }
 
@@ -704,9 +704,11 @@ section {
 }
 
 .section-title {
-    font-size: 24px;
     margin: 0;
-    color: #203656;
+    /* color: #203656; */
+}
+.post-title{
+    color: #000;
 }
 
 /* *********************** */

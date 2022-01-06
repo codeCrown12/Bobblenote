@@ -28,6 +28,16 @@ include 'compdefaulterscheck.php';
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/simple-line-icons/2.5.5/css/simple-line-icons.min.css">
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <style>
+        .card-body p{
+            font-size: 17px;
+            margin-bottom: 12px;
+        }
+        .card-body a{
+            color: blue;
+            text-decoration: underline;
+        }
+    </style>
 </head>
 <body>
      <!-- Navbar component -->
@@ -38,43 +48,21 @@ include 'compdefaulterscheck.php';
             <div class="col-sm-6">
                 <div>
                     <h2>Hello mate, we'd love to hear from you 👋</h2>
-                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Id perspiciatis vero perferendis quia ad, provident assumenda qui facilis magnam maxime suscipit accusamus nam enim atque tempora fugit, aliquid aut tenetur.</p>
-                    <img src="images/send-message.png" alt="">
+                    <p>You can reach out to us for advertisement, partnership, etc. You can also report issues and also make enquiries of any kind relating to our platform. We are available round the clock to assist you ❤️.</p>
+                    <img src="images/smiling.svg" alt="">
                 </div>
             </div>
             <div class="col-sm-6 bg-light border p-4">
                 <div class="card rounded-0">
                     <div class="card-body">
-                        <form action="" method="post">
-                            <div class="row">
-                                <div class="col-6">
-                                    <div class="mb-3">
-                                        <label for="">First Name</label>
-                                        <input type="text" class="form-control" placeholder="John">
-                                    </div>
-                                </div>
-                                <div class="col-6">
-                                    <div class="mb-3">
-                                        <label for="">Last Name</label>
-                                        <input type="text" class="form-control" placeholder="Doe">
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="mb-3">
-                                <label for="">Email</label>
-                                <input type="text" class="form-control" placeholder="youremail@mailserver.com">
-                            </div>
-                            <div class="mb-3">
-                                <label for="">Subject</label>
-                                <input type="text" class="form-control" placeholder="Title of the message">
-                            </div>
-                            <div class="mb-3">
-                                <label for="">Message</label>
-                                <textarea name="" class="form-control" id="" cols="30" rows="8" placeholder="message goes here..."></textarea>
-                            </div>
-                            <button class="btn btn-default">Send message</button>
-                            <p class="mt-2"><small>By clicking "send message" you agree to receive marketing communications from us in accordance with our <a href="#">Privacy policy</a></small></p>
-                        </form>
+                        <h3>Contacts</h3>
+                        <p>Reach out to us via any of the following ways below</p>
+                        <p>Email: <a href="mailto: contact@bobblenote.com">contact@bobblenote.com</a> <br><small><strong>Note:</strong> (The subject of the email must contain the reason for contact so we can get back to you quickly)</small></p>
+                        <p>Twitter: <a href="#">@bobblenote</a></p>
+                        <p>Instagram: <a href="#">@bobblenote</a></p>
+                        <p>LinkedIn: <a href="#">@bobblenote</a></p>
+                        <p>Telegram: <a href="#">@bobblenote</a></p>
+                        <p>Report competition: <a href="mailto: competition@bobblenote.com">competition@bobblenote.com</a> <br><small><strong>Note:</strong> (Clearly state the reason for reporting the competition and the tag of the competition in the subject of the email)</small></p>
                     </div>
                 </div>
             </div>
@@ -86,7 +74,7 @@ include 'compdefaulterscheck.php';
         <button class="btn-close" aria-label="Close" type="button"></button>
 
         <div class="logo">
-            <img src="images/logo.svg" alt="">
+            <h1 style="font-family: 'Poetsen One', sans-serif;">Bobblenote</h1>
         </div>
         <nav>
             <ul class="vertical-menu">

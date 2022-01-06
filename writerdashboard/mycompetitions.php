@@ -17,7 +17,7 @@ else{
 include '../compdefaulterscheck.php';
 if (isset($_GET['payment_success'])) {
   $pay_success = "<div class='alert alert-success alert-dismissible fade show' role='alert'>
-  Competition created successfully! click <span class='text-decoration-underline'>'Competitions'</span> tab to view
+  Payment completed successfully! click <span class='text-decoration-underline'>'Competitions'</span> tab to manage competitions.
   <button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button>
 </div>";
 }
@@ -25,6 +25,7 @@ if (isset($_GET['payment_success'])) {
 
 $details = get_writer_details($connection, $selector);
 $fullname = $details['firstname']. " ". $details['lastname'];
+$org_name = $details['organization_name'];
 $profile_img = $details['profilepic'];
 $msg = "";
 $rand = rand();
@@ -163,7 +164,12 @@ if (isset($_POST['create_comp'])) {
         <div class="collapse navbar-collapse">
           <ul class="navbar-nav ms-auto" style="margin-right: 25px;">
               <li class="nav-item">
-              <a class="nav-link text-white" href="settings.php"><img src="<?php echo "../".$profile_img."?randomurl= $rand" ?>" class="dp-img" alt=""> <?php echo $fullname ?></a>
+              <a class="nav-link text-white" href="settings.php"><img src="<?php echo "../".$profile_img."?randomurl= $rand" ?>" class="dp-img" alt=""> <?php
+                if ($details['account_type'] == "individual") {
+                  echo $fullname;
+                }
+                else echo $org_name;
+                ?></a>
               </li>
           </ul>
         </div>
@@ -184,7 +190,13 @@ if (isset($_POST['create_comp'])) {
           </div>
           <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
             <div class="offcanvas-header">
-              <h5 class="offcanvas-title mt-5" id="offcanvasNavbarLabel"><a class="text-dark text-decoration-none" href="settings.php"><img src="<?php echo "../".$profile_img."?randomurl= $rand" ?>" class="dp-img" alt=""> <?php echo $fullname ?></a></h5>
+              <h5 class="offcanvas-title mt-5" id="offcanvasNavbarLabel"><a class="text-dark text-decoration-none" href="settings.php"><img src="<?php echo "../".$profile_img."?randomurl= $rand" ?>" class="dp-img" alt=""> 
+              <?php
+                if ($details['account_type'] == "individual") {
+                  echo $fullname;
+                }
+                else echo $org_name;
+                ?></a></h5>
               <p type="button" data-bs-dismiss="offcanvas" aria-label="Close"><span class="nav-close">&times;</span></p>
             </div>
             <div class="offcanvas-body">
@@ -242,8 +254,8 @@ if (isset($_POST['create_comp'])) {
                         <div class="guidelines">
                           <div class="d-flex justify-content-center"><p class="text-center m-0"><img width="400px" src="images/Winners_Outline.svg" alt=""></p></div>
                           <h3 class="text-center">Get started on your competition</h3>
-                          <p class="text-center text-muted fst-italic">Lorem ipsum dolor sit amet consectetur adipisicing elit. Ab, provident? Non, dolor!</p>
-                          <div class="d-flex justify-content-center"><a href="#" class="btn btn-default" target="_blank">Learn More</a></div>
+                          <p class="text-center text-muted fst-italic">Learn more about how competitions work on Bobblenote by clicking the button below</p>
+                          <div class="d-flex justify-content-center"><a href="../compguide.php" class="btn btn-default" target="_blank">Learn More</a></div>
                         </div>
                       </div>
                       <div class="col-sm-7">
@@ -291,15 +303,6 @@ if (isset($_POST['create_comp'])) {
 
                    <!--My Enrollments -->
                   <div id="enrollments" class="tabcontent">
-                    <!-- <div class="d-flex justify-content-center">
-                      <div class="d-block">
-                        <p class="text-center m-0"><img src="images/Winner _Outline.svg" width="250px" alt=""></p>
-                        <h6 class="text-center">
-                          You've not enrolled in any competitions!
-                        </h6>
-                        <p class="text-center"><a href="#" class="btn btn-default text-center">Search competitions</a></p>
-                      </div>
-                    </div> -->
                     <div class="mt-4">
                     <?php
                       $en_query = "SELECT * FROM participants WHERE u_email = '$selector'";
@@ -315,7 +318,7 @@ if (isset($_POST['create_comp'])) {
                     ?>
                     <div class="comp-item mb-3">
                           <div class="comp-logo">
-                            <div class="comp-logo-img d-flex justify-content-center align-items-center text-light" style="background-color: <?php echo gen_color(rand(0, 3)) ?>;"><?php echo substr($en_comp_data['name'], 0, 1) ?></div>
+                            <div class="comp-logo-img d-flex justify-content-center align-items-center text-light" style="background-color: <?php echo gen_color(rand(0, 5)) ?>;"><?php echo substr($en_comp_data['name'], 0, 1) ?></div>
                           </div>
                           <div class="comp-txts">
                             <div class="comp-info">
@@ -349,11 +352,26 @@ if (isset($_POST['create_comp'])) {
                         <?php
                         }
                       }
-                    }
+                      else{
                         ?>
+                         <div class="d-flex justify-content-center">
+                      <div class="d-block">
+                        <p class="text-center m-0"><img src="images/Winner _Outline.svg" width="250px" alt=""></p>
+                        <h6 class="text-center">
+                          You've not enrolled in any competitions!
+                        </h6>
+                        <p class="text-center"><a href="../competitions.php" class="btn btn-default text-center">Search competitions</a></p>
+                      </div>
+                    </div>
+                    <?php
+                  
+                }
+              }
+                  ?>
                     </div>
                   </div>
-                  
+      
+
                   <!--Transaction History -->
                   <div class="tabcontent" id="history">
                   <div class="table-responsive mt-3">
@@ -361,7 +379,6 @@ if (isset($_POST['create_comp'])) {
                                 <thead>
                                     <tr>
                                         <th>#T_ID</th>
-                                        <th>Type</th>
                                         <th>Amount</th>
                                         <th>Date</th>
                                         <th></th>
@@ -371,7 +388,7 @@ if (isset($_POST['create_comp'])) {
                                     <?php
                                       /** -------- Logic to select all transactions for a user from db --------- **/
 
-                                      $trans_query = "SELECT T_ID, type, amount, date_created FROM transactions WHERE credit = '$selector' OR debit = '$selector' ORDER BY T_ID";
+                                      $trans_query = "SELECT T_ID, type, amount, credit, debit, date_created FROM transactions WHERE credit = '$selector' OR debit = '$selector' ORDER BY T_ID DESC";
                                       $trans_result = $connection->query($trans_query);
                                       if ($trans_result) {
                                         $trans_rows = $trans_result->num_rows;
@@ -382,13 +399,9 @@ if (isset($_POST['create_comp'])) {
                                     ?>
                                     <tr>
                                         <td><?php echo "#BOB-".$trans_data['T_ID'] ?></td>
-                                        <td style="<?php if ($trans_data['type'] != "debit") {
-                                          echo "color: #3bb75e";
-                                        }
-                                        else echo "color: #e61c0e";?>"><?php echo $trans_data['type'] ?></td>
-                                        <td><?php echo "₦ ".number_format($trans_data['amount']) ?></td>
+                                        <td><?php echo "NGN ".number_format($trans_data['amount']) ?></td>
                                         <td><?php echo $trans_data['date_created']?></td>
-                                        <td><a href="#" class="btn btn-sm btn-success" title="Print receipt">Receipt <i class="fas fa-print"></i></a></td>
+                                        <td><a href="../contact.php" class="text-decoration-underline">Request info</a></td>
                                     </tr>
                                         <?php
                                         }
@@ -400,12 +413,11 @@ if (isset($_POST['create_comp'])) {
                         </div>
                   </div>
 
-                  <!--My Competitions -->
+                  <!--My organized Competitions -->
                   <div id="organized" class="tabcontent">
                     <div class="mt-4">
                       <?php
                         /** Section to select all hosted competitions **/
-                          
                           $hosted_query = "SELECT * FROM competitions WHERE u_email = '$selector' ORDER BY comp_ID DESC";
                           $hosted_result = $connection->query($hosted_query);
                           if ($hosted_result) {
@@ -418,7 +430,7 @@ if (isset($_POST['create_comp'])) {
                       ?>
                       <div class="comp-item mb-3">
                           <div class="comp-logo">
-                            <div class="comp-logo-img d-flex justify-content-center align-items-center text-light" style="background-color: <?php echo gen_color(rand(0, 3)) ?>;"><?php echo substr($hosted_data['name'], 0, 1) ?></div>
+                            <div class="comp-logo-img d-flex justify-content-center align-items-center text-light" style="background-color: <?php echo gen_color(rand(0, 5)) ?>;"><?php echo substr($hosted_data['name'], 0, 1) ?></div>
                           </div>
                           <div class="comp-txts">
                             <div class="comp-info">
@@ -465,6 +477,7 @@ if (isset($_POST['create_comp'])) {
                         
                       }
                     }
+                    else echo "King";
 
                   /** End of section to select all hosted competitions **/
                       

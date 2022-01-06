@@ -60,7 +60,7 @@ $comp_data = get_comp($connection, $compid);
                         <div class="content">
                             <span id="compid" data-id="<?php echo $compid ?>"></span>
                             <div class="d-flex justify-content-center">
-                                <div class="comp-logo-img d-flex justify-content-center align-items-center text-light" style="background-color: <?php echo gen_color(rand(0, 3)) ?>;"><?php echo strtoupper(substr($comp_data['name'], 0, 1)) ?></div>
+                                <div class="comp-logo-img d-flex justify-content-center align-items-center text-light" style="background-color: <?php echo gen_color(rand(0, 5)) ?>;"><?php echo strtoupper(substr($comp_data['name'], 0, 1)) ?></div>
                             </div>
                             <h4 class="text-center"><?php echo $comp_data['name'] ?></h4>
 
@@ -102,7 +102,7 @@ $comp_data = get_comp($connection, $compid);
         <button class="btn-close" aria-label="Close" type="button"></button>
 
         <div class="logo">
-            <img src="images/logo.svg" alt="">
+            <h1 style="font-family: 'Poetsen One', sans-serif;">Bobblenote</h1>
         </div>
         <nav>
             <ul class="vertical-menu">
@@ -210,6 +210,13 @@ $comp_data = get_comp($connection, $compid);
                         Swal.fire(
                         'Warning!',
                         'You are already a participant!',
+                        'warning'
+                        )
+                    }
+                    else if(msg == "only individuals can participate"){
+                        Swal.fire(
+                        'Warning!',
+                        'Only individuals can participate!',
                         'warning'
                         )
                     }

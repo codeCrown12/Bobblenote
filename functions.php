@@ -62,7 +62,7 @@ return false;
 //function to retrieve user-details
 function get_writer_details($connection, $email){
     $detail = "";
-    $query = "SELECT W_ID, firstname, lastname, email, mobile, dob, bio, profilepic, twitter, facebook, instagram, linkedin, token FROM writers WHERE email = '$email'";
+    $query = "SELECT W_ID, account_type, organization_name, firstname, lastname, email, mobile, dob, bio, profilepic, twitter, facebook, instagram, linkedin, token FROM writers WHERE email = '$email'";
     $result = $connection->query($query);
     if (!$result) {
         return "Error in getting details";
@@ -305,7 +305,7 @@ function tag_exists($connection, $tag){
 
 //function to generate color
 function gen_color($num){
-    $colors_arr = array("#d4243b", "#1a30d9", "#0475cc", "#333336");
+    $colors_arr = array("#d4243b", "#1a30d9", "#0475cc", "#333336", "#de00bd", "#02aba0");
     return $colors_arr[$num];
 }
 

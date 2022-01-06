@@ -169,7 +169,12 @@
         <div class="collapse navbar-collapse">
           <ul class="navbar-nav ms-auto" style="margin-right: 25px;">
               <li class="nav-item">
-              <a class="nav-link text-white" href="settings.php"><img src="<?php echo "../".$profile_img."?randomurl= $rand" ?>" class="dp-img" alt=""> <?php echo $fullname ?></a>
+              <a class="nav-link text-white" href="settings.php"><img src="<?php echo "../".$profile_img."?randomurl= $rand" ?>" class="dp-img" alt=""> <?php
+                if ($details['account_type'] == "individual") {
+                  echo $fullname;
+                }
+                else echo $details['organization_name'];
+                ?></a>
               </li>
           </ul>
         </div>
@@ -190,7 +195,12 @@
           </div>
           <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
             <div class="offcanvas-header">
-              <h5 class="offcanvas-title mt-5" id="offcanvasNavbarLabel"><a class="text-dark text-decoration-none" href="settings.php"><img src="<?php echo "../".$profile_img."?randomurl= $rand" ?>" class="dp-img" alt=""> <?php echo $fullname ?></a></h5>
+              <h5 class="offcanvas-title mt-5" id="offcanvasNavbarLabel"><a class="text-dark text-decoration-none" href="settings.php"><img src="<?php echo "../".$profile_img."?randomurl= $rand" ?>" class="dp-img" alt=""> <?php
+                if ($details['account_type'] == "individual") {
+                  echo $fullname;
+                }
+                else echo $details['organization_name'];
+                ?></a></h5>
               <p type="button" data-bs-dismiss="offcanvas" aria-label="Close"><span class="nav-close">&times;</span></p>
             </div>
             <div class="offcanvas-body">

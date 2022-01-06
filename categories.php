@@ -57,7 +57,7 @@ elseif (isset($_GET['gen']) && $_GET['gen'] == "latest") {
     <div class="container">
         <div class="row">
         <div class="section-header mt-2">
-            <h2 class="section-title" style="color: #203656;"><?php echo $cap ?></h2>
+            <h4 class="section-title" style="color: #203656;"><?php echo $cap ?></h4>
         </div>
             <div class="col-lg-8 col-md-12 mt-3">
             <?php
@@ -140,7 +140,7 @@ elseif (isset($_GET['gen']) && $_GET['gen'] == "latest") {
                                         </div>
                                         <button class="btn btn-default btn-full" id="sub-btn">Subscribe</button>
                                     <span class="newsletter-privacy text-center mt-3">
-                                        By signing up, you agree to our <a href="#">Privacy policy</a>
+                                        By subscribing, you agree to our <a href="#">Privacy policy</a>
                                     </span>
                                 </div>
                             </div>
@@ -154,7 +154,7 @@ elseif (isset($_GET['gen']) && $_GET['gen'] == "latest") {
         <button class="btn-close" aria-label="Close" type="button"></button>
 
         <div class="logo">
-            <img src="images/logo.svg" alt="">
+        <h1 style="font-family: 'Poetsen One', sans-serif;">Bobblenote</h1>
         </div>
         <nav>
             <ul class="vertical-menu">

@@ -73,7 +73,12 @@
                                     <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuButton2">
                                         <li>
                                             <a href="profile.php?wid=<?php echo base64_encode($user_details['email']) ?>" class="dropdown-item">
-                                                <?php echo "@".$user_details['firstname']." ".$user_details['lastname'] ?>
+                                                <?php
+                                                if ($user_details['account_type'] == "individual") {
+                                                    echo "@".$user_details['firstname']." ".$user_details['lastname'];
+                                                }
+                                                else echo "@".$user_details['organization_name']; 
+                                                ?>
                                             </a>
                                         </li>
                                         <li><hr class="dropdown-divider"></li>

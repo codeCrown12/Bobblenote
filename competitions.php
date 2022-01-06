@@ -89,7 +89,7 @@ if (isset($_POST['sort_select'])) {
                             </form>
                         </div>
                         <div class="col-md-4">
-                            <a href="writerdashboard/mycompetitions.php" class="btn btn-default p-2 w-100 mb-1 mt-1">Start a new competition <i class="fas fa-medal"></i></a>
+                            <a href="writerdashboard/mycompetitions.php" class="btn btn-success p-2 w-100 mb-1 mt-1">Start a new competition <i class="fas fa-medal"></i></a>
                         </div>
                     </div>
                 </div>
@@ -128,7 +128,7 @@ if (isset($_POST['sort_select'])) {
                                     </a>
                                     <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="menu1">
                                         <li><a class="dropdown-item" onclick="CopyToClipboard(<?php echo $comp_data['comp_ID'] ?>)"><i class="fas fa-share"></i> Share competition</a></li>
-                                        <li><a class="dropdown-item"><i class="fas fa-bullhorn"></i> Report competition</a></li>
+                                        <li><a class="dropdown-item" href="contact.php"><i class="fas fa-bullhorn"></i> Report competition</a></li>
                                     </ul>
                                 </div>                              
                             </div>
@@ -154,8 +154,8 @@ if (isset($_POST['sort_select'])) {
                 <div class="guideline">
                           <div class="d-flex justify-content-center"><p class="text-center m-0"><img width="400px" src="writerDashboard/images/Winners_Outline.svg" alt=""></p></div>
                           <h3 class="text-center">Get started on your competition</h3>
-                          <p class="text-center text-muted fst-italic">Lorem ipsum dolor sit amet consectetur adipisicing elit. Ab, provident? Non, dolor!</p>
-                          <div class="d-flex justify-content-center"><a href="#" class="btn btn-default" target="_blank">Learn More</a></div>
+                          <p class="text-center text-muted fst-italic">Learn more about how competitions work on Bobblenote by clicking the button below</p>
+                          <div class="d-flex justify-content-center"><a href="compguide.php" class="btn btn-default" target="_blank">Learn More</a></div>
                 </div>
             </div>
         </div>
@@ -168,7 +168,7 @@ if (isset($_POST['sort_select'])) {
         <button class="btn-close" aria-label="Close" type="button"></button>
 
         <div class="logo">
-            <img src="images/logo.svg" alt="">
+            <h1 style="font-family: 'Poetsen One', sans-serif;">Bobblenote</h1>
         </div>
         <nav>
             <ul class="vertical-menu">

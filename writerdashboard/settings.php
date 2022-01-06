@@ -301,7 +301,12 @@ if(isset($_POST['updpass'])){
         <div class="collapse navbar-collapse">
           <ul class="navbar-nav ms-auto" style="margin-right: 25px;">
               <li class="nav-item">
-              <a class="nav-link text-white" href="settings.php"><img src="<?php echo "../".$profile_img."?randomurl= $rand" ?>" class="dp-img" alt=""> <?php echo $fullname ?></a>
+              <a class="nav-link text-white" href="settings.php"><img src="<?php echo "../".$profile_img."?randomurl= $rand" ?>" class="dp-img" alt=""> <?php
+                if ($details['account_type'] == "individual") {
+                  echo $fullname;
+                }
+                else echo $details['organization_name'];
+                ?></a>
               </li>
           </ul>
         </div>
@@ -322,7 +327,12 @@ if(isset($_POST['updpass'])){
           </div>
           <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
             <div class="offcanvas-header">
-              <h5 class="offcanvas-title mt-5" id="offcanvasNavbarLabel"><a class="text-dark text-decoration-none" href="settings.php"><img src="<?php echo "../".$profile_img."?randomurl= $rand" ?>" class="dp-img" alt=""> <?php echo $fullname ?></a></h5>
+              <h5 class="offcanvas-title mt-5" id="offcanvasNavbarLabel"><a class="text-dark text-decoration-none" href="settings.php"><img src="<?php echo "../".$profile_img."?randomurl= $rand" ?>" class="dp-img" alt=""> <?php
+                if ($details['account_type'] == "individual") {
+                  echo $fullname;
+                }
+                else echo $details['organization_name'];
+                ?></a></h5>
               <p type="button" data-bs-dismiss="offcanvas" aria-label="Close"><span class="nav-close">&times;</span></p>
             </div>
             <div class="offcanvas-body">
@@ -363,7 +373,12 @@ if(isset($_POST['updpass'])){
                                 <img src="<?php echo "../".$profile_img."?randomurl= $rand" ?>" class="dp-img-lg" alt="">
                             </div>
                             <div class="p-details">
-                                <h5><?php echo $fullname ?></h5>
+                                <h5><?php
+                                if ($details['account_type'] == "individual") {
+                                  echo $fullname;
+                                }
+                                else echo $details['organization_name'];
+                                ?></h5>
                                 <p><?php echo $details['bio'] ?></p>
                                 <button class="btn btn-default" type="button" data-bs-toggle="modal" data-bs-target="#exampleModal"><i class="fas fa-pen-square"></i> Edit profile</button>
                             </div>
@@ -503,7 +518,9 @@ if(isset($_POST['updpass'])){
                   </div>
                 </div>
               </div>
-              <h6 class="mb-2">General information</h6>
+              <?php
+                if ($details['account_type'] == "individual") {
+              ?>
               <div class="row g-2">
                 <div class="col">
                   <label for="">First Name</label>
@@ -514,13 +531,26 @@ if(isset($_POST['updpass'])){
                   <input name="lname" type="text" value="<?php echo $details['lastname'] ?>" class="form-control" placeholder="Last name">
                 </div>
               </div>
+              <?php
+                }
+                else{
+              ?>
+              <div class="form-group mt-3">
+                <label for="">Organization Name</label>
+                <input name="fname" type="text" class="form-control" value="<?php echo $details['organization_name'] ?>" placeholder="First name">
+              </div>
+              <?php
+                }
+              ?>
                 <div class="row mt-1 g-2">
                   <div class="col">
                     <label for="">Mobile</label>
                     <input name="mobile" type="tel" value="<?php echo $details['mobile'] ?>" class="form-control" placeholder="Phone number">
                   </div>
                   <div class="col">
-                    <label for="">Date of birth</label>
+                    <label for=""><?php if ($details['account_type'] == "individual") {
+                      echo "Date of birth";
+                    } else echo "Date founded" ?></label>
                     <input name="dob" type="text" value="<?php echo $details['dob'] ?>" class="form-control" placeholder="Date of birth" aria-label="Date of birth" onfocus="this.type='date'" onfocusout="this.type='text'">
                   </div>
                 </div>

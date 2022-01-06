@@ -19,10 +19,18 @@ $writer_details = get_writer_details($connection, $wid);
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="css/bootstrap.min.css">
-    <title><?php echo $writer_details['firstname']." ".$writer_details['lastname'] ?></title>
+    <title>
+        <?php
+            if ($writer_details['account_type'] == "individual") {
+                echo $writer_details['firstname']." ".$writer_details['lastname'];
+            }
+            else echo $writer_details['organization_name'];
+        ?>
+    </title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
     <link rel="stylesheet"
         href="https://cdnjs.cloudflare.com/ajax/libs/simple-line-icons/2.5.5/css/simple-line-icons.min.css">
+    <!-- <link rel="stylesheet" href="css/style.css"> -->
     <link rel="stylesheet" href="css/profile.css">
 </head>
 <body>
@@ -53,13 +61,20 @@ $writer_details = get_writer_details($connection, $wid);
                 <img class="dp-image" src="<?php echo $writer_details['profilepic']."?randomurl=$rand" ?>" alt="">
             </div>
             <div class="user-info">
-                <h5 style="margin-bottom: 8px; color:#203656;"><?php echo $writer_details['firstname']." ".$writer_details['lastname'] ?></h5>
+                <h5 style="margin-bottom: 8px; color:#203656;">
+                <?php
+                 if ($writer_details['account_type'] == "individual") {
+                    echo $writer_details['firstname']." ".$writer_details['lastname'];
+                 }
+                 else echo $writer_details['organization_name'];
+                 ?></h5>
                 <p style="margin-bottom: 0px;"><?php echo $writer_details['bio'] ?></p>
                 <div class="w-social-con">
                     <ul class="list-inline">
                         <li class="list-inline-item"> <a href="#" class="w-social"><i class="fab fa-facebook"></i></a></li>
                         <li class="list-inline-item"> <a href="#" class="w-social"><i class="fab fa-twitter"></i></a></li>
                         <li class="list-inline-item"> <a href="#" class="w-social"><i class="fab fa-instagram"></i></a></li>
+                        <li class="list-inline-item"> <a class="w-social" href="#"><i class="fab fa-linkedin"></i></a></li>
                     </ul>
                 </div>
             </div>
@@ -99,7 +114,18 @@ $writer_details = get_writer_details($connection, $wid);
                         <?php
                             }
                         }
+                        else{
+                    ?>
+                        <div class="d-flex justify-content-center mb-5 mt-3">
+                          <div>
+                            <img src="writerdashboard/images/Content creation_Monochromatic.svg" alt="" width="250px">
+                            <p class="text-center m-0" style="font-size: 16px;">No Articles here yet</p>
+                            <div class="d-flex justify-content-center"><button class="btn btn-default mt-2">Create an article</button></div>
+                          </div>
+                        </div>
+                    <?php
                     }
+                }
                     ?>
                 </div>
             </div>

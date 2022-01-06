@@ -36,12 +36,17 @@ $rand = rand();
 if (isset($_POST['btn_pay'])) {
   $tot_amt = check_string($connection, $_POST['tot_amt']);
   $fin_amt = check_string($connection, $_POST['fin_amt']);
-  // $tot_amt_kobo = $tot_amt * 100;
   $callbackurl = "http://localhost/edulearn/writerdashboard/verifytransaction.php";
 
   if ($fin_amt == "" || $tot_amt == "") {
     $msg = "<div class='alert alert-danger alert-dismissible fade show' role='alert'>
     All fields are required!
+    <button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button>
+  </div>";
+  }
+  elseif ($tot_amt > 2000000) {
+    $msg = "<div class='alert alert-danger alert-dismissible fade show' role='alert'>
+    Amount deposited must not be more than NGN 2,000,000
     <button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button>
   </div>";
   }
@@ -132,7 +137,12 @@ if (isset($_POST['btn_pay'])) {
         <div class="collapse navbar-collapse">
           <ul class="navbar-nav ms-auto" style="margin-right: 25px;">
               <li class="nav-item">
-              <a class="nav-link text-white" href="settings.php"><img src="<?php echo "../".$profile_img."?randomurl= $rand" ?>" class="dp-img" alt=""> <?php echo $fullname ?></a>
+              <a class="nav-link text-white" href="settings.php"><img src="<?php echo "../".$profile_img."?randomurl= $rand" ?>" class="dp-img" alt=""> <?php
+                if ($details['account_type'] == "individual") {
+                  echo $fullname;
+                }
+                else echo $details['organization_name'];
+                ?></a>
               </li>
           </ul>
         </div>
@@ -153,7 +163,12 @@ if (isset($_POST['btn_pay'])) {
           </div>
           <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
             <div class="offcanvas-header">
-              <h5 class="offcanvas-title mt-5" id="offcanvasNavbarLabel"><a class="text-dark text-decoration-none" href="settings.php"><img src="<?php echo "../".$profile_img."?randomurl= $rand" ?>" class="dp-img" alt=""> <?php echo $fullname ?></a></h5>
+              <h5 class="offcanvas-title mt-5" id="offcanvasNavbarLabel"><a class="text-dark text-decoration-none" href="settings.php"><img src="<?php echo "../".$profile_img."?randomurl= $rand" ?>" class="dp-img" alt=""> <?php
+                if ($details['account_type'] == "individual") {
+                  echo $fullname;
+                }
+                else echo $details['organization_name'];
+                ?></a></h5>
               <p type="button" data-bs-dismiss="offcanvas" aria-label="Close"><span class="nav-close">&times;</span></p>
             </div>
             <div class="offcanvas-body">
@@ -197,7 +212,7 @@ if (isset($_POST['btn_pay'])) {
                         ?>
                           <div class="mb-3"><p class="mb-1">Payment Gateway</p><img src="images/1200px-Paystack_Logo.png" width="150px" alt=""></div>
                           <!-- <div class="mb-4"><p class="mb-1">We Accept:</p><img src="images/cards.png" width="300px" alt=""></div> -->
-                          <p style="font-size: 13px;">(Note:  A 10% fee will be deducted from the total amount deposited) <a href="#">Learn more</a></p>
+                          <p style="font-size: 13px;"><strong>Note:</strong>  A 10% fee will be deducted from the total amount deposited <a href="../compguide.php" target="_blank">Learn more</a></p>
                           <div class="mb-3">
                             <div class="row">
                               <div class="col-sm-6">
@@ -210,13 +225,6 @@ if (isset($_POST['btn_pay'])) {
                               </div>
                             </div>
                           </div>
-                          <!-- <div class="mb-3">
-                            <label class="mb-2" for="">How many positions are you awarding?<br><small>(Maximum of 5 awardees)</small></label>
-                            <input type="number" id="awardees_no" class="form-control" placeholder="E.g 3">
-                            <button class="btn btn-default mt-2" id="gen_fields">Specify prizes</button>
-                          </div>
-                          <p id="gen_inst" style="display: none;">Please input individual prizes of the awardees starting from highest award to lowest. <br><small><strong>Note: </strong>The sum of all the amounts inputed must <strong>not</strong> be greater than your deposit minus the 10% fee.</small></p>
-                          <div id="awards_form"></div> -->
                           <div class="d-flex"><button class="btn btn-success" type="submit" name="btn_pay" id="btn_pay">Proceed to payment <i class="fas fa-paper-plane"></i></button></div>
                         </form>
                   </div>
@@ -232,53 +240,6 @@ if (isset($_POST['btn_pay'])) {
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js" integrity="sha384-eMNCOe7tC1doHpGoWe/6oMVemdAVTMs2xqW4mwXrXsW0L84Iytr2wi5v2QjrP/xp" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.min.js" integrity="sha384-cn7l7gDp0eyniUwwAZgrzD06kc/tftFf19TOAs2zVinnD/C7E91j9yyk5//jjpt/" crossorigin="anonymous"></script>
     <script>
-
-      // function generateElements(){
-      //   let awardees_no = parseInt(document.getElementById("awardees_no").value)
-      //   let main_contain = document.getElementById("awards_form")
-      //   if (isNaN(awardees_no) == false && (awardees_no >= 1 && awardees_no <= 5)) {
-      //       main_contain.innerHTML = ""
-      //       document.getElementById("gen_inst").style = "display: block";
-      //       document.getElementById("btn_pay").style = "display: block";
-      //       for (let i = 0; i < awardees_no; i++) {
-            
-      //       //create div to hold the input fields
-      //       let input_contain = document.createElement('div')
-      //       input_contain.classList.add('mb-3')
-      //       main_contain.appendChild(input_contain)
-
-      //       //Create label for input field
-      //       let titleLabel = document.createElement('label')
-      //       let count = i + 1
-      //       titleLabel.textContent = 'Position '+count
-      //       titleLabel.classList.add('mb-2')
-
-      //       //Create input field
-      //       let titleInput = document.createElement('input')
-      //       titleInput.type = "number"
-      //       titleInput.name = "position"+i
-      //       titleInput.classList.add('form-control')
-      //       titleInput.placeholder = 'E.g 5000'
-
-      //       input_contain.appendChild(titleLabel)
-      //       input_contain.appendChild(titleInput)
-      //     }
-      //   }
-      //   else{
-      //     Swal.fire(
-      //       'Error!',
-      //       'Invalid input',
-      //       'error'
-      //     )
-      //   }
-      // }
-
-      // var gen_fields = document.getElementById("gen_fields")
-      // gen_fields.addEventListener('click', (e)=>{
-      //   e.preventDefault()
-      //   generateElements()
-      // })
-
       var tot_amt = document.getElementById("tot_amt")
       var fin_amt = document.getElementById("fin_amt")
       tot_amt.addEventListener('keyup', ()=>{

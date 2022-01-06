@@ -77,7 +77,8 @@ if(isset($_POST['login'])){
                         </div>
                     </div>
                     <div class="card-body">
-                        <h4 class="mt-1 text-center">Sign into your account!</h4>
+                        <h4 class="mt-1 text-center">Welcome!</h4>
+                        <p class="text-center">Let’s get to know you</p>
                         <?php
                             if ($errormsg != "") {
                                 echo $errormsg;
@@ -93,11 +94,11 @@ if(isset($_POST['login'])){
                                 <input type="password" name="passkey" id="formpass" class="form-control form-control-lg form-icon-trailing"/>
                                 <label class="form-label" for="formpass">Password</label>
                               </div>
-                              <button type="submit" name="login" class="btn btn-primary btn-block mb-3" style="font-size: 15px;padding: 12px;">Login</button>
+                              <button type="submit" name="login" class="btn btn-primary btn-block mb-3" style="font-size: 15px;padding: 12px;">Login to account</button>
                               <p class="text-center" style="margin-bottom: 0;">
-                                  Don't have an account ? <a href="signup.php">Create one</a>
+                                  Don't have an account ? <a class="text-decoration-underline" href="signup.php">Create one</a>
                               </p>
-                              <p class="text-center"><a href="#">Forgot password ?</a></p>
+                              <p class="text-center"><a class="text-decoration-underline" href="forgotpass.php">Forgot password ?</a></p>
                         </form>
                     </div>
                 </div>

@@ -66,11 +66,12 @@ if (isset($_POST['changepass'])) {
                 <div class="card">
                     <div class="card-header text-center">
                         <div class="card-title">
-                            <a href="index.php"><img src="images/logo.svg" alt=""></a>
+                            <a href="index.php"><h1>Bobblenote</h1></a>
                         </div>
                     </div>
                     <div class="card-body">
                         <h4 class="mt-1 text-center">Change password</h4>
+                        <p class="text-center">Enter a new password for your account</p>
                         <?php
                             if ($msg != "") {
                                 echo $msg;

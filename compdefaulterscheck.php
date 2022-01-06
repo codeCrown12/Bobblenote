@@ -28,9 +28,6 @@
                     $exp_data = $exp_result->fetch_array(MYSQLI_ASSOC);
                     if (strtotime(date("Y-m-d")) >= strtotime($exp_data['end_date'])) {
                         expire_comp($connection, $exp_data['comp_ID']);
-                        // if(dump_exp_part($connection, $exp_data['comp_ID'])){
-                        //     empty_exp_part($connection, $exp_data['comp_ID']);
-                        // }
                     }
                 }
             }

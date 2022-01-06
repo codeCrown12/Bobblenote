@@ -27,7 +27,6 @@ include 'compdefaulterscheck.php';
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/simple-line-icons/2.5.5/css/simple-line-icons.min.css">
-    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <style>
         .team-socials a{
             color: #000;
@@ -39,6 +38,9 @@ include 'compdefaulterscheck.php';
         .side-img{
             /* border: 1px solid black; */
             width: 65%;
+        }
+        .section-body{
+            font-size: 17px;
         }
         @media screen and (max-width: 700px){
             .side-img{
@@ -55,8 +57,8 @@ include 'compdefaulterscheck.php';
         <div class="row">
             <div class="col-sm-6">
                 <div>
-                    <h2>What is Bobblenote ?</h2>
-                    <p>Lorem ipsulit. Quib tempora, a libero possimus commodi modi dolores in iusto, exercitationem dolorum ex iste laborum tempore similique cumque. Deleniti commodi atque vel illum. Blanditiis dolore voluptatibipsa soluta et eaque aut sit. Accusamus perferendis reiciendis fuga, vel pariatur voluptatem, ipsum provident ea labore, officiis accusantium dicta fugiat magnam maior</p>
+                    <h2>About Bobblenote</h2>
+                    <p class="section-body">We create a space where individuals of various fields of study, different mindsets and thinking come to find content that reshapes expands their thinking. Here experts and up-and-comers alike delve into the core of any subject, bringing fresh perspectives to the body of knowledge.</p>
                 </div>
             </div>
             <div class="col-sm-6">
@@ -74,7 +76,7 @@ include 'compdefaulterscheck.php';
             <div class="col-sm-6 order-sm-first order-md-last">
                 <div>
                     <h2>Avenue for growth for african writers 🖤</h2>
-                    <p>Lorem ipsum dolor pore saepe in accusantium error, suscipit necessitatibus porro, voluptates eum sapiente iste mollitia veniam aut accusamus ducimus autem. Debitis rem repellendus ratione quaerat beatae. Officiis dicta officia deleniti quaerat in neque rerum voluptatem voluptatum, sit quo optio dolores facilis! Fuga nihil voluptas voluptates consequatur officiis perspiciatis aperiam.</p>
+                    <p class="section-body">We are a platform proudly built by Africans for Africans dedicated to providing growth to content creators all over Africa. We serve as a pedestal for bringing both new and experienced content creators in Africa into the global spot light. And most of all we are passionate about the growth of Africa in general.</p>
                 </div>
             </div>
         </div>
@@ -82,7 +84,7 @@ include 'compdefaulterscheck.php';
             <div class="col-sm-6">
                 <div>
                     <h2>Rewards for contributions to the body of knowledge</h2>
-                    <p>Lorem ipsum dolor sit amet consectetur, Lorem ipsum dolor sit amet consectetur, adipisicing elit. Debitis, ut adipisci dignissimos corrupti laboriosam perferendis quaerat sint modi, aperiam inventore, dolorum culpa explicabo aut! Dicta iure animi officia perspiciatis a?</p>
+                    <p class="section-body">Bobblenote also allows it's users (individuals and companies) to host article/content writing competitions and reward winners with monetary prizes. This serves as a means of rewarding exceptional content creators for their contribution to the body of knowledge.</p>
                 </div>
             </div>
             <div class="col-sm-6">
@@ -94,7 +96,7 @@ include 'compdefaulterscheck.php';
         <div class="container">
             <h2 class="text-center mt-2 mb-0">Meet The Team</h2>
             <p class="text-center text-muted m-0">
-                Lorem ipsum, dolor sit amet cons. Omnis, itaque!
+                Let's meet Bobblenote's awesome team members
             </p>
             <div class="row mt-4">
                 <div class="col-sm-3">
@@ -156,8 +158,9 @@ include 'compdefaulterscheck.php';
             </div>
             <div class="row justify-content-center">
                 <div class="col-md-4">
+                    <h6 class="text-center">Our Mission</h6>
                     <p class="text-center text-muted" style="font-style: italic; font-size: 15px;">
-                    ❝ Lorem ipsum dolor sit amet, consectetur adipisicing elit. Iure, illum quo placeat iste corrupti sed. ❞
+                    ❝ To make knowledge and insightful content available to everyone and to reward the creators of such content ❞
                     </p>
                 </div>
             </div>
@@ -169,7 +172,7 @@ include 'compdefaulterscheck.php';
         <button class="btn-close" aria-label="Close" type="button"></button>
 
         <div class="logo">
-            <img src="images/logo.svg" alt="">
+            <h1 style="font-family: 'Poetsen One', sans-serif;">Bobblenote</h1>
         </div>
         <nav>
             <ul class="vertical-menu">

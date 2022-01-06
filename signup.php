@@ -29,7 +29,9 @@ if (isset($_POST['register'])) {
     $dob = check_string($connection, $_POST['dob']);
     $pass1 = check_string($connection, $_POST['pass1']);
     $pass2 = check_string($connection, $_POST['pass2']);
-    if ($fname == "" || $lname == "" || $email == "" || $mobile == "" || $dob == "" || $pass1 == "" || $pass2 == "" || !isset($_POST['terms'])) {
+    $acct_type = check_string($connection, $_POST['acct_type']);
+    $org_name = check_string($connection, $_POST['orgname']);
+    if (($acct_type == "individual" && ($fname == "" || $lname == "")) || ($acct_type == "organization" && ($org_name == ""))  || $email == "" || $mobile == "" || $dob == "" || $pass1 == "" || $pass2 == "") {
         $info = "<div class='alert alert-danger alert-dismissible fade show' role='alert'>
         All fields are required!
         <button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button>
@@ -49,9 +51,9 @@ if (isset($_POST['register'])) {
     }
     else{
         $pass = password_hash($pass1, PASSWORD_DEFAULT);
-        $query = "INSERT INTO writers (firstname, lastname, email, mobile, dob, password) VALUES (?,?,?,?,?,?)";
+        $query = "INSERT INTO writers (account_type, organization_name, firstname, lastname, email, mobile, dob, password) VALUES (?,?,?,?,?,?,?,?)";
         $result = $connection->prepare($query);
-        $result->bind_param("ssssss", $fname, $lname, $email, $mobile, $dob, $pass);
+        $result->bind_param("ssssssss", $acct_type, $org_name, $fname, $lname, $email, $mobile, $dob, $pass);
         if ($result->execute()) {
             $token = upd_token($connection, $email);
             if ($token != false) {
@@ -129,7 +131,7 @@ if (isset($_POST['register'])) {
     <link rel="stylesheet" href="css/signup.css">
 </head>
 <body>
-    <nav class="navbar navbar-light bg-white">
+    <nav class="navbar navbar-light bg-white p-3">
         <div class="container-fluid">
           <a class="navbar-brand ms-lg-5 ms-sm-0" href="index.php">
             <h1>Bobblenote</h1>
@@ -142,9 +144,9 @@ if (isset($_POST['register'])) {
                 <div class="row">
                     <div class="col-sm-5">
                         <img class='img-fit mt-sm-3' width='100%' src='images/undraw_Content_creator_re_pt5b.svg'>
-                            <h3 class="text-center mt-3">Become a writer</h3>
+                            <h3 class="text-center mt-3">Join our community</h3>
                             <p class="text-center caption">
-                            Lorem ipsum, dolor  bore dolore tempora nam velit reprehenderit molestias quam sed sit maiores consequuntur ipsa?
+                            ❝ Join our wonderful community of bright minds and access insightful and rich content ❞
                             </p>
                     </div>
                     <div class="col-sm-7 p-3">
@@ -158,26 +160,26 @@ if (isset($_POST['register'])) {
                                 <h6 class="mb-1">Select account type</h6>
                                 <div class="col">
                                     <div class="form-check">
-                                        <label class="form-check-label" for="flexRadioDefault1">
+                                        <label class="form-check-label" for="ind_acct">
                                             Individual Account
                                         </label>
-                                        <input class="form-check-input" id="ind_acct" type="radio" name="flexRadioDefault" id="flexRadioDefault1">
+                                        <input class="form-check-input" id="ind_acct" value="individual" checked type="radio" name="acct_type">
                                     </div>
                                 </div>
                                 <div class="col">
                                     <div class="form-check">
-                                        <label class="form-check-label" for="flexRadioDefault2">
+                                        <label class="form-check-label" for="org_acct">
                                             Organization Account
                                         </label>
-                                        <input class="form-check-input" id="org_acct" type="radio" name="flexRadioDefault" id="flexRadioDefault2">
+                                        <input class="form-check-input" value="organization" id="org_acct" type="radio" name="acct_type">
                                     </div>
                                 </div>
                             </div>
                             
-                            <div class="form-group mt-3 mb-3">
-                                <input type="text" class="form-control" placeholder="Organization Name" name="org_name">
+                            <div class="form-group mt-3 mb-3" id="org_group" style="display: none;">
+                                <input type="text" class="form-control" placeholder="Organization Name" name="orgname">
                             </div>
-                            <div class="row g-2">
+                            <div class="row g-2 mt-2" id="ind_group">
                                 <div class="col">
                                     <div class="form-group">
                                         <input type="text" class="form-control" placeholder="First name" name="fname">
@@ -200,7 +202,7 @@ if (isset($_POST['register'])) {
                                 </div>
                                 <div class="col">
                                     <div class="form-group">
-                                        <input type="text" class="form-control" placeholder="Date of birth" name="dob" onfocus="this.type='date'" onfocusout="this.type='text'">
+                                        <input type="text" id="dob" class="form-control" placeholder="Date of birth" name="dob" onfocus="this.type='date'" onfocusout="this.type='text'">
                                     </div>
                                 </div>
                             </div>
@@ -216,12 +218,9 @@ if (isset($_POST['register'])) {
                                     </div>
                                 </div>
                             </div>
-                            <div class="form-group mt-2 p-2 mb-2">
-                                <input id="accept-terms" type="checkbox" name="terms" value="terms">
-                                <label for="accept-terms">I agree to the <a href="#">terms</a></label>
-                            </div>
-                            <button name="register" type="submit" class="btn btn-primary w-100 p-2">Create your account</button>
-                            <p class="p-2">Already have an account? <a href="login.php">Sign in</a></p>
+                            <button name="register" type="submit" class="mt-3 mb-3 btn btn-primary w-100 p-2">Create your account</button>
+                            <p class="m-0">Already have an account? <a href="login.php" class="text-decoration-underline">Sign in</a></p>
+                            <p><small><strong>Note:</strong> By clicking "Create your account" you agree to use our services in accordance with our <a href="#" class="text-decoration-underline">terms and conditions</a></small></p>
                         </form>
                     </div>
                 </div>
@@ -231,5 +230,21 @@ if (isset($_POST['register'])) {
     <!-- javascripts  -->
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js" integrity="sha384-eMNCOe7tC1doHpGoWe/6oMVemdAVTMs2xqW4mwXrXsW0L84Iytr2wi5v2QjrP/xp" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.min.js" integrity="sha384-cn7l7gDp0eyniUwwAZgrzD06kc/tftFf19TOAs2zVinnD/C7E91j9yyk5//jjpt/" crossorigin="anonymous"></script>
+    <script>
+        //Script to toggle orginazion and individual account forms
+        var org_check = document.getElementById("org_acct")
+        var ind_check = document.getElementById("ind_acct")
+
+        org_check.addEventListener('click', ()=>{
+            document.getElementById("org_group").style = "display: block";
+            document.getElementById("ind_group").style = "display: none";
+            document.getElementById("dob").setAttribute('placeholder', 'Date founded')
+        })
+        ind_check.addEventListener('click', ()=>{
+            document.getElementById("org_group").style = "display: none";
+            document.getElementById("ind_group").style = "display: flex";
+            document.getElementById("dob").setAttribute('placeholder', 'Date of birth')
+        })
+    </script>
 </body>
 </html>

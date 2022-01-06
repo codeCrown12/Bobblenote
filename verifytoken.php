@@ -94,12 +94,12 @@ if (isset($_POST['tokenbtn'])) {
                 <div class="card">
                     <div class="card-header text-center">
                         <div class="card-title">
-                            <a href="index.php"><img src="images/logo.svg" alt=""></a>
+                            <a href="index.php"><h1>Bobblenote</h1></a>
                         </div>
                     </div>
                     <div class="card-body">
                         <h4 class="mt-1 text-center">Verify token</h4>
-                        <p class="text-center"><small><strong>Tip:</strong> Enter the token we sent to your email address.</small></p>
+                        <p class="text-center">Enter the token that was sent to your email address</p>
                         <?php
                             if ($msg != "") {
                                 echo $msg;
@@ -111,6 +111,7 @@ if (isset($_POST['tokenbtn'])) {
                                 <label class="form-label" for="formtoken">Verification token</label>
                               </div>
                               <button type="submit" name="tokenbtn" class="btn btn-primary btn-block mb-3" style="font-size: 15px;padding: 12px;">Verify token</button>
+                              <p class="text-center">Changed your mind?<a class="text-decoration-underline" href="login.php"> Login</a></p>
                         </form>
                     </div>
                 </div>

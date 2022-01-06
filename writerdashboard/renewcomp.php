@@ -11,6 +11,10 @@ else{
   $selector = $_SESSION['w_email'];
 }
 
+if (isset($_GET['comp_id'])) {
+    $comp_id = $_GET['comp_id'];
+}
+
 //snippet to get details
 $details = get_writer_details($connection, $selector);
 $fullname = $details['firstname']. " ". $details['lastname'];
@@ -19,28 +23,66 @@ $msg = "";
 $rand = rand();
 include '../compdefaulterscheck.php';
 
-//get participant email(s)
-if (isset($_GET['rec'])) {
-    $rec_email = $_GET['rec'];
-}
+//Get competition details
+$comp_data = get_comp($connection, $comp_id);
 
-if (isset($_GET['comp_ID'])) {
-    $compid = $_GET['comp_ID'];
-}
+if (isset($_POST['update'])) {
+    $start_date = check_string($connection, $_POST['start_date']);
+    $end_date = check_string($connection, $_POST['end_date']);
+    $tag = check_string($connection, $_POST['tag']);
 
+    if ($start_date == "" || $end_date == "" || $tag == "") {
+        $msg = "<div class='alert alert-danger alert-dismissible fade show' role='alert'>
+            All fields are required!
+            <button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button>
+        </div>";
+    }
+    elseif (tag_exists($connection, $tag) && $tag != $comp_data['tag']) {
+        $msg = "<div class='alert alert-danger alert-dismissible fade show' role='alert'>
+        Tag already used! please use another tag
+        <button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button>
+      </div>";
+    }
+    elseif (strtotime($start_date) < strtotime(date('m/d/Y'))) {
+        $msg = "<div class='alert alert-danger alert-dismissible fade show' role='alert'>
+        Start date must be greater than or equal to today's date!
+        <button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button>
+      </div>";
+    }
+    elseif (strtotime($end_date) <= strtotime($start_date)) {
+        $msg = "<div class='alert alert-danger alert-dismissible fade show' role='alert'>
+        End date must be greater than start date!
+        <button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button>
+      </div>";
+    }
+    else{
+        $query = "UPDATE competitions SET start_date = ?, end_date = ?, tag = ? WHERE comp_ID = $comp_id";
+        $result = $connection->prepare($query);
+        $result->bind_param("sss", $start_date, $end_date, $tag);
+        if ($result->execute()) {
+            if(dump_exp_part($connection, $comp_data['comp_ID'])){
+                empty_exp_part($connection, $comp_data['comp_ID']);
+                header("Location: payment.php?comp_id=$comp_id");
+            }
+        }
+        else{
+            $msg = "<div class='alert alert-danger alert-dismissible fade show' role='alert'>
+            Error in connection!
+            <button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button>
+        </div>";
+        }
+    }
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
+    <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Send email</title>
-    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <link rel="stylesheet" type="text/css" href="https://unpkg.com/slick-loader@1.1.20/slick-loader.min.css">
+    <title>Change details</title>
     <link rel="stylesheet" href="../css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
-    <script src="https://cdn.lordicon.com/libs/mssddfmo/lord-icon-2.1.0.js"></script>
     <link rel="stylesheet" href="css/general.css">
 </head>
 <body>
@@ -110,97 +152,53 @@ if (isset($_GET['comp_ID'])) {
           </div>
         </div>
       </nav>
-      <!-- my navigation bars end here -->
       <div class="container">
-          <div class="row mt-5 justify-content-center">
-              <div class="col-sm-6">
-                  <div class="card">
-                      <!-- <div class="card-header bg-white">
-                        <h5 class="m-0 card-title">Send Email</h5>
-                      </div> -->
-                      <div class="card-body">
-                          <div class="d-flex justify-content-center m-0">
-                              <img src="images/Sending emails_Flatline.svg" width="200px" alt="">
-                          </div>
-                          <h5 class="text-center">Compose Message</h5>
-                          <form action="">
-                              <input type="hidden" id="compid" value="<?php echo $compid ?>">
-                              <div class="form-group mt-3">
-                                  <label for="">Recipient</label>
-                                  <input value="<?php echo $rec_email ?>" id="rec" readonly type="text" class="form-control mt-1" placeholder="e.g username@example.com">
-                              </div>
-                              <div class="form-group mt-3">
-                                  <label for="">Title/Subject</label>
-                                  <input id="sub" type="text" class="form-control mt-1" placeholder="e.g Introduction to test competition">
-                              </div>
-                              <div class="form-group mt-3">
-                                  <label for="" class="mb-1">Message body</label>
-                                  <textarea name="" id="body" cols="30" rows="10" placeholder="Message body goes here..." class="form-control"></textarea>
-                              </div>
-                              <button id="send" class="mt-2 btn btn-default">Send Message <i class="fas fa-paper-plane"></i></button>
-                          </form>
-                      </div>
-                  </div>
+        <div class="row justify-content-center">
+          <div class="col-md-6">
+            <div class="card rounded-0 mt-4">
+              <div class="card-header bg-white p-3">
+                <h5 class="card-title m-0"><i class="fas fa-pen-alt"></i> Change Details</h5>
               </div>
+              <div class="card-body">
+                <div class="row">
+                  <div class="col-sm-12">
+                      <form action="renewcomp.php?comp_id=<?php echo $comp_id?>" method="POST">
+                        <?php
+                          if ($msg != "") {
+                            echo $msg;
+                          }
+                        ?>
+                          <p style="font-size: 14px;"><strong>Note:</strong> Provide details below in order to renew expired competition <a href="#">Learn more</a></p>
+                          <div class="mb-3">
+                            <div class="row">
+                              <div class="col-sm-6">
+                                <label for="" class="mb-2">Start Date</label>
+                                <input value="<?php echo $comp_data['start_date'] ?>" type="date" name="start_date" class="form-control">
+                              </div>
+                              <div class="col-sm-6">
+                                <label for="" class="mb-2">End Date</label>
+                                <input value="<?php echo $comp_data['end_date'] ?>" type="date" name="end_date" class="form-control">
+                              </div>
+                            </div>
+                          </div>
+                          <div class="mb-3">
+                              <label>Tag</label>
+                              <input value="<?php echo $comp_data['tag'] ?>" type="text" name="tag" class="form-control" placeholder="e.g bobblenote">
+                          </div>
+                          <div class="d-flex"><button class="btn btn-success" type="submit" name="update">Save & Continue <i class="fas fa-check-double"></i></button></div>
+                        </form>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
+        </div>
       </div>
-    <?php include '../footer.php' ?>
-      <!-- javascripts  -->
+      <!-- my navigation bars end here -->
+      <?php include '../footer.php' ?>
+      
       <script src="../js/jquery.min.js"></script>
       <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js" integrity="sha384-eMNCOe7tC1doHpGoWe/6oMVemdAVTMs2xqW4mwXrXsW0L84Iytr2wi5v2QjrP/xp" crossorigin="anonymous"></script>
       <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.min.js" integrity="sha384-cn7l7gDp0eyniUwwAZgrzD06kc/tftFf19TOAs2zVinnD/C7E91j9yyk5//jjpt/" crossorigin="anonymous"></script>
-      <script src="https://cdn.tiny.cloud/1/0h01t537dv5w80phd2kb1873sfhpg9mg6ek7ckr1aly3myzy/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
-      <script src="https://unpkg.com/slick-loader@1.1.20/slick-loader.min.js"></script>
-      <script>
-          tinymce.init({
-          selector: 'textarea#body',
-          height: 250,
-          plugins: [
-            'emoticons paste lists'
-            ],
-            toolbar: 'insertfile undo redo | bold italic | fullpage | bullist | emoticons',
-            menubar: ''
-       });
-       $(document).ready(function(){
-           $("#send").click(function(e){
-               e.preventDefault();
-               SlickLoader.enable();
-               SlickLoader.setText("Please wait...");
-               tinyMCE.triggerSave();
-               var rec = $("#rec").val();
-               var sub = $("#sub").val();
-               var body = $("#body").val();
-               var compid = $("#compid").val();
-               $.ajax({
-                    type: "post",
-                    url: "managepart.php",
-                    data: {send: 'send', rec: rec, sub: sub, body: body, comp_ID: compid}
-                  }).done(function(msg){
-                    SlickLoader.disable();
-                    if (msg == "success") {
-                        Swal.fire({
-                            title: 'Success!',
-                            text: "Message sent successfully!",
-                            icon: 'success',
-                            showCancelButton: false
-                            }).then((result) => {
-                            if (result.isConfirmed) {
-                                location.replace('managecompetition.php?comp_ID='+compid)
-                            }
-                        })
-                    }
-                    else{
-                        Swal.fire(
-                        'Error',
-                        msg,
-                        'error'
-                        )
-                    }
-                  }).fail(function(msg){
-                      console.log(msg)
-                  })
-           })
-       })
-      </script>
-    </body>
+</body>
 </html>

@@ -21,11 +21,15 @@ $mail->Port = 465;
 if (isset($_POST['comp_id'])) {
     $comp_id = check_string($connection, $_POST['comp_id']);
     $comp_data = get_comp($connection, $comp_id);
+    $user_details = get_writer_details($connection, $_SESSION['w_email']);
     if (isset($_SESSION['w_email']) == false || $_SESSION['w_email'] == "") {
         echo "not logged in";
     }
     elseif (check_participant($connection, $_SESSION['w_email'], $comp_id)) {
         echo "already a participant";
+    }
+    elseif ($user_details['account_type'] == "organization") {
+        echo "only individuals can participate";
     }
     else{
         $selector = $_SESSION['w_email'];
@@ -59,11 +63,11 @@ if (isset($_POST['comp_id'])) {
                     echo "success";
                 }
                 else{
-                    echo "error";
+                    echo "error in connection";
                 }
         }
         else{
-            echo "error";
+            echo "error in connection";
         }
     }
 }
