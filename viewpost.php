@@ -193,7 +193,7 @@ include 'compdefaulterscheck.php';
                             </div>
                             <button class="btn btn-default btn-full" id="sub-btn">Subscribe</button>
                         <span class="newsletter-privacy text-center mt-3">
-                            By subscribing, you agree to our <a href="#">Privacy policy</a>
+                            By subscribing, you agree to our <a class="text-decoration-underline" href="termsofservice.php">Privacy policy</a>
                         </span>
                     </div>
                 </div>
