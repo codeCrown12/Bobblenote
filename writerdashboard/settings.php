@@ -578,7 +578,7 @@ $(document).ready(function(){
                 Swal.fire({
                   title: 'Are you sure?',
                   icon: 'warning',
-                  html: `<small>Deleting your account will remove all your personal data and this action is irreversible.</small><input type="password" id="password" class="swal2-input mb-1" placeholder="Enter password...">`,
+                  html: `<small>Deleting your account will deny you access to our services and this action is irreversible.</small><input type="password" id="password" class="swal2-input mb-1" placeholder="Enter password...">`,
                   confirmButtonText: 'Verify password',
                   focusConfirm: false,
                   preConfirm: () => {
