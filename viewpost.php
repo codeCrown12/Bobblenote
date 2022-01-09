@@ -80,7 +80,7 @@ include 'compdefaulterscheck.php';
                         </div>
                         <div class="social-interact">
                             <div class="section-like">
-                                <div class="fs-6 mytooltip" id="likebtn"><i class="far fa-thumbs-up"></i>&nbsp; <?php 
+                                <div class="fs-6 mytooltip" id="likebtn" title="Boost this post 🚀"><i class="fas fa-rocket"></i>&nbsp; <?php 
                                     echo numFormatter($post_details['no_of_likes']);
                                     ?>
                                 </div>
