@@ -220,7 +220,7 @@ if (isset($_POST['register'])) {
                             </div>
                             <button name="register" type="submit" class="mt-3 mb-3 btn btn-primary w-100 p-2">Create your account</button>
                             <p class="m-0">Already have an account? <a href="login.php" class="text-decoration-underline">Sign in</a></p>
-                            <p><small><strong>Note:</strong> By clicking "Create your account" you agree to use our services in accordance with our <a href="#" class="text-decoration-underline">terms and conditions</a></small></p>
+                            <p><small><strong>Note:</strong> By clicking "Create your account" you agree to use our services in accordance with our <a href="termsofservice.php" class="text-decoration-underline">terms and conditions</a></small></p>
                         </form>
                     </div>
                 </div>

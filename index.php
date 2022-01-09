@@ -235,7 +235,7 @@ include 'compdefaulterscheck.php';
                         </div>
                         <div class="row">
                         <?php
-                        $l_query = "SELECT P_ID, coverimg, W_email, title, category, excerpt, date_created FROM posts WHERE published = 'yes' ORDER BY date_created DESC";
+                        $l_query = "SELECT P_ID, coverimg, W_email, title, category, excerpt, date_created FROM posts WHERE published = 'yes' ORDER BY date_created DESC LIMIT 20";
                         $l_res = $connection->query($l_query);
                         if ($l_res) {
                             $l_numrows = $l_res->num_rows;
@@ -274,8 +274,9 @@ include 'compdefaulterscheck.php';
                             </div>
                             <?php
                                 }
-                                // echo "
-                                // <a href='categories.php?gen=latest' class='text-decoration-underline'>View more &rsaquo;&rsaquo;</a>";
+                                if ($l_numrows >= 20) {
+                                     echo "<a href='categories.php?gen=latest' class='text-decoration-underline'>View more &rsaquo;&rsaquo;</a>";   
+                                }                               
                             }
                             else{
                                 echo "<div class='col-sm-6 justify-content-center align-items-center'>

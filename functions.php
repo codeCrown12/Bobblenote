@@ -62,7 +62,7 @@ return false;
 //function to retrieve user-details
 function get_writer_details($connection, $email){
     $detail = "";
-    $query = "SELECT W_ID, account_type, organization_name, firstname, lastname, email, mobile, dob, bio, profilepic, twitter, facebook, instagram, linkedin, token FROM writers WHERE email = '$email'";
+    $query = "SELECT W_ID, account_type, organization_name, firstname, lastname, email, mobile, dob, bio, profilepic, twitter, instagram, linkedin, token FROM writers WHERE email = '$email'";
     $result = $connection->query($query);
     if (!$result) {
         return "Error in getting details";

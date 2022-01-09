@@ -124,14 +124,13 @@ if (isset($_POST['save'])) {
 
 //update socials
 if (isset($_POST['upd_social'])) {
-  $fb = check_string($connection, $_POST['facebook']);
   $ig = check_string($connection, $_POST['instagram']);
   $twt = check_string($connection, $_POST['twitter']);
   $lin = check_string($connection, $_POST['linkedin']);
 
-  $query = "UPDATE writers SET facebook = ?, instagram = ?, twitter = ?, linkedin = ? WHERE email = '$selector'";
+  $query = "UPDATE writers SET instagram = ?, twitter = ?, linkedin = ? WHERE email = '$selector'";
   $result = $connection->prepare($query);
-  $result->bind_param("ssss", $fb, $ig, $twt, $lin);
+  $result->bind_param("sss", $ig, $twt, $lin);
   if (!$result->execute()) {
     $msg = "<div class='alert alert-danger alert-dismissible fade show mt-2' role='alert'>
           Error in connection!
@@ -445,10 +444,6 @@ if(isset($_POST['updpass'])){
                             <div class="form-group mt-3">
                             <label for="">Instagram profile link</label>
                               <input name="instagram" type="text" value="<?php echo $details['instagram'] ?>" class="form-control" placeholder="instagram">
-                            </div>
-                            <div class="form-group mt-3">
-                            <label for="">Facebook profile link</label>
-                              <input name="facebook" type="text" value="<?php echo $details['facebook'] ?>" class="form-control" placeholder="Facebook">
                             </div>
                             <div class="form-group mt-3">
                             <label for="">Linkedin profile link</label>
