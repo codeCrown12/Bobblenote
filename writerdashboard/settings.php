@@ -438,15 +438,15 @@ if(isset($_POST['updpass'])){
                   <p class="mt-3">Tip: Add links to your social media accounts so that your readers can follow your content.</p>
                           <form action="settings.php" method="POST" class="mt-3">
                             <div class="form-group">
-                              <label for="">Twitter profile link</label>
+                              <label for="">Twitter username</label>
                               <input name="twitter" type="text" value="<?php echo $details['twitter'] ?>" class="form-control" placeholder="Twitter">
                             </div>
                             <div class="form-group mt-3">
-                            <label for="">Instagram profile link</label>
+                            <label for="">Instagram username</label>
                               <input name="instagram" type="text" value="<?php echo $details['instagram'] ?>" class="form-control" placeholder="instagram">
                             </div>
                             <div class="form-group mt-3">
-                            <label for="">Linkedin profile link</label>
+                            <label for="">Linkedin full profile url</label>
                               <input name="linkedin" type="text" value="<?php echo $details['linkedin'] ?>" class="form-control" placeholder="Linkedin">
                             </div>
                             <div class="form-group mt-3">

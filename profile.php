@@ -40,16 +40,13 @@ $writer_details = get_writer_details($connection, $wid);
           <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav ms-auto me-5">
               <li class="nav-item">
-                <a class="nav-link" href="#"><i class="fab fa-twitter"></i></a>
+                <a class="nav-link" href="https://www.twitter.com/<?php echo $writer_details['twitter'] ?>"><i class="fab fa-twitter"></i></a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="#"><i class="fab fa-instagram"></i></a>
+                <a class="nav-link" href="https://www.instagram.com/<?php echo $writer_details['instagram'] ?>"><i class="fab fa-instagram"></i></a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="#"><i class="fab fa-facebook"></i></a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="#"><i class="fab fa-linkedin"></i></a>
+                <a class="nav-link" href="<?php echo $writer_details['linkedin'] ?>"><i class="fab fa-linkedin"></i></a>
               </li>
             </ul>
           </div>
@@ -71,10 +68,9 @@ $writer_details = get_writer_details($connection, $wid);
                 <p style="margin-bottom: 0px;"><?php echo $writer_details['bio'] ?></p>
                 <div class="w-social-con">
                     <ul class="list-inline">
-                        <li class="list-inline-item"> <a href="#" class="w-social"><i class="fab fa-facebook"></i></a></li>
-                        <li class="list-inline-item"> <a href="#" class="w-social"><i class="fab fa-twitter"></i></a></li>
-                        <li class="list-inline-item"> <a href="#" class="w-social"><i class="fab fa-instagram"></i></a></li>
-                        <li class="list-inline-item"> <a class="w-social" href="#"><i class="fab fa-linkedin"></i></a></li>
+                        <li class="list-inline-item"> <a href="https://www.twitter.com/<?php echo $writer_details['twitter'] ?>" class="w-social"><i class="fab fa-twitter"></i></a></li>
+                        <li class="list-inline-item"> <a href="https://www.instagram.com/<?php echo $writer_details['instagram'] ?>" class="w-social"><i class="fab fa-instagram"></i></a></li>
+                        <li class="list-inline-item"> <a class="w-social" href="<?php echo $writer_details['linkedin'] ?>"><i class="fab fa-linkedin"></i></a></li>
                     </ul>
                 </div>
             </div>
@@ -131,18 +127,7 @@ $writer_details = get_writer_details($connection, $wid);
             </div>
         </div>
     </div>  
-  <div id="myModal" class="cusmodal">
 
-    <!-- The Close Button -->
-    <span class="close">&times;</span>
-  
-    <!-- Modal Content (The Image) -->
-    <img class="mymodal-content" id="img01">
-  
-    <!-- Modal Caption (Image Text) -->
-    <div id="caption"></div>
-  </div>
-  
   <?php include 'footer.php' ?>
   <script src="js/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js" integrity="sha384-7+zCNj/IqJ95wo16oMtfsKbZ9ccEh31eOz1HGyDuCQ6wgnyJNSYdrPa03rtR1zdB" crossorigin="anonymous"></script>
