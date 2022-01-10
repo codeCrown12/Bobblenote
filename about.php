@@ -98,16 +98,15 @@ include 'compdefaulterscheck.php';
             <p class="text-center text-muted m-0">
                 Let's meet Bobblenote's awesome team members
             </p>
-            <div class="row mt-4">
+            <div class="row mt-4 justify-content-center">
                 <div class="col-sm-3">
                     <div class="card rounded-0 mb-4">
-                        <img src="images/posts/insp-1.jpg" class="card-img-top rounded-0 w-100" alt="...">
+                        <img src="images/simon_image.jpg" height="250px" class="card-img-top rounded-0 w-100" alt="...">
                         <div class="card-body p-2">
-                            <h6 class="card-title mt-1 mb-1">John Doe</h6>
-                            <p class="m-0">Lead Developer</p>
+                            <h6 class="card-title mt-1 mb-1">Simon Dickson</h6>
+                            <p class="m-0">Front end Developer</p>
                             <div class="team-socials">
                                 <a href="#"><i class="fab fa-twitter"></i></a>
-                                <a href="#"><i class="fab fa-telegram"></i></a>
                                 <a href="#"><i class="fab fa-linkedin"></i></a>
                             </div>
                         </div>
@@ -115,13 +114,12 @@ include 'compdefaulterscheck.php';
                 </div>
                 <div class="col-sm-3">
                     <div class="card rounded-0 mb-4">
-                        <img src="images/posts/insp-1.jpg" class="card-img-top rounded-0 w-100" alt="...">
+                        <img src="images/king_image.jpg" height="250px" class="card-img-top rounded-0 w-100" alt="...">
                         <div class="card-body p-2">
-                            <h6 class="card-title mt-1 mb-1">John Doe</h6>
-                            <p class="m-0">Developer</p>
+                            <h6 class="card-title mt-1 mb-1">King Jacob</h6>
+                            <p class="m-0">Back end Developer</p>
                             <div class="team-socials">
                                 <a href="#"><i class="fab fa-twitter"></i></a>
-                                <a href="#"><i class="fab fa-telegram"></i></a>
                                 <a href="#"><i class="fab fa-linkedin"></i></a>
                             </div>
                         </div>
@@ -129,19 +127,18 @@ include 'compdefaulterscheck.php';
                 </div>
                 <div class="col-sm-3">
                     <div class="card rounded-0 mb-4">
-                        <img src="images/posts/insp-1.jpg" class="card-img-top rounded-0 w-100" alt="...">
+                        <img src="images/cruz_image.jpg" height="250px" class="card-img-top rounded-0 w-100" alt="...">
                         <div class="card-body p-2">
-                            <h6 class="card-title mt-1 mb-1">John Doe</h6>
-                            <p class="m-0">Designer</p>
+                            <h6 class="card-title mt-1 mb-1">Onyeka Ikedinobi</h6>
+                            <p class="m-0">Front end Developer</p>
                             <div class="team-socials">
                                 <a href="#"><i class="fab fa-twitter"></i></a>
-                                <a href="#"><i class="fab fa-telegram"></i></a>
                                 <a href="#"><i class="fab fa-linkedin"></i></a>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="col-sm-3">
+                <!-- <div class="col-sm-3">
                     <div class="card rounded-0 mb-4">
                         <img src="images/posts/insp-1.jpg" class="card-img-top rounded-0 w-100" alt="...">
                         <div class="card-body p-2">
@@ -154,7 +151,7 @@ include 'compdefaulterscheck.php';
                             </div>
                         </div>
                     </div>
-                </div>
+                </div> -->
             </div>
             <div class="row justify-content-center">
                 <div class="col-md-4">

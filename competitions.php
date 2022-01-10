@@ -152,7 +152,7 @@ if (isset($_POST['sort_select'])) {
             </div>
             <div class="col-md-6" style="position: relative;">
                 <div class="guideline">
-                          <div class="d-flex justify-content-center"><p class="text-center m-0"><img width="400px" src="writerDashboard/images/Winners_Outline.svg" alt=""></p></div>
+                          <div class="d-flex justify-content-center"><p class="text-center m-0"><img width="400px" src="writerdashboard/images/Winners_Outline.svg" alt=""></p></div>
                           <h3 class="text-center">Get started on your competition</h3>
                           <p class="text-center text-muted fst-italic">Learn more about how competitions work on Bobblenote by clicking the button below</p>
                           <div class="d-flex justify-content-center"><a href="compguide.php" class="btn btn-default" target="_blank">Learn More</a></div>

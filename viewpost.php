@@ -350,8 +350,17 @@ include 'compdefaulterscheck.php';
                         }).done(function(val){
                             if (val != "Error in connection!" && val != "not logged in") {
                                 likebtn.addClass("liked")
-                                likebtn.html("<i class='far fa-thumbs-up'></i>&nbsp; "+val)
+                                likebtn.html("<i class='fas fa-rocket'></i>&nbsp; "+val)
                                 $("#postid").attr('data-likes', val)
+                                Swal.fire({
+                                    toast: 'true',
+                                    position: 'top-end',
+                                    title: "You gave boosts! 🚀",
+                                    icon: 'success',
+                                    showConfirmButton: false,
+                                    timer: 2000,
+                                    timerProgressBar: true
+                                })
                             }
                             else if(val == "not logged in"){
                                 Swal.fire({
@@ -380,7 +389,7 @@ include 'compdefaulterscheck.php';
                         }).done(function(val){
                             if (val != "Error in connection!" && val != "not logged in") {
                                 likebtn.removeClass("liked")
-                                likebtn.html("<i class='far fa-thumbs-up'></i>&nbsp; "+val)
+                                likebtn.html("<i class='fas fa-rocket'></i>&nbsp; "+val)
                                 $("#postid").attr('data-likes', val)
                             }
                             else if(val == "not logged in"){

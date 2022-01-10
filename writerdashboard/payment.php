@@ -36,7 +36,7 @@ $rand = rand();
 if (isset($_POST['btn_pay'])) {
   $tot_amt = check_string($connection, $_POST['tot_amt']);
   $fin_amt = check_string($connection, $_POST['fin_amt']);
-  $callbackurl = "http://localhost/edulearn/writerdashboard/verifytransaction.php";
+  $callbackurl = "https://bobblenote.com/writerdashboard/verifytransaction.php";
 
   if ($fin_amt == "" || $tot_amt == "") {
     $msg = "<div class='alert alert-danger alert-dismissible fade show' role='alert'>
