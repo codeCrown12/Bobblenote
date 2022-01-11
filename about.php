@@ -106,9 +106,9 @@ include 'compdefaulterscheck.php';
                             <h6 class="card-title mt-1 mb-1">Simon Dickson</h6>
                             <p class="m-0">Front end Developer</p>
                             <div class="team-socials">
-                                <a href="#" class="me-1"><i class="fab fa-twitter"></i></a>
-                                <a href="#" class="me-1"><i class="fab fa-linkedin"></i></a>
-                                <a href="#" class="me-1"><i class="fab fa-github"></i></a>
+                                <a href="https://twitter.com/Dickson_oche?s=09" class="me-1"><i class="fab fa-twitter"></i></a>
+                                <a href="https://www.linkedin.com/in/simon-dickson" class="me-1"><i class="fab fa-linkedin"></i></a>
+                                <a href="https://github.com/dicksonoche" class="me-1"><i class="fab fa-github"></i></a>
                             </div>
                         </div>
                     </div>
