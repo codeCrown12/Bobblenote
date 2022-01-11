@@ -94,7 +94,7 @@ include 'compdefaulterscheck.php';
     </div>
     <div class="container-fluid bg-light p-2 mt-5" style="border-top: 1px solid #e6e6e6;border-bottom: 1px solid #e6e6e6;">
         <div class="container">
-            <h2 class="text-center mt-2 mb-0">Meet The Team</h2>
+            <h2 class="text-center mt-2 mb-0">Meet The Leads</h2>
             <p class="text-center text-muted m-0">
                 Let's meet Bobblenote's awesome team members
             </p>
@@ -120,9 +120,9 @@ include 'compdefaulterscheck.php';
                             <h6 class="card-title mt-1 mb-1">King Jacob</h6>
                             <p class="m-0">Back end Developer</p>
                             <div class="team-socials">
-                                <a href="#" class="me-1"><i class="fab fa-twitter"></i></a>
-                                <a href="#" class="me-1"><i class="fab fa-linkedin"></i></a>
-                                <a href="#" class="me-1"><i class="fab fa-github"></i></a>
+                                <a href="https://twitter.com/Kingjacobxx?s=09" class="me-1"><i class="fab fa-twitter"></i></a>
+                                <a href="https://www.linkedin.com/in/king-jacob-a184a21b2/" class="me-1"><i class="fab fa-linkedin"></i></a>
+                                <a href="https://github.com/codeCrown12" class="me-1"><i class="fab fa-github"></i></a>
                             </div>
                         </div>
                     </div>
