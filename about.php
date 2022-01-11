@@ -104,7 +104,7 @@ include 'compdefaulterscheck.php';
                         <img src="images/simon_image.jpg" height="230px" class="card-img-top rounded-0 w-100" alt="...">
                         <div class="card-body p-2">
                             <h6 class="card-title mt-1 mb-1">Simon Dickson</h6>
-                            <p class="m-0">Front end Developer</p>
+                            <p class="m-0">Front-end Web Developer</p>
                             <div class="team-socials">
                                 <a href="https://twitter.com/Dickson_oche?s=09" class="me-1"><i class="fab fa-twitter"></i></a>
                                 <a href="https://www.linkedin.com/in/simon-dickson" class="me-1"><i class="fab fa-linkedin"></i></a>
@@ -118,7 +118,7 @@ include 'compdefaulterscheck.php';
                         <img src="images/king_image.jpg" height="230px" class="card-img-top rounded-0 w-100" alt="...">
                         <div class="card-body p-2">
                             <h6 class="card-title mt-1 mb-1">King Jacob</h6>
-                            <p class="m-0">Back end Developer</p>
+                            <p class="m-0">Back-end Web Developer</p>
                             <div class="team-socials">
                                 <a href="https://twitter.com/Kingjacobxx?s=09" class="me-1"><i class="fab fa-twitter"></i></a>
                                 <a href="https://www.linkedin.com/in/king-jacob-a184a21b2/" class="me-1"><i class="fab fa-linkedin"></i></a>
@@ -132,7 +132,7 @@ include 'compdefaulterscheck.php';
                         <img src="images/cruz_image.jpg" height="230px" class="card-img-top rounded-0 w-100" alt="...">
                         <div class="card-body p-2">
                             <h6 class="card-title mt-1 mb-1">Onyeka Ikedinobi</h6>
-                            <p class="m-0">Front end Developer</p>
+                            <p class="m-0">Front-end Web Developer</p>
                             <div class="team-socials">
                                 <a href="#" class="me-1"><i class="fab fa-twitter"></i></a>
                                 <a href="#" class="me-1"><i class="fab fa-linkedin"></i></a>
