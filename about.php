@@ -106,8 +106,9 @@ include 'compdefaulterscheck.php';
                             <h6 class="card-title mt-1 mb-1">Simon Dickson</h6>
                             <p class="m-0">Front end Developer</p>
                             <div class="team-socials">
-                                <a href="#"><i class="fab fa-twitter"></i></a>
-                                <a href="#"><i class="fab fa-linkedin"></i></a>
+                                <a href="#" class="me-1"><i class="fab fa-twitter"></i></a>
+                                <a href="#" class="me-1"><i class="fab fa-linkedin"></i></a>
+                                <a href="#" class="me-1"><i class="fab fa-github"></i></a>
                             </div>
                         </div>
                     </div>
@@ -119,8 +120,9 @@ include 'compdefaulterscheck.php';
                             <h6 class="card-title mt-1 mb-1">King Jacob</h6>
                             <p class="m-0">Back end Developer</p>
                             <div class="team-socials">
-                                <a href="#"><i class="fab fa-twitter"></i></a>
-                                <a href="#"><i class="fab fa-linkedin"></i></a>
+                                <a href="#" class="me-1"><i class="fab fa-twitter"></i></a>
+                                <a href="#" class="me-1"><i class="fab fa-linkedin"></i></a>
+                                <a href="#" class="me-1"><i class="fab fa-github"></i></a>
                             </div>
                         </div>
                     </div>
@@ -132,8 +134,9 @@ include 'compdefaulterscheck.php';
                             <h6 class="card-title mt-1 mb-1">Onyeka Ikedinobi</h6>
                             <p class="m-0">Front end Developer</p>
                             <div class="team-socials">
-                                <a href="#"><i class="fab fa-twitter"></i></a>
-                                <a href="#"><i class="fab fa-linkedin"></i></a>
+                                <a href="#" class="me-1"><i class="fab fa-twitter"></i></a>
+                                <a href="#" class="me-1"><i class="fab fa-linkedin"></i></a>
+                                <a href="#" class="me-1"><i class="fab fa-github"></i></a>
                             </div>
                         </div>
                     </div>
