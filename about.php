@@ -96,7 +96,7 @@ include 'compdefaulterscheck.php';
         <div class="container">
             <h2 class="text-center mt-2 mb-0">Meet The Leads</h2>
             <p class="text-center text-muted m-0">
-                Let's meet Bobblenote's awesome team members
+                Let's meet Bobblenote's awesome lead members
             </p>
             <div class="row mt-4 justify-content-center">
                 <div class="col-sm-3">
