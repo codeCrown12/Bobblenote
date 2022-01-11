@@ -379,7 +379,7 @@ include 'compdefaulterscheck.php';
                 ?>
                 <li><a href="login.php">Login</a></li>
                 <li>
-                    <a href="#" class="btn btn-default text-light">Sign up</a>
+                    <a href="signup.php" class="btn btn-default text-light">Sign up</a>
                 </li>
                 <?php
                     }
