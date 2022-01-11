@@ -101,40 +101,40 @@ include 'compdefaulterscheck.php';
             <div class="row mt-4 justify-content-center">
                 <div class="col-sm-3">
                     <div class="card rounded-0 mb-4">
-                        <img src="images/simon_image.jpg" height="250px" class="card-img-top rounded-0 w-100" alt="...">
+                        <img src="images/simon_image.jpg" height="230px" class="card-img-top rounded-0 w-100" alt="...">
                         <div class="card-body p-2">
                             <h6 class="card-title mt-1 mb-1">Simon Dickson</h6>
-                            <p class="m-0">Front end Developer</p>
-                            <div class="team-socials">
+                            <p class="m-0">Software Engineer</p>
+                            <!-- <div class="team-socials">
                                 <a href="#"><i class="fab fa-twitter"></i></a>
                                 <a href="#"><i class="fab fa-linkedin"></i></a>
-                            </div>
+                            </div> -->
                         </div>
                     </div>
                 </div>
                 <div class="col-sm-3">
                     <div class="card rounded-0 mb-4">
-                        <img src="images/king_image.jpg" height="250px" class="card-img-top rounded-0 w-100" alt="...">
+                        <img src="images/king_image.jpg" height="230px" class="card-img-top rounded-0 w-100" alt="...">
                         <div class="card-body p-2">
                             <h6 class="card-title mt-1 mb-1">King Jacob</h6>
-                            <p class="m-0">Back end Developer</p>
-                            <div class="team-socials">
+                            <p class="m-0">Software Engineer</p>
+                            <!-- <div class="team-socials">
                                 <a href="#"><i class="fab fa-twitter"></i></a>
                                 <a href="#"><i class="fab fa-linkedin"></i></a>
-                            </div>
+                            </div> -->
                         </div>
                     </div>
                 </div>
                 <div class="col-sm-3">
                     <div class="card rounded-0 mb-4">
-                        <img src="images/cruz_image.jpg" height="250px" class="card-img-top rounded-0 w-100" alt="...">
+                        <img src="images/cruz_image.jpg" height="230px" class="card-img-top rounded-0 w-100" alt="...">
                         <div class="card-body p-2">
                             <h6 class="card-title mt-1 mb-1">Onyeka Ikedinobi</h6>
-                            <p class="m-0">Front end Developer</p>
-                            <div class="team-socials">
+                            <p class="m-0">Software Engineer</p>
+                            <!-- <div class="team-socials">
                                 <a href="#"><i class="fab fa-twitter"></i></a>
                                 <a href="#"><i class="fab fa-linkedin"></i></a>
-                            </div>
+                            </div> -->
                         </div>
                     </div>
                 </div>
@@ -160,6 +160,23 @@ include 'compdefaulterscheck.php';
                     ❝ To make knowledge and insightful content available to everyone and to reward the creators of such content ❞
                     </p>
                 </div>
+            </div>
+        </div>
+    </div>
+    <div class="container mt-5 mb-5">
+        <h3 class="text-center">Our Values</h3>
+        <div class="row">
+            <div class="col-sm-4">
+                <h5>Trust & Transparency</h5>
+                <p>We foster a collaborative environment and encourage people to give and ask for feedback early and often.</p>
+            </div>
+            <div class="col-sm-4">
+                <h5>We contribute</h5>
+                <p>One of our main goals is to continually provide and contribute value to Africa and beyond!</p>
+            </div>
+            <div class="col-sm-4">
+                <h5>Adapt & Evolve</h5>
+                <p>In this ever-changing environment, it's crucial for us to keep our flexibility to accommodate change.</p>
             </div>
         </div>
     </div>
