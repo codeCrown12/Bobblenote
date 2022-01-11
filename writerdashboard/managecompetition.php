@@ -294,7 +294,6 @@ if (isset($_POST['save'])) {
                           <div>
                             <img src="images/Waiting_Outline.svg" alt="" width="200px">
                             <p class="text-center m-0" style="font-size: 16px;">No verified participants</p>
-                            <div class="d-flex justify-content-center"><button class="btn btn-sm btn-default mt-2">Share competition <i class="fas fa-share"></i></button></div>
                           </div>
                         </div>
                         <?php
@@ -352,7 +351,6 @@ if (isset($_POST['save'])) {
                           <div>
                             <img src="images/Waiting_Outline.svg" alt="" width="200px">
                             <p class="text-center m-0" style="font-size: 16px;">No disqualified participants</p>
-                            <div class="d-flex justify-content-center"><button class="btn btn-sm btn-default mt-2">Share competition <i class="fas fa-share"></i></button></div>
                           </div>
                         </div>
                         <?php
@@ -408,7 +406,6 @@ if (isset($_POST['save'])) {
                           <div>
                             <img src="images/Waiting_Outline.svg" alt="" width="200px">
                             <p class="text-center m-0" style="font-size: 16px;">No pending participants</p>
-                            <div class="d-flex justify-content-center"><button class="btn btn-default btn-sm mt-2">Share competition <i class="fas fa-share"></i></button></div>
                           </div>
                         </div>
                         <?php
@@ -469,7 +466,6 @@ if (isset($_POST['save'])) {
                           <div>
                             <img src="images/Content creation_Monochromatic.svg" alt="" width="200px">
                             <p class="text-center m-0" style="font-size: 16px;">No Articles here yet</p>
-                            <div class="d-flex justify-content-center"><button class="btn btn-default btn-sm mt-2">Share competition <i class="fas fa-share"></i></button></div>
                           </div>
                         </div>
                         <?php

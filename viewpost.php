@@ -365,7 +365,7 @@ include 'compdefaulterscheck.php';
                             else if(val == "not logged in"){
                                 Swal.fire({
                                 title: 'Sorry!',
-                                text: "You're not logged in. Login to like post!",
+                                text: "You're not logged in. Login to boost post!",
                                 icon: 'warning',
                                 showCancelButton: false,
                                 confirmButtonText: 'Login'

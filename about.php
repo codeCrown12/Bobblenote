@@ -94,42 +94,42 @@ include 'compdefaulterscheck.php';
     </div>
     <div class="container-fluid bg-light p-2 mt-5" style="border-top: 1px solid #e6e6e6;border-bottom: 1px solid #e6e6e6;">
         <div class="container">
-            <h2 class="text-center mt-2 mb-0">Meet The Team</h2>
+            <h2 class="text-center mt-2 mb-0">Meet The Leads</h2>
             <p class="text-center text-muted m-0">
-                Let's meet Bobblenote's awesome team members
+                Let's meet Bobblenote's awesome lead members
             </p>
             <div class="row mt-4 justify-content-center">
                 <div class="col-sm-3">
                     <div class="card rounded-0 mb-4">
-                        <img src="images/simon_image.jpg" height="250px" class="card-img-top rounded-0 w-100" alt="...">
+                        <img src="images/simon_image.jpg" height="230px" class="card-img-top rounded-0 w-100" alt="...">
                         <div class="card-body p-2">
                             <h6 class="card-title mt-1 mb-1">Simon Dickson</h6>
                             <p class="m-0">Front end Developer</p>
                             <div class="team-socials">
-                                <a href="#" class="me-1"><i class="fab fa-twitter"></i></a>
-                                <a href="#" class="me-1"><i class="fab fa-linkedin"></i></a>
-                                <a href="#" class="me-1"><i class="fab fa-github"></i></a>
+                                <a href="https://twitter.com/Dickson_oche?s=09" class="me-1"><i class="fab fa-twitter"></i></a>
+                                <a href="https://www.linkedin.com/in/simon-dickson" class="me-1"><i class="fab fa-linkedin"></i></a>
+                                <a href="https://github.com/dicksonoche" class="me-1"><i class="fab fa-github"></i></a>
                             </div>
                         </div>
                     </div>
                 </div>
                 <div class="col-sm-3">
                     <div class="card rounded-0 mb-4">
-                        <img src="images/king_image.jpg" height="250px" class="card-img-top rounded-0 w-100" alt="...">
+                        <img src="images/king_image.jpg" height="230px" class="card-img-top rounded-0 w-100" alt="...">
                         <div class="card-body p-2">
                             <h6 class="card-title mt-1 mb-1">King Jacob</h6>
                             <p class="m-0">Back end Developer</p>
                             <div class="team-socials">
-                                <a href="#" class="me-1"><i class="fab fa-twitter"></i></a>
-                                <a href="#" class="me-1"><i class="fab fa-linkedin"></i></a>
-                                <a href="#" class="me-1"><i class="fab fa-github"></i></a>
+                                <a href="https://twitter.com/Kingjacobxx?s=09" class="me-1"><i class="fab fa-twitter"></i></a>
+                                <a href="https://www.linkedin.com/in/king-jacob-a184a21b2/" class="me-1"><i class="fab fa-linkedin"></i></a>
+                                <a href="https://github.com/codeCrown12" class="me-1"><i class="fab fa-github"></i></a>
                             </div>
                         </div>
                     </div>
                 </div>
                 <div class="col-sm-3">
                     <div class="card rounded-0 mb-4">
-                        <img src="images/cruz_image.jpg" height="250px" class="card-img-top rounded-0 w-100" alt="...">
+                        <img src="images/cruz_image.jpg" height="230px" class="card-img-top rounded-0 w-100" alt="...">
                         <div class="card-body p-2">
                             <h6 class="card-title mt-1 mb-1">Onyeka Ikedinobi</h6>
                             <p class="m-0">Front end Developer</p>
@@ -141,20 +141,6 @@ include 'compdefaulterscheck.php';
                         </div>
                     </div>
                 </div>
-                <!-- <div class="col-sm-3">
-                    <div class="card rounded-0 mb-4">
-                        <img src="images/posts/insp-1.jpg" class="card-img-top rounded-0 w-100" alt="...">
-                        <div class="card-body p-2">
-                            <h6 class="card-title mt-1 mb-1">John Doe</h6>
-                            <p class="m-0">Writer</p>
-                            <div class="team-socials">
-                                <a href="#"><i class="fab fa-twitter"></i></a>
-                                <a href="#"><i class="fab fa-telegram"></i></a>
-                                <a href="#"><i class="fab fa-linkedin"></i></a>
-                            </div>
-                        </div>
-                    </div>
-                </div> -->
             </div>
             <div class="row justify-content-center">
                 <div class="col-md-4">
@@ -163,6 +149,23 @@ include 'compdefaulterscheck.php';
                     ❝ To make knowledge and insightful content available to everyone and to reward the creators of such content ❞
                     </p>
                 </div>
+            </div>
+        </div>
+    </div>
+    <div class="container mt-5 mb-5">
+        <h3 class="text-center">Our Values</h3>
+        <div class="row">
+            <div class="col-sm-4">
+                <h5>Trust & Transparency</h5>
+                <p>We foster a collaborative environment and encourage people to give and ask for feedback early and often.</p>
+            </div>
+            <div class="col-sm-4">
+                <h5>We contribute</h5>
+                <p>One of our main goals is to continually provide and contribute value to Africa and beyond!</p>
+            </div>
+            <div class="col-sm-4">
+                <h5>Adapt & Evolve</h5>
+                <p>In this ever-changing environment, it's crucial for us to keep our flexibility to accommodate change.</p>
             </div>
         </div>
     </div>
