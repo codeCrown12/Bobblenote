@@ -401,7 +401,7 @@ if (isset($_POST['create_comp'])) {
                                         <td><?php echo "#BOB-".$trans_data['T_ID'] ?></td>
                                         <td><?php echo "NGN ".number_format($trans_data['amount']) ?></td>
                                         <td><?php echo $trans_data['date_created']?></td>
-                                        <td><a href="../contact.php" class="text-decoration-underline">Request info</a></td>
+                                        <td><a href="mailto: competition@bobblenote.com" class="text-decoration-underline">Contact us</a></td>
                                     </tr>
                                         <?php
                                         }
