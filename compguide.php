@@ -82,14 +82,20 @@ include 'compdefaulterscheck.php';
                     </div>
                     <div class="section mt-4">
                         <h4>Joining a competition 🧐</h4>
-                        <p>To join a competition hosted on Bobblenote, all you have to do is <a href="signup.php" class="text-decoration-underline">create an account</a>, once you've successfully created your account click on 'Competitions' on the navigation bar and search for any competition of your choice and join and have fun 🎉.</p>
+                        <h6>Step 1:  Know the prerequisites, search & join</h6>
+                        <p>To join a competition hosted on Bobblenote, all you have to do is <a href="signup.php" class="text-decoration-underline">create an account</a> if you're a new user or <a href="login.php" class="text-decoration-underline">sign in</a> to your account if you're already a registered user. Once you've successfully completed either of the steps above, click on 'Competitions' on the navigation bar and search for any competition of your choice and join🎉.</p>
+                        <h6>Step 2: Create the award winning article for the competition</h6>
+                        <p>Creating the article for the competition you join couldn't be any easier. Ensure you're logged in or if you're a new user <a href="signup.php" class="text-decoration-underline">create an account</a>. Then, you click on your profile picture on the navigation bar to view the dropdown menu. On the menu, you select <a href="writerdashboard/createpost.php" target="_blank" class="text-decoration-underline">Create post</a> and you will be directed to a form which you'll fill in order to create a post/article. In the tags section of the form, please include the tag of the competition along with any other 'non-competition' tags of your choice each seperated by a comma.
+                        <br><strong>Note: </strong>   If the tag for the competition is not included, your post/article will not be seen by the host of the competition, meaning you will not be considered for the prize.
+                        </p>
                         <p class="fw-bold m-0">General rules for competitions</p>
                         <ul>
                             <li>Only individual accounts are allowed to participate in competitions,</li>
                             <li>No participant should publish more than one article per competition,</li>
                             <li>Articles for competitions should be published on or after the start-date of the competition,</li>
-                            <li>Also other rules set by the organizer of the competition should be adhered to.</li>
+                            <li>Also other rules set by the organizer/host of the competition should be adhered to.</li>
                         </ul>
+                        <p><strong>Note: </strong> Failure to adhere to the rules above will lead to automatic disqualification from the competition.</p>
                     </div>
                     <div class="section mt-4">
                         <h4>Requesting payout for competition winners</h4>
