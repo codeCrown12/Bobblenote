@@ -36,6 +36,7 @@ $rand = rand();
 if (isset($_POST['btn_pay'])) {
   $tot_amt = check_string($connection, $_POST['tot_amt']);
   $fin_amt = check_string($connection, $_POST['fin_amt']);
+  $narration = check_string($connection, $_POST['narration']);
   $callbackurl = "https://bobblenote.com/writerdashboard/verifytransaction.php";
 
   if ($fin_amt == "" || $tot_amt == "") {
@@ -55,7 +56,7 @@ if (isset($_POST['btn_pay'])) {
     $sql_res = $connection->prepare($query);
     $sql_res->bind_param("ii",$fin_amt, $comp_id);
     if ($sql_res->execute()) {
-      add_transaction($connection, $fin_amt, "debit", "Bobblenote", $selector);
+      add_transaction($connection, $fin_amt, "debit", "Bobblenote", $selector, $narration);
       $ref = gen_ref().$comp_id;
       $url = "https://api.paystack.co/transaction/initialize";
       $fields = [
@@ -199,7 +200,7 @@ if (isset($_POST['btn_pay'])) {
           <div class="col-md-6">
             <div class="card rounded-0 mt-4">
               <div class="card-header bg-white p-3">
-                <h5 class="card-title m-0"><i class="far fa-credit-card"></i> Make Payments</h5>
+                <h5 class="card-title m-0"><i class="far fa-credit-card"></i> Make Payment</h5>
               </div>
               <div class="card-body">
                 <div class="row">
@@ -224,6 +225,10 @@ if (isset($_POST['btn_pay'])) {
                                 <input type="number" name="fin_amt" class="form-control" readonly placeholder="e.g 4500" id="fin_amt">
                               </div>
                             </div>
+                          </div>
+                          <div class="mb-3">
+                            <labe class="mb-2">Narration (optional)</labe>
+                            <textarea name="narration" id="narration" class="form-control" rows="5" placeholder="Transaction narration goes here..."></textarea>
                           </div>
                           <div class="d-flex"><button class="btn btn-success" type="submit" name="btn_pay" id="btn_pay">Proceed to payment <i class="fas fa-paper-plane"></i></button></div>
                         </form>
