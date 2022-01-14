@@ -282,10 +282,10 @@ function count_published($connection, $email){
 }
 
 //function to add transaction
-function add_transaction($connection, $amount, $type, $credit, $debit){
-    $query = "INSERT INTO transactions (type, credit, debit, amount) VALUES (?,?,?,?)";
+function add_transaction($connection, $amount, $type, $credit, $debit, $narration){
+    $query = "INSERT INTO transactions (type, credit, debit, amount, narration) VALUES (?,?,?,?,?)";
     $result = $connection->prepare($query);
-    $result->bind_param("sssi", $type, $credit, $debit, $amount);
+    $result->bind_param("sssis", $type, $credit, $debit, $amount, $narration);
     if ($result->execute()) {
         return true;
     }

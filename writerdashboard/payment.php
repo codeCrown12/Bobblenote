@@ -45,6 +45,12 @@ if (isset($_POST['btn_pay'])) {
     <button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button>
   </div>";
   }
+  elseif ($narration == "") {
+    $msg = "<div class='alert alert-danger alert-dismissible fade show' role='alert'>
+    Narration is required!
+    <button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button>
+  </div>";
+  }
   elseif ($tot_amt > 2000000) {
     $msg = "<div class='alert alert-danger alert-dismissible fade show' role='alert'>
     Amount deposited must not be more than NGN 2,000,000
@@ -227,7 +233,7 @@ if (isset($_POST['btn_pay'])) {
                             </div>
                           </div>
                           <div class="mb-3">
-                            <labe class="mb-2">Narration (optional)</labe>
+                            <labe class="mb-2">Narration (required)</labe>
                             <textarea name="narration" id="narration" class="form-control" rows="5" placeholder="Transaction narration goes here..."></textarea>
                           </div>
                           <div class="d-flex"><button class="btn btn-success" type="submit" name="btn_pay" id="btn_pay">Proceed to payment <i class="fas fa-paper-plane"></i></button></div>

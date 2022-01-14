@@ -136,7 +136,7 @@ if (isset($_POST['sort_select'])) {
                                     </a>
                                     <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="menu1">
                                         <li><a class="dropdown-item" onclick="CopyToClipboard(<?php echo $comp_data['comp_ID'] ?>)"><i class="fas fa-share"></i> Share competition</a></li>
-                                        <li><a class="dropdown-item" href="contact.php"><i class="fas fa-bullhorn"></i> Report competition</a></li>
+                                        <li><a class="dropdown-item" href="mailto: competition@bobblenote.com"><i class="fas fa-bullhorn"></i> Report competition</a></li>
                                     </ul>
                                 </div>                              
                             </div>
