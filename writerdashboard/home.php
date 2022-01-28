@@ -26,6 +26,7 @@ include '../compdefaulterscheck.php';
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard</title>
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <link rel="stylesheet" href="../css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
     <script src="https://cdn.lordicon.com/libs/mssddfmo/lord-icon-2.1.0.js"></script>
@@ -193,10 +194,13 @@ include '../compdefaulterscheck.php';
                           $pen_data = $pen_result->fetch_array(MYSQLI_ASSOC);
                           echo "<div class='card mt-3'>
                           <div class='card-body'>
-                              <h5>$pen_data[title]</h5>
+                          <div class='d-flex align-items-center mb-2'>
+                            <h5>$pen_data[title]</h5>
+                            <button title='delete this draft' class='btn draft-del btn-sm btn-outline-danger ms-auto' data-id='$pen_data[P_ID]'><i class='fas fa-trash'></i></button>
+                          </div>
                               <p>$pen_data[excerpt]...</p>
                               <div class='post-stat'>
-                                  <div class=''><p class='stat-item'><a href='editpost.php?pid=$pen_data[P_ID]' class='btn btn-default'>Edit Post <i class='fas fa-pen-square'></i></a></p></div>
+                                  <div class=''><p class='stat-item'><a href='editpost.php?pid=$pen_data[P_ID]' class='btn btn-sm btn-default'>Edit post <i class='fas fa-pen-square'></i></a></p></div>
                               </div>
                           </div>
                       </div>"; 
@@ -299,7 +303,50 @@ include '../compdefaulterscheck.php';
       </div>
       <?php include '../footer.php' ?>
       <!-- javascripts  -->
+      <script src="../js/jquery.min.js"></script>
       <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js" integrity="sha384-eMNCOe7tC1doHpGoWe/6oMVemdAVTMs2xqW4mwXrXsW0L84Iytr2wi5v2QjrP/xp" crossorigin="anonymous"></script>
       <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.min.js" integrity="sha384-cn7l7gDp0eyniUwwAZgrzD06kc/tftFf19TOAs2zVinnD/C7E91j9yyk5//jjpt/" crossorigin="anonymous"></script>
-</body>
+      
+      <script>
+        $(document).ready(function(){
+          $(".draft-del").click(function(e){
+              e.preventDefault()
+              var draft_id = $(this).attr('data-id');
+              Swal.fire({
+                title: 'Are you sure?',
+                text: "You won't be able to revert this!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes, continue!'
+              }).then((result) => {
+                if (result.isConfirmed) {
+                  $.ajax({
+                    type: "post",
+                    url: "managepart.php",
+                    data: {draft_ID: draft_id}
+                  }).done(function(msg) {
+                      if (msg == "success") {
+                        Swal.fire({
+                          title: 'Success!',
+                          text: "Draft deleted successfully!",
+                          icon: 'success',
+                          showCancelButton: false
+                          }).then((result) => {
+                          if (result.isConfirmed) {
+                              location.reload()
+                          }
+                        })
+                      }
+                  }).fail(function(msg){
+                    console.log(msg)
+                  })
+                }
+              })  
+          })
+        })  
+      </script>
+
+  </body>
 </html>

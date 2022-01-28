@@ -232,9 +232,8 @@
               <form action="createpost.php" method="POST" enctype="multipart/form-data">
                   <div class="card mt-5">
                       <div class="card-header bg-white">
-                          <div class="card-title d-flex align-items-center">
-                              <h4><i class="fas fa-pen-alt"></i> Create post</h4>
-                              <button name="publish" class="btn btn-default ms-auto">Publish post <i class="fas fa-paper-plane"></i></button>
+                          <div class="card-title">
+                              <h4 class="m-0"><i class="fas fa-pen-alt"></i> Create post</h4>
                           </div>
                       </div>
                       <div class="card-body">
@@ -285,8 +284,9 @@
                             <div class="form-group mt-3">
                                 <Textarea class="form-control" name="content" id="pbody" placeholder="Post content" rows="8"></Textarea>
                             </div>
-                            <div class="form-group mt-3">
-                                <button name="save" class="btn btn-outline-primary">Save as draft <i class="far fa-save"></i></button>
+                            <div class="form-group mt-3 d-flex">
+                                <button name="save" class="btn btn-outline-primary" id="btn-save">Save as draft <i class="far fa-save"></i></button>
+                                <button name="publish" class="ms-auto btn btn-success ms-auto" id="btn-publish">Publish post <i class="fas fa-paper-plane"></i></button>
                             </div>
                       </div>
                   </div>
@@ -330,10 +330,12 @@
           plugins: [
             'advlist autolink link lists charmap print preview hr anchor pagebreak',
             'searchreplace wordcount visualblocks visualchars code fullscreen insertdatetime media nonbreaking',
-            'table emoticons template paste help codesample'
+            'table emoticons template paste help codesample image'
             ],
-            toolbar: 'fullscreen | insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link codesample | preview fullpage | forecolor backcolor emoticons',
-            menubar: ''
+            toolbar: 'fullscreen | insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link codesample | preview fullpage | forecolor backcolor emoticons image',
+            menubar: '',
+             /* enable title field in the Image dialog*/
+            image_title: true
        });
 
        //function to use overlay to open file

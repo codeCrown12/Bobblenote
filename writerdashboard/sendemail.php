@@ -137,7 +137,7 @@ if (isset($_GET['comp_ID'])) {
                                   <label for="" class="mb-1">Message body</label>
                                   <textarea name="" id="body" cols="30" rows="10" placeholder="Message body goes here..." class="form-control"></textarea>
                               </div>
-                              <button id="send" class="mt-2 btn btn-default">Send Message <i class="fas fa-paper-plane"></i></button>
+                              <button id="send" class="mt-2 btn btn-success w-100">Send Message <i class="fas fa-paper-plane"></i></button>
                           </form>
                       </div>
                   </div>

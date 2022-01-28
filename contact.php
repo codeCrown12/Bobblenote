@@ -58,10 +58,10 @@ include 'compdefaulterscheck.php';
                         <h3>Contacts</h3>
                         <p>Reach out to us via any of the following ways below</p>
                         <p>Email: <a href="mailto: contact@bobblenote.com">contact@bobblenote.com</a> <br><small><strong>Note:</strong> (The subject of the email must contain the reason for contact so we can get back to you quickly)</small></p>
-                        <p>Twitter: <a href="#">@bobblenote</a></p>
-                        <p>Instagram: <a href="#">@bobblenote</a></p>
-                        <p>LinkedIn: <a href="#">@bobblenote</a></p>
-                        <p>Telegram: <a href="#">@bobblenote</a></p>
+                        <p>Twitter: <a href="https://twitter.com/bobblenote?t=DzcUqhIEMcR-eJUK6sRj7g&s=09">@bobblenote</a></p>
+                        <p>Instagram: <a href="https://www.instagram.com/bobblenote/">@bobblenote</a></p>
+                        <!-- <p>LinkedIn: <a href="#">@bobblenote</a></p> -->
+                        <p>Facebook: <a href="https://web.facebook.com/Bobblenote-104570548801204/?_rdc=1&_rdr">@bobblenote</a></p>
                         <p>Report competition: <a href="mailto: competition@bobblenote.com">competition@bobblenote.com</a> <br><small><strong>Note:</strong> (Clearly state the reason for reporting the competition and the tag of the competition in the subject of the email)</small></p>
                     </div>
                 </div>

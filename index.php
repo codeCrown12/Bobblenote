@@ -186,10 +186,10 @@ include 'compdefaulterscheck.php';
                     ?>
                             <div class="col-sm-6 mb-3">
                                 <div class="post">
-                                    <a href="viewpost.php?pid=<?php echo base64_encode($t_data['P_ID']) ?>"><img decoding="async" class="ipost-img" src="<?php echo $t_data['coverimg']."?randomurl=$rand" ?>" alt=""></a>
+                                    <a href="viewpost.php?pid=<?php echo base64_encode($t_data['P_ID']) ?>"><img loading="lazy" decoding="async" class="ipost-img" src="<?php echo $t_data['coverimg']."?randomurl=$rand" ?>" alt=""></a>
                                     <div class="user mt-2">
                                         <ul class="list-inline" style="list-style-type: square !important;">
-                                            <li class="list-inline-item"><a href="profile.php?wid=<?php echo base64_encode($w_details['email']) ?>"><img class="user-img" src="<?php echo $w_details['profilepic']."?randomurl=$rand" ?>" alt=""></a></li>
+                                            <li class="list-inline-item"><a href="profile.php?wid=<?php echo base64_encode($w_details['email']) ?>"><img decoding="async" loading="lazy" class="user-img" src="<?php echo $w_details['profilepic']."?randomurl=$rand" ?>" alt=""></a></li>
                                             <li class="list-inline-item"><a href="profile.php?wid=<?php echo base64_encode($w_details['email']) ?>"><small><?php echo "@".substr($w_details['firstname'], 0, 1).".".$w_details['lastname'] ?></small></a></li>
                                             <li class="list-inline-item"><a href="categories.php?cat=<?php echo $t_data['category'] ?>"><small>#<?php echo $t_data['category'] ?></small></a></li>
                                             <li class="list-inline-item"><small class="text-muted"><?php echo format_date($t_data['date_created']) ?></small></li>
@@ -247,12 +247,12 @@ include 'compdefaulterscheck.php';
                             ?>
                                 <div class="hor-post mb-4">
                                     <div class="p-img">
-                                    <a href="viewpost.php?pid=<?php echo base64_encode($l_data['P_ID']) ?>"><img class="ipost-img" src="<?php echo $l_data['coverimg']."?randomurl=$rand" ?>" alt=""></a>
+                                    <a href="viewpost.php?pid=<?php echo base64_encode($l_data['P_ID']) ?>"><img decoding="async" loading="lazy" class="ipost-img" src="<?php echo $l_data['coverimg']."?randomurl=$rand" ?>" alt=""></a>
                                         </div>
                                             <div class="p-details">
                                         <div class="user mt-2">
                                             <ul class="meta list-inline">
-                                            <li class="list-inline-item"><a href="profile.php?wid=<?php echo base64_encode($pw_details['email']) ?>"><img class="user-img" src="<?php echo $pw_details['profilepic']."?randomurl=$rand" ?>" alt=""></a></li>
+                                            <li class="list-inline-item"><a href="profile.php?wid=<?php echo base64_encode($pw_details['email']) ?>"><img decoding="async" loading="lazy" class="user-img" src="<?php echo $pw_details['profilepic']."?randomurl=$rand" ?>" alt=""></a></li>
                                             <li class="list-inline-item"><a href="profile.php?wid=<?php echo base64_encode($pw_details['email']) ?>"><small><?php echo substr($pw_details['firstname'], 0, 1).". ".$pw_details['lastname'] ?></small></a></li>
                                             <li class="list-inline-item"><a href="categories.php?cat=<?php echo $l_data['category'] ?>"><small>#<?php echo $l_data['category'] ?></small></a></li>
                                             <li class="list-inline-item"><small class="text-muted"><?php echo format_date($l_data['date_created']) ?></small></li>
@@ -307,7 +307,7 @@ include 'compdefaulterscheck.php';
                                     <h3 class="widget-title">Newsletter</h3>
                                 </div>
                                 <div class="widget-content">
-                                    <span class="newsletter-headline text-center mb-3">Join 100,000 subscribers</span>
+                                    <span class="newsletter-headline text-center mb-3">Join the early subscribers</span>
                                         <div class="mb-2">
                                             <input type="email" id="sub-email" class="form-control w-100 text-center"
                                                 placeholder="Email address...">

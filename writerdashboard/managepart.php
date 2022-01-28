@@ -100,47 +100,59 @@ if (isset($_POST['verify_all'])) {
     }
 }
 
+//Snippet to delete drafts
+if (isset($_POST['draft_ID'])) {
+    $draft_id = $_POST['draft_ID'];
+    $query = "DELETE FROM posts WHERE P_ID = $draft_id";
+    $result = $connection->query($query);
+    if ($result) {
+        echo "success";
+    }
+    else{
+        echo "error";
+    }
+}
+
 //snippet to request payout to winners
-if (isset($_POST['amounts'])) {
+if (isset($_POST['awardees'])) {
     $amounts = explode(',', $_POST['amounts']);
+    $emails = explode(',', $_POST['emails']);
     $awards_no = $_POST['awardees'];
     $compid = $_POST['compID'];
-    $tag = $_POST['comp_tag'];
     $body = "";
     $comp_details = get_comp($connection, $compid);
-
-    $query = "SELECT participants.u_email FROM participants INNER JOIN posts ON participants.u_email = posts.W_email WHERE participants.comp_ID = $compid AND participants.part_status = 'verified' AND posts.published = 'yes' AND posts.tags LIKE '%$tag%' 
-    ORDER BY posts.no_of_likes DESC";
-    $result = $connection->query($query);
-
-    if ($result) {
-       $rows = $result->num_rows;
-       if ($rows >= 1) {
-           for ($i=0; $i < $awards_no; $i++) { 
-              $result->data_seek($i);
-              $data = $result->fetch_array(MYSQLI_ASSOC);
-              $u_details = get_writer_details($connection, $data['u_email']);
-              $body .= "
-              <p>
-              First name: $u_details[firstname] <br>
-              Last name: $u_details[lastname] <br>
-              Email address: $u_details[email] <br>
-              Award amount: ₦ $amounts[$i]    
-              </p>";
-           }
-
-            $mail->addAddress("kingsjacobfrancis@gmail.com");
-            $mail->setFrom("support@bobblenote.com", "Bobblenote");
-            $mail->isHTML(true);
-            $mail->Subject = "Request for competition payout";
-            $mail->Body = "<h2>Request for payment for $comp_details[name] winners</h2>".$body;
-            if ($mail->send()) {
+    if ($comp_details['payout_requested'] == "true") {
+        echo "Payout requested already";
+    }
+    else{
+        for ($i=0; $i < $awards_no; $i++) { 
+            $u_details = get_writer_details($connection, $emails[$i]);
+            $position = $i + 1;
+            addToAwards($connection, $comp_details['name'], $compid, $emails[$i], $position, $amounts[$i]);
+            $body .= "
+                <p>
+                    <h3>Position $position</h3>
+                    First name: $u_details[firstname] <br>
+                    Last name: $u_details[lastname] <br>
+                    Email address: $u_details[email] <br>
+                    Award amount: ₦ $amounts[$i]    
+                </p>";
+        }
+    
+        $mail->addAddress("kingsjacobfrancis@gmail.com");
+        $mail->setFrom("support@bobblenote.com", "Bobblenote");
+        $mail->isHTML(true);
+        $mail->Subject = "Request for competition payout";
+        $mail->Body = "<h2>Request for payment for $comp_details[name] winners</h2>".$body;
+        if ($mail->send()) {
+            if (update_request_status($connection, $compid)) {
                 echo "success";
             }
-            else{
-                echo "Error in connection";
-            }
-       }
+        }
+        else{
+            echo "Error in connection";
+        }
     }
+      
  }
 ?>

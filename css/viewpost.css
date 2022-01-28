@@ -19,6 +19,9 @@ body{
     line-height: 2;
     word-spacing: 2px;
 }
+/* .post-text img{
+    width: 100% !important;
+} */
 .post-time{
     margin-left: 10px;
 }

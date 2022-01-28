@@ -428,4 +428,43 @@ function empty_exp_part($connection, $comp_id){
     }
     return false;
 }
+
+//Function to get total number of pages
+function total_page_no($connection, $query, $total_records_per_page){
+    $result = $connection->query($query);
+    if ($result) {
+        $numrows = $result->num_rows;
+        if ($numrows >= 1) {
+            $total_records = $result->fetch_array(MYSQLI_ASSOC);
+            $total_records = $total_records['total_records'];
+            $total_no_of_pages = ceil($total_records / $total_records_per_page);       
+            return $total_no_of_pages;
+        }
+        else return 0;
+    }
+    else return 0;
+}
+
+
+//Function to add to winner to hall of fame
+function addToAwards($connection, $comp_name, $comp_id, $email, $position, $amount){
+    $query = "INSERT INTO awards (comp_ID, comp_name, u_email, position, amount) VALUES (?,?,?,?,?)";
+    $result = $connection->prepare($query);
+    $result->bind_param("issii", $comp_id, $comp_name, $email, $position, $amount);
+    if (!$result->execute()) {
+       return false;
+    }
+    return true;
+}
+
+//Function to update payment request status
+function update_request_status($connection, $comp_id){
+    $query = "UPDATE competitions SET payout_requested = 'true' WHERE comp_ID = ?";
+    $result = $connection->prepare($query);
+    $result->bind_param("i", $comp_id);
+    if (!$result->execute()) {
+       return false;
+    }
+    return true;
+}
 ?>

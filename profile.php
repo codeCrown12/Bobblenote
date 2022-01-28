@@ -39,15 +39,17 @@ $writer_details = get_writer_details($connection, $wid);
           <a class="navbar-brand ms-md-5 ms-sm-0" href="index.php"><h1>Bobblenote</h1></a>
           <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav ms-auto me-5">
-              <li class="nav-item">
-                <a class="nav-link" href="https://www.twitter.com/<?php echo $writer_details['twitter'] ?>"><i class="fab fa-twitter"></i></a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="https://www.instagram.com/<?php echo $writer_details['instagram'] ?>"><i class="fab fa-instagram"></i></a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="<?php echo $writer_details['linkedin'] ?>"><i class="fab fa-linkedin"></i></a>
-              </li>
+            <?php
+                if ($writer_details['twitter'] != "") {
+                    echo "<li class='nav-item'> <a href='$writer_details[twitter]' class='nav-link'><i class='fab fa-twitter'></i></a></li>";
+                }
+                if ($writer_details['instagram'] != "") {
+                    echo "<li class='nav-item'> <a href='$writer_details[instagram]' class='nav-link'><i class='fab fa-instagram'></i></a></li>";
+                }
+                if ($writer_details['linkedin'] != "") {
+                    echo "<li class='nav-item'> <a class='nav-link' href='$writer_details[linkedin]'><i class='fab fa-linkedin'></i></a></li>";
+                }
+            ?>  
             </ul>
           </div>
         </div>
@@ -68,9 +70,17 @@ $writer_details = get_writer_details($connection, $wid);
                 <p style="margin-bottom: 0px;"><?php echo $writer_details['bio'] ?></p>
                 <div class="w-social-con">
                     <ul class="list-inline">
-                        <li class="list-inline-item"> <a href="https://www.twitter.com/<?php echo $writer_details['twitter'] ?>" class="w-social"><i class="fab fa-twitter"></i></a></li>
-                        <li class="list-inline-item"> <a href="https://www.instagram.com/<?php echo $writer_details['instagram'] ?>" class="w-social"><i class="fab fa-instagram"></i></a></li>
-                        <li class="list-inline-item"> <a class="w-social" href="<?php echo $writer_details['linkedin'] ?>"><i class="fab fa-linkedin"></i></a></li>
+                        <?php
+                            if ($writer_details['twitter'] != "") {
+                                echo "<li class='list-inline-item'> <a href='$writer_details[twitter]' class='w-social'><i class='fab fa-twitter'></i></a></li>";
+                            }
+                            if ($writer_details['instagram'] != "") {
+                                echo "<li class='list-inline-item'> <a href='$writer_details[instagram]' class='w-social'><i class='fab fa-instagram'></i></a></li>";
+                            }
+                            if ($writer_details['linkedin'] != "") {
+                                echo "<li class='list-inline-item'> <a class='w-social' href='$writer_details[linkedin]'><i class='fab fa-linkedin'></i></a></li>";
+                            }
+                        ?>      
                     </ul>
                 </div>
             </div>

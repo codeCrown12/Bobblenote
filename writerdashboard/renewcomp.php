@@ -56,7 +56,7 @@ if (isset($_POST['update'])) {
       </div>";
     }
     else{
-        $query = "UPDATE competitions SET start_date = ?, end_date = ?, tag = ? WHERE comp_ID = $comp_id";
+        $query = "UPDATE competitions SET start_date = ?, end_date = ?, tag = ?, payout_requested = 'false' WHERE comp_ID = $comp_id";
         $result = $connection->prepare($query);
         $result->bind_param("sss", $start_date, $end_date, $tag);
         if ($result->execute()) {

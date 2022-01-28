@@ -185,7 +185,7 @@ $comp_data = get_comp($connection, $compid);
             btn_join.click(function(e){
                 e.preventDefault()
                 SlickLoader.enable();
-                SlickLoader.setText("Please wait...");
+                SlickLoader.setText("Please wait ✋✋...");
                 $.ajax({
                     type: "post",
                     data: {comp_id: comp_id},

@@ -124,25 +124,34 @@ if (isset($_POST['save'])) {
 
 //update socials
 if (isset($_POST['upd_social'])) {
-  $ig = check_string($connection, $_POST['instagram']);
-  $twt = check_string($connection, $_POST['twitter']);
-  $lin = check_string($connection, $_POST['linkedin']);
+  $ig = filter_var(check_string($connection, $_POST['instagram']), FILTER_SANITIZE_URL);
+  $twt = filter_var(check_string($connection, $_POST['twitter']), FILTER_SANITIZE_URL);
+  $lin = filter_var(check_string($connection, $_POST['linkedin']), FILTER_SANITIZE_URL);
 
-  $query = "UPDATE writers SET instagram = ?, twitter = ?, linkedin = ? WHERE email = '$selector'";
-  $result = $connection->prepare($query);
-  $result->bind_param("sss", $ig, $twt, $lin);
-  if (!$result->execute()) {
+  if (($ig != "" && !filter_var($ig, FILTER_VALIDATE_URL)) || ($twt != "" && !filter_var($twt, FILTER_VALIDATE_URL))
+  || ($lin != "" && !filter_var($lin, FILTER_VALIDATE_URL))) {
     $msg = "<div class='alert alert-danger alert-dismissible fade show mt-2' role='alert'>
-          Error in connection!
+          One the urls provided is not a valid url!
           <button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button>
         </div>";
   }
   else{
-    header("Refresh: 1");
-    $msg = "<div class='alert alert-success alert-dismissible fade show mt-2' role='alert'>
-      Socials updated successfully!
-      <button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button>
-    </div>";
+    $query = "UPDATE writers SET instagram = ?, twitter = ?, linkedin = ? WHERE email = '$selector'";
+    $result = $connection->prepare($query);
+    $result->bind_param("sss", $ig, $twt, $lin);
+    if (!$result->execute()) {
+      $msg = "<div class='alert alert-danger alert-dismissible fade show mt-2' role='alert'>
+            Error in connection!
+            <button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button>
+          </div>";
+    }
+    else{
+      header("Refresh: 1");
+      $msg = "<div class='alert alert-success alert-dismissible fade show mt-2' role='alert'>
+        Socials updated successfully!
+        <button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button>
+      </div>";
+    }
   }
 }
 
@@ -438,16 +447,16 @@ if(isset($_POST['updpass'])){
                   <p class="mt-3">Tip: Add links to your social media accounts so that your readers can follow your content.</p>
                           <form action="settings.php" method="POST" class="mt-3">
                             <div class="form-group">
-                              <label for="">Twitter username</label>
-                              <input name="twitter" type="text" value="<?php echo $details['twitter'] ?>" class="form-control" placeholder="Twitter">
+                              <label for="" class="mb-1">Twitter profile url</label>
+                              <input name="twitter" style="font-size: 13px;" type="text" value="<?php echo $details['twitter'] ?>" class="form-control" placeholder="Twitter">
                             </div>
                             <div class="form-group mt-3">
-                            <label for="">Instagram username</label>
-                              <input name="instagram" type="text" value="<?php echo $details['instagram'] ?>" class="form-control" placeholder="instagram">
+                            <label for="" class="mb-1">Instagram profile url</label>
+                              <input name="instagram" style="font-size: 13px;" type="text" value="<?php echo $details['instagram'] ?>" class="form-control" placeholder="instagram">
                             </div>
                             <div class="form-group mt-3">
-                            <label for="">Linkedin full profile url</label>
-                              <input name="linkedin" type="text" value="<?php echo $details['linkedin'] ?>" class="form-control" placeholder="Linkedin">
+                            <label for="" class="mb-1">Linkedin profile url</label>
+                              <input name="linkedin" style="font-size: 13px;" type="text" value="<?php echo $details['linkedin'] ?>" class="form-control" placeholder="Linkedin">
                             </div>
                             <div class="form-group mt-3">
                               <button name="upd_social" class="btn btn-default">Update social links</button>

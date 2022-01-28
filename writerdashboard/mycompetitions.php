@@ -241,7 +241,7 @@ if (isset($_POST['create_comp'])) {
                       <button class="tablinks active-tab" onclick="viewSetting(event, 'start-comp')">Start Competition</button>
                       <button class="tablinks" onclick="viewSetting(event, 'enrollments')">Enrollments</button>
                       <button class="tablinks" onclick="viewSetting(event, 'organized')">Competitions</button>
-                      <button class="tablinks" onclick="viewSetting(event, 'history')">Transactions</button>
+                      <button class="tablinks" onclick="viewSetting(event, 'win_history')">Award history</button>
                   </div>
                           
                    <!-- Tab content -->
@@ -357,10 +357,10 @@ if (isset($_POST['create_comp'])) {
                          <div class="d-flex justify-content-center">
                       <div class="d-block">
                         <p class="text-center m-0"><img src="images/Winner _Outline.svg" width="250px" alt=""></p>
-                        <h6 class="text-center">
+                        <p class="text-center m-1">
                           You've not enrolled in any competitions!
-                        </h6>
-                        <p class="text-center"><a href="../competitions.php" class="btn btn-default text-center">Search competitions</a></p>
+                        </p>
+                        <p class="text-center"><a href="../competitions.php" class="btn btn-default btn-sm text-center">Search competitions</a></p>
                       </div>
                     </div>
                     <?php
@@ -372,39 +372,73 @@ if (isset($_POST['create_comp'])) {
                   </div>
       
 
-                  <!--Transaction History -->
-                  <div class="tabcontent" id="history">
-                  <div class="table-responsive mt-3">
+                  <!--Award History -->
+                  <div class="tabcontent" id="win_history">
+                    <?php
+                        /** -------- Logic to select Award history from db --------- **/
+
+                        $award_query = "SELECT award_ID, comp_name, u_email, position, amount, date FROM awards WHERE u_email = '$selector'";
+                        $award_result = $connection->query($award_query);
+                        if ($award_result) {
+                          $award_rows = $award_result->num_rows;
+                          if ($award_rows >= 1) {
+                    ?>
+                    <div class="table-responsive mt-3">
                             <table class="table table-striped table-hover" id="example" style="font-size: 14px;">
                                 <thead>
                                     <tr>
-                                        <th>#T_ID</th>
-                                        <th>Amount</th>
+                                        <th>#BOBAward_ID</th>
+                                        <th>Competition_Name</th>
+                                        <th>Prize/Amount</th>
+                                        <th>Position</th>
                                         <th>Date</th>
-                                        <th></th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <?php
-                                      /** -------- Logic to select all transactions for a user from db --------- **/
+                                      /** -------- Logic to select Award history from db --------- **/
+                                          for ($i=0; $i < $award_rows; $i++) { 
+                                            $award_result->data_seek($i);
+                                            $award_data = $award_result->fetch_array(MYSQLI_ASSOC);
+                                            if ($award_data['position'] == '1') {
+                                                $position = "First";
+                                            }
+                                            elseif ($award_data['position'] == '2') {
+                                                $position = "Second";
+                                            }
+                                            elseif ($award_data['position'] == '3') {
+                                                $position = "Third";
+                                            }
+                                            elseif ($award_data['position'] == '4') {
+                                                $position = "Fourth";
+                                            }
+                                            elseif ($award_data['position'] == '5') {
+                                                $position = "Fifth";
+                                            }
 
-                                      $trans_query = "SELECT T_ID, type, amount, credit, debit, date_created FROM transactions WHERE credit = '$selector' OR debit = '$selector' ORDER BY T_ID DESC";
-                                      $trans_result = $connection->query($trans_query);
-                                      if ($trans_result) {
-                                        $trans_rows = $trans_result->num_rows;
-                                        if ($trans_rows >= 1) {
-                                          for ($i=0; $i < $trans_rows; $i++) { 
-                                            $trans_result->data_seek($i);
-                                            $trans_data = $trans_result->fetch_array(MYSQLI_ASSOC);
                                     ?>
                                     <tr>
-                                        <td><?php echo "#BOB-".$trans_data['T_ID'] ?></td>
-                                        <td><?php echo "NGN ".number_format($trans_data['amount']) ?></td>
-                                        <td><?php echo $trans_data['date_created']?></td>
-                                        <td><a href="mailto: competition@bobblenote.com" class="text-decoration-underline">Request info</a></td>
+                                        <td><?php echo "#BOB-".$award_data['award_ID'] ?></td>
+                                        <td><?php echo $award_data['comp_name']?></td>
+                                        <td><?php echo "NGN ".number_format($award_data['amount']) ?></td>
+                                        <td><?php echo $position?></td>
+                                        <td><?php echo $award_data['date']?></td>
                                     </tr>
                                         <?php
                                         }
+                                      }
+                                      else{
+                                        ?>
+                                        <div class="d-flex justify-content-center">
+                                          <div class="d-block">
+                                            <p class="text-center m-0"><img src="images/Winner _Outline.svg" width="250px" alt=""></p>
+                                            <p class="text-center m-1">
+                                              Competitions you are awarded for will appear here!
+                                            </p>
+                                            <p class="text-center"><a href="../competitions.php" class="btn btn-default btn-sm text-center">Search competitions</a></p>
+                                          </div>
+                                        </div>
+                                        <?php
                                       }
                                     }
                                         ?>
@@ -465,12 +499,12 @@ if (isset($_POST['create_comp'])) {
                       <div class="d-flex justify-content-center">
                       <div class="d-block">
                         <p class="text-center m-0">
-                          <img src="images/Creative Process_Outline.svg" width="250px" alt="">
+                          <img src="images/Creative Process_Outline.svg" width="200px" alt="">
                         </p> 
-                        <h6 class="text-center">
+                        <p class="text-center m-1">
                           You've not organized any competitions!
-                        </h6>
-                        <p class="text-center"><a href="mycompetitions.php" class="btn btn-default text-center">Create competitions</a></p>
+                        </p>
+                        <p class="text-center"><a href="mycompetitions.php" class="btn btn-default btn-sm text-center">Create competitions</a></p>
                       </div>
                     </div>
                       <?php

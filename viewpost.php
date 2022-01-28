@@ -102,7 +102,7 @@ include 'compdefaulterscheck.php';
                             </div>
                         </div>
                         <div class="comments-section">
-                            <h6>COMMENTS (<?php echo numFormatter($post_details['no_of_comments']) ?>)</h6>
+                            <h6>COMMENTS <span id="com_count" data-count="<?php echo numFormatter($post_details['no_of_comments']) ?>">(<?php echo numFormatter($post_details['no_of_comments']) ?>)</span></h6>
                             <p>Add a comment</p>
                             <form>
                                 <div class="form-group">
@@ -116,16 +116,22 @@ include 'compdefaulterscheck.php';
                                     <Textarea class="form-control" id="comment" placeholder="Share your thoughts..." rows="5"></Textarea>
                                 </div>
                                 <div class="mt-3 sub-btn">
-                                    <button class="btn btn-default <?php if ($selector == "") {
-                                        echo "disabled";
-                                    } ?>" id="btn-com">Post Comment <i class="fas fa-paper-plane"></i></button>
+                                    <button class="btn btn-default" id="btn-com">Post Comment <i class="fas fa-paper-plane"></i></button>
                                 </div>
                             </form>
                         </div>
-                        <div class="all-comments">
-                            <h6>All Comments</h6>
+                        <h6 class="ms-4">All Comments</h6>
+                        <div class="all-comments" id="all_comments">
+                            <input type="hidden" id="user_imgurl" value="<?php echo $user_details['profilepic']."?randomurl=".rand() ?>" name="">
+                            <input type="hidden" id="user_fullname" value="<?php echo $user_details['firstname']." ".$user_details['lastname']?>" name="">
+                            <input type="hidden" id="user_bio" value="<?php 
+                                        if (strlen($user_details['bio']) > 150) {
+                                            echo substr($user_details['bio'], 0, 150)."...";
+                                        }
+                                        else echo $user_details['bio'];
+                                    ?>">
                             <?php
-                                $query = "SELECT u_email, comment_text, date_created FROM comments WHERE P_ID = $pid";
+                                $query = "SELECT u_email, comment_text, date_created FROM comments WHERE P_ID = $pid ORDER BY C_ID DESC";
                                 $result = $connection->query($query);
                                 $num_rows = $result->num_rows;
                                 if ($num_rows >= 1) {
@@ -153,7 +159,7 @@ include 'compdefaulterscheck.php';
                                 }
                             }
                             else{
-                                echo "<h5> No comments here! </h5>";
+                                echo "<h5 id='no_comment'> No comments here! </h5>";
                             }
                             ?>
                         </div>
@@ -186,7 +192,7 @@ include 'compdefaulterscheck.php';
                         <h3 class="widget-title">Newsletter</h3>
                     </div>
                     <div class="widget-content">
-                        <span class="newsletter-headline text-center mb-3">Join 100,000 subscribers</span>
+                        <span class="newsletter-headline text-center mb-3">Join the early subscribers</span>
                             <div class="mb-2">
                                 <input type="email" id="sub-email" class="form-control w-100 text-center"
                                     placeholder="Email address...">
@@ -302,7 +308,7 @@ include 'compdefaulterscheck.php';
         <script>
             tinymce.init({
           selector: 'textarea#comment',
-          height: 250,
+          height: 200,
           plugins: [
             'emoticons paste'
             ],
@@ -441,16 +447,33 @@ include 'compdefaulterscheck.php';
                             data: {pid: pid, comment: comment, prev_val: prev_val}
                         }).done(function(msg){
                             if (msg == "Comment added successfully!") {
+                                let com_count = parseInt($("#com_count").attr("data-count"));
+                                let bio = $("#user_bio").val()
+                                let imgurl = $("#user_imgurl").val()
+                                let fullname = $("#user_fullname").val()
+                                let comment_html = `<div class="d-flex">
+                                <div class="mt-3 me-2"><img class="com-img" src="${ imgurl }" alt=""></div>
+                                <div class="com-content">
+                                    <p class="com-head mb-0 mt-1">${ fullname }</p>
+                                    <div class="m-0 text-muted"><small>${ bio }</small></div>
+                                    <div class="com-body mt-1">${ comment }</div>
+                                </div>
+                            </div>`
+                                $("#all_comments").prepend(comment_html);
+                                tinyMCE.activeEditor.setContent('');
+                                $("#no_comment").hide();
+                                com_count ++;
+                                $("#com_count").html("("+com_count+")");
+                                $("#com_count").attr("data-count", com_count);
                                 Swal.fire({
-                                title: 'Success!',
-                                text: msg,
-                                icon: 'success',
-                                showCancelButton: false
-                                }).then((result) => {
-                                if (result.isConfirmed) {
-                                    location.reload()
-                                }
-                                })   
+                                    toast: 'true',
+                                    position: 'top-end',
+                                    title: "Comment added! 🚀",
+                                    icon: 'success',
+                                    showConfirmButton: false,
+                                    timer: 2000,
+                                    timerProgressBar: true
+                                })
                             }
                             else if(msg == "not logged in"){
                                 Swal.fire({

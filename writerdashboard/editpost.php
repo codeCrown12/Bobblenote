@@ -263,7 +263,6 @@
                       <div class="card-header bg-white">
                           <div class="card-title d-flex align-items-center">
                               <h4><i class="fas fa-pen-alt"></i> Edit post</h4>
-                              <button id="publish" name="publish" class="btn btn-default ms-auto">Publish post <i class="fas fa-paper-plane"></i></button>
                           </div>
                       </div>
                       <div class="card-body">
@@ -317,8 +316,9 @@
                             <div class="form-group mt-3">
                                 <Textarea class="form-control" name="content" id="pbody" placeholder="Post content" rows="8"><?php echo $post_details['content'] ?></Textarea>
                             </div>
-                            <div class="form-group mt-3">
+                            <div class="form-group mt-3 d-flex align-items-center">
                                 <button name="save" class="btn btn-outline-primary">Save as draft <i class="far fa-save"></i></button>
+                                <button id="publish" name="publish" class="btn btn-success ms-auto">Publish post <i class="fas fa-paper-plane"></i></button>
                             </div>
                       </div>
                   </div>
@@ -364,10 +364,12 @@
           plugins: [
             'advlist autolink link image lists charmap print preview hr anchor pagebreak',
             'searchreplace wordcount visualblocks visualchars code fullscreen insertdatetime media nonbreaking',
-            'table emoticons template paste help codesample'
+            'table emoticons template paste help codesample image'
             ],
-            toolbar: 'fullscreen | insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image codesample | preview fullpage | forecolor backcolor emoticons',
-            menubar: ''
+            toolbar: 'fullscreen | insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image codesample | preview fullpage | forecolor backcolor emoticons image',
+            menubar: '',
+             /* enable title field in the Image dialog*/
+             image_title: true
        });
 
        //function to use overlay to open file

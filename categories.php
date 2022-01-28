@@ -10,31 +10,41 @@ if (isset($_SESSION['w_email'])) {
     $selector = $_SESSION['w_email'];
 }
 $user_details = get_writer_details($connection, $selector);
+$rand = rand();
 include 'compdefaulterscheck.php';
 
 //Posts filtering logic
 $query = "SELECT P_ID, coverimg, W_email, title, category, excerpt, date_created FROM posts WHERE published = 'yes' ORDER BY P_ID DESC";;
+$count_query = "SELECT COUNT(*) As total_records FROM posts WHERE published = 'yes' ORDER BY P_ID DESC";
 $cap = "All posts";
-$rand = rand();
 
 if (isset($_GET['cat'])) {
     $cat = check_string($connection, $_GET['cat']);
     $cap = $cat;
-    $query = "SELECT P_ID, coverimg, W_email, title, category, excerpt, date_created FROM posts WHERE category = '$cat' AND published = 'yes'";
+    $query = "SELECT P_ID, coverimg, W_email, title, category, excerpt, date_created FROM posts WHERE category = '$cat' AND published = 'yes' ORDER BY P_ID DESC";
+    $count_query = "SELECT COUNT(*) As total_records FROM posts WHERE category = '$cat' AND published = 'yes' ORDER BY P_ID DESC";
 }
 elseif (isset($_GET['tag'])) {
     $tag = check_string($connection, $_GET['tag']);
     $cap = "#$tag";
-    $query = "SELECT P_ID, coverimg, W_email, title, category, excerpt, date_created FROM posts WHERE tags LIKE '%$tag%' AND published = 'yes'";
+    $query = "SELECT P_ID, coverimg, W_email, title, category, excerpt, date_created FROM posts WHERE tags LIKE '%$tag%' AND published = 'yes' ORDER BY P_ID DESC";
+    $count_query = "SELECT COUNT(*) As total_records FROM posts WHERE tags LIKE '%$tag%' AND published = 'yes' ORDER BY P_ID DESC";
 }
-elseif (isset($_GET['gen']) && $_GET['gen'] == "trending") {
-    $cap = "#Trending";
-    $query = "SELECT P_ID, coverimg, W_email, title, category, excerpt, date_created FROM posts WHERE published = 'yes' ORDER BY no_of_likes DESC";
+
+/** Pagination logic here **/
+if (isset($_GET['page_no']) && $_GET['page_no']!="") {
+    $page_no = $_GET['page_no'];
+} else {
+    $page_no = 1;
 }
-elseif (isset($_GET['gen']) && $_GET['gen'] == "latest") {
-    $cap = "#Latest";
-    $query = "SELECT P_ID, coverimg, W_email, title, category, excerpt, date_created FROM posts WHERE published = 'yes' ORDER BY date_created DESC";
-}
+$total_records_per_page = 10;
+$offset = ($page_no-1) * $total_records_per_page;
+$previous_page = $page_no - 1;
+$next_page = $page_no + 1;
+$adjacents = "2";
+$total_no_of_pages = total_page_no($connection, $count_query, $total_records_per_page);
+$second_last = $total_no_of_pages - 1; // total pages minus 1
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -61,7 +71,7 @@ elseif (isset($_GET['gen']) && $_GET['gen'] == "latest") {
         </div>
             <div class="col-lg-8 col-md-12 mt-3">
             <?php
-                        $result = $connection->query($query);
+                        $result = $connection->query($query." LIMIT $offset, $total_records_per_page");
                         if ($result) {
                             $numrows = $result->num_rows;
                             if ($numrows >= 1) {
@@ -72,12 +82,12 @@ elseif (isset($_GET['gen']) && $_GET['gen'] == "latest") {
                             ?>
             <div class="hor-post mb-4">
                 <div class="p-img">
-                <a href="viewpost.php?pid=<?php echo base64_encode($data['P_ID']) ?>"><img class="ipost-img" src="<?php echo $data['coverimg']."?randomurl=$rand" ?>" alt=""></a>
+                <a href="viewpost.php?pid=<?php echo base64_encode($data['P_ID']) ?>"><img decoding="async" loading="lazy" class="ipost-img" src="<?php echo $data['coverimg']."?randomurl=$rand" ?>" alt=""></a>
                     </div>
                         <div class="p-details">
                      <div class="user mt-2">
                         <ul class="meta list-inline">
-                        <li class="list-inline-item"><a href="profile.php?wid=<?php echo base64_encode($w_details['email']) ?>" target="_blank"><img class="user-img" src="<?php echo $w_details['profilepic']."?randomurl=$rand" ?>" alt=""></a></li>
+                        <li class="list-inline-item"><a href="profile.php?wid=<?php echo base64_encode($w_details['email']) ?>" target="_blank"><img decoding="async" loading="lazy" class="user-img" src="<?php echo $w_details['profilepic']."?randomurl=$rand" ?>" alt=""></a></li>
                         <li class="list-inline-item"><a href="profile.php?wid=<?php echo base64_encode($w_details['email']) ?>" target="_blank"><small><?php echo substr($w_details['firstname'], 0, 1).". ".$w_details['lastname'] ?></small></a></li>
                         <li class="list-inline-item"><a href="categories.php?cat=<?php echo $data['category'] ?>"><small>#<?php echo $data['category'] ?></small></a></li>
                         <li class="list-inline-item"><small class="text-muted"><?php echo format_date($data['date_created']) ?></small></li>
@@ -97,8 +107,96 @@ elseif (isset($_GET['gen']) && $_GET['gen'] == "latest") {
                     </p>
                 </div>
             </div>
+
             <?php
                     }
+            ?>
+            <div class="d-flex justify-content-center align-items-center mt-5">
+                <p class="m-0"><strong>Page <?php echo $page_no." of ".$total_no_of_pages; ?></strong></p>
+                <nav aria-label="Page navigation example" class="ms-auto">
+                    <ul class="pagination">    
+                    <li class="page-item <?php if($page_no <= 1){ echo "disabled"; } ?>">
+                        <a class="page-link" <?php if($page_no > 1){
+                        echo "href='?page_no=$previous_page'";
+                        } ?>>Previous</a>
+                        </li> 
+                        <?php
+                            if ($total_no_of_pages <= 10){  	 
+                                for ($counter = 1; $counter <= $total_no_of_pages; $counter++){
+                                if ($counter == $page_no) {
+                                echo "<li class='page-item active'><a class='page-link'>$counter</a></li>";	
+                                        }else{
+                                    echo "<li class='page-item'><a class='page-link' href='?page_no=$counter'>$counter</a></li>";
+                                            }
+                                    }
+                            }
+                            elseif ($total_no_of_pages > 10){
+                                if($page_no <= 4) {			
+                                    for ($counter = 1; $counter < 8; $counter++){		 
+                                        if ($counter == $page_no) {
+                                          echo "<li class='page-item active'><a class='page-link'>$counter</a></li>";	
+                                        } 
+                                        else{
+                                            echo "<li class='page-item'><a class='page-link' href='?page_no=$counter'>$counter</a></li>";
+                                        }
+                                   }
+                                   echo "<li class='page-item'><a>...</a></li>";
+                                   echo "<li class='page-item'><a class='page-link' href='?page_no=$second_last'>$second_last</a></li>";
+                                   echo "<li class='page-item'><a class='page-link' href='?page_no=$total_no_of_pages'>$total_no_of_pages</a></li>";
+                                }
+                                elseif($page_no > 4 && $page_no < $total_no_of_pages - 4) {		 
+                                    echo "<li class='page-item'><a class='page-link' href='?page_no=1'>1</a></li>";
+                                    echo "<li class='page-item'><a class='page-link' href='?page_no=2'>2</a></li>";
+                                    echo "<li class='page-item'><a class='page-link'>...</a></li>";
+                                    for (
+                                         $counter = $page_no - $adjacents;
+                                         $counter <= $page_no + $adjacents;
+                                         $counter++
+                                         ) {		
+                                        if ($counter == $page_no) {
+                                            echo "<li class='page-item active'><a class='page-link'>$counter</a></li>";	
+                                        }
+                                        else{
+                                            echo "<li class='page-item'><a class='page-link' href='?page_no=$counter'>$counter</a></li>";
+                                        }                  
+                                    }
+                                    echo "<li class='page-item'><a class='page-link'>...</a></li>";
+                                    echo "<li class='page-item'><a class='page-link' href='?page_no=$second_last'>$second_last</a></li>";
+                                    echo "<li class='page-item'><a class='page-link' href='?page_no=$total_no_of_pages'>$total_no_of_pages</a></li>";
+                                }
+                                else{
+                                    echo "<li class='page-item'><a class='page-link' href='?page_no=1'>1</a></li>";
+                                    echo "<li class='page-item'><a class='page-link' href='?page_no=2'>2</a></li>";
+                                    echo "<li class='page-item'><a class='page-link'>...</a></li>";
+                                    for (
+                                        $counter = $total_no_of_pages - 6;
+                                        $counter <= $total_no_of_pages;
+                                        $counter++
+                                        ) {
+                                        if ($counter == $page_no) {
+                                            echo "<li class='page-item active'><a class='page-link'>$counter</a></li>";	
+                                        }
+                                        else{
+                                            echo "<li class='page-item'><a class='page-link' href='?page_no=$counter'>$counter</a></li>";
+                                        }                   
+                                    }
+                                }
+                            }
+                        ?>
+                        <li class="page-item <?php if($page_no >= $total_no_of_pages){
+                        echo "disabled";
+                        } ?>">
+                        <a class="page-link" <?php if($page_no < $total_no_of_pages) {
+                        echo "href='?page_no=$next_page'";
+                        } ?>>Next</a>
+                        </li>
+                        <?php if($page_no < $total_no_of_pages){
+                            echo "<li class='page-item'><a class='page-link' href='?page_no=$total_no_of_pages'>Last &rsaquo;&rsaquo;</a></li>";
+                        } ?>
+                    </ul>
+                </nav>
+            </div>
+            <?php
                 }
                 else{
                     echo "<h4 style='color: #203656;' class='text-center'><i style='font-size:50px;' class='fas fa-cat'></i> <br> No posts here yet!</h4>
@@ -133,7 +231,7 @@ elseif (isset($_GET['gen']) && $_GET['gen'] == "latest") {
                                     <h3 class="widget-title">Newsletter</h3>
                                 </div>
                                 <div class="widget-content">
-                                    <span class="newsletter-headline text-center mb-3">Join 100,000 subscribers</span>
+                                    <span class="newsletter-headline text-center mb-3">Join the early subscribers</span>
                                         <div class="mb-2">
                                             <input type="email" id="sub-email" class="form-control w-100 text-center"
                                                 placeholder="Email address...">
@@ -227,6 +325,7 @@ elseif (isset($_GET['gen']) && $_GET['gen'] == "latest") {
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js" integrity="sha384-7+zCNj/IqJ95wo16oMtfsKbZ9ccEh31eOz1HGyDuCQ6wgnyJNSYdrPa03rtR1zdB" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js" integrity="sha384-QJHtvGhmr9XOIpI6YVutG+2QOK9T+ZnN4kzFN1RtK3zEFEIsxhlmWl5/YESvpZ13" crossorigin="anonymous"></script>
     <script src="js/jquery.sticky-sidebar.min.js"></script>
+    <script src="js/pagination.js"></script>
     <script src="js/main.js"></script>
     <script src="js/general.js"></script>
 </body>
